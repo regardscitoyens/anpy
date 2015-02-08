@@ -17,8 +17,11 @@ Currently, only two search services are provided :
  * **QuestionService** to search for questions
 
 ## Models
-All results coming from http://assemblee-nationale.fr are parsed and instanciate custom python classes *Amendement*, **AmendementSummary**, **AmendementSearchResult**, **QuestionSummary** and **QuestionSearchResult**.
-The idea was to declare all data fields provided by website because it's easier to remember them... the consistency of variables' names coming fromassemblee-nationale.fr is not always easy to understand.
+There is no real api provided by http://assemblee-nationale.fr so there is no real data model exposed by the website.
+It is sometimes hard to remember what you can get from the response, so I chose to declare all parsed data fields in models even if it's quite heavy just because it's easier to remember them...
+
+Python classes used are *Amendement*, **AmendementSummary**, **AmendementSearchResult**, **QuestionSummary** and **QuestionSearchResult**.
+
 
 ## CLI
 A script anpy-cli.py is installed with the package, it provides the following commands :
