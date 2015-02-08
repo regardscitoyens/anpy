@@ -1,4 +1,3 @@
-import sys
 from setuptools import setup
 from codecs import open
 from os import path
@@ -11,7 +10,7 @@ with open(path.join(here, 'anpy', '__version.py')) as __version:
 assert __version__ is not None
 
 with open(path.join(here, 'README.md')) as readme:
-    LONG_DESC = readme.read()
+    LONG_DESC = readme.read().decode('utf-8')
 
 setup(
     name='anpy',
