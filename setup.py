@@ -13,10 +13,6 @@ assert __version__ is not None
 with open(path.join(here, 'README.rst')) as readme:
     LONG_DESC = readme.read()
 
-extra = {}
-if sys.version_info >= (3,):
-        extra['use_2to3'] = True
-
 setup(
     name='anpy',
     version=__version__,
@@ -44,6 +40,4 @@ setup(
     install_requires=['pathlib', 'Click', 'requests', 'beautifulsoup4'],
 
     scripts=['bin/anpy-cli.py'],
-
-    **extra
 )
