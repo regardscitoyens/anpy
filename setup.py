@@ -39,15 +39,11 @@ setup(
 
     keywords='scraping politics data',
 
-    packages=[],
+    packages=['anpy', 'anpy.parsing'],
 
     install_requires=['pathlib', 'Click', 'requests', 'beautifulsoup4'],
 
-    entry_points={
-        'console_scripts': [
-            'anpy=bin.manage:cli',
-        ],
-    },
+    scripts=['bin/anpy-cli.py'],
 
     **extra
 )

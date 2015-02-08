@@ -6,6 +6,8 @@ import requests
 from .parsing.amendement_parser import parse_amendements_summary
 from .parsing.question_search_result_parser import parse_question_search_result
 
+__all__ = ['AmendementSearchService', 'QuestionSearchService']
+
 
 class AmendementSearchService(object):
     def __init__(self):
