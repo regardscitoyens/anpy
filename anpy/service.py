@@ -53,12 +53,18 @@ class AmendementSearchService(object):
     def iter(self, rows=100, **kwargs):
         # First get total number of pages
         response = self.get(rows=1, **kwargs)
+        import pdb
+        pdb.set_trace()
 
         for start in range(0, response.total_count, rows):
             yield self.get(rows=rows, **kwargs)
 
     def get_order(self, **kwargs):
-        return [amendement.num_amend for amendement in self.get(**kwargs).results]
+        iterator = AmendementSearchService().iter(**kwargs)
+        order = []
+        for result in iterator:
+            order += [amendement.num_amend for amendement in self.get(**kwargs).results]
+        return order
 
 
 class QuestionSearchService(object):

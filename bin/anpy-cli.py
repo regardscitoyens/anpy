@@ -21,8 +21,8 @@ def cli():
 
 
 @cli.command()
-@click.argument('id_dossier')
-@click.argument('id_examen')
+@click.argument('id-dossier')
+@click.option('--id-examen')
 @click.option('--limit', default=100)
 def show_amendements_order(id_dossier, id_examen, limit):
     results = AmendementSearchService().get_order(idDossierLegislatif=id_dossier, idExamen=id_examen, rows=limit)
@@ -34,10 +34,10 @@ def show_amendements_order(id_dossier, id_examen, limit):
 @click.option('--start-date')
 @click.option('--end-date')
 @click.option('--numero')
-@click.option('--limit', default=100)
-def show_amendements_summary(start_date, end_date, numero, limit):
-    response = AmendementSearchService().get(dateDebut=start_date, dateFin=end_date, numAmend=numero, rows=limit)
-    for result in response.results:
+@click.option('--rows', default=100)
+def show_amendements_summary(start_date, end_date, numero, rows):
+    iterator = AmendementSearchService().iter(rows=rows, dateDebut=start_date, dateFin=end_date, numAmend=numero)
+    for result in iterator:
         print(json.dumps(result.__dict__, indent=4, sort_keys=True, ensure_ascii=False))
 
 
