@@ -13,48 +13,52 @@ class AmendementSearchService(object):
     def __init__(self):
         self.base_url = "http://www2.assemblee-nationale.fr/recherche/query_amendements"
         self.default_params = {
-            'typeDocument': 'amendement',
-            'rows': 100,
-            'format': 'html',
-            'tri': 'ordreTextedesc',
-            'typeRes': 'liste',
+            'texteRecherche': None,
+            'numAmend': None,
             'idArticle': None,
             'idAuteur': None,
-            'numAmend': None,
             'idDossierLegislatif': None,
             'idExamen': None,
-            'sort': None,
+            'periodeParlementaire': None,
             'dateDebut': None,
             'dateFin': None,
-            'periodeParlementaire': None,
-            'texteRecherche': None,
+            'rows': 100,
             'start': None,
+            'sort': None,
+            'format': 'html',
+            'tri': 'ordreTexteasc',
+            'typeRes': 'liste',
+            'typeDocument': 'amendement',
         }
 
     def _get(self, **kwargs):
         params = self.default_params.copy()
         params.update(kwargs)
-        return requests.get(self.base_url, params=params)
+        response = requests.get(self.base_url, params=params)
+        return response
 
-    def get(self, start_date=None, end_date=None, numero=None, size=100, start=None):
-        # FIXME : do we really want to rewrite parameters' names ?
-        response = self._get(dateDebut=start_date, dateFin=end_date, numAmend=numero, rows=size, start=start)
+    def get(self, texteRecherche=None, numAmend=None, idArticle=None, idAuteur=None, idDossierLegislatif=None,
+            idExamen=None, periodeParlementaire=None, dateDebut=None, dateFin=None, rows=100, start=None, sort=None):
+        response = self._get(
+            texteRecherche=texteRecherche, numAmend=numAmend, idArticle=idArticle, idAuteur=idAuteur,
+            idDossierLegislatif=idDossierLegislatif, idExamen=idExamen, periodeParlementaire=periodeParlementaire,
+            dateDebut=dateDebut, dateFin=dateFin, rows=rows, start=start, sort=sort)
         return parse_amendements_summary(response.url, response.json())
 
-    def total_count(self, start_date=None, end_date=None, numero=None):
+    def total_count(self, **kwargs):
         # First get total number of pages
-        response = self.get(start_date=start_date, end_date=end_date, numero=numero, size=1)
+        response = self.get(**kwargs)
         return response.total_count
 
-    def iter(self, start_date, end_date=None, numero=None, size=100):
+    def iter(self, rows=100, **kwargs):
         # First get total number of pages
-        response = self.get(start_date, end_date=end_date, numero=numero, size=1)
+        response = self.get(rows=1, **kwargs)
 
-        for start in range(0, response.total_count, size):
-            yield self.get(start_date, end_date=end_date, numero=numero, size=size, start=start)
+        for start in range(0, response.total_count, rows):
+            yield self.get(rows=rows, **kwargs)
 
-    def get_order(self, id_dossier, id_examen):
-        return [amendement.num_amtxt for amendement in self._get(idDossier=id_dossier, idExamen=id_examen).results]
+    def get_order(self, **kwargs):
+        return [amendement.num_amend for amendement in self.get(**kwargs).results]
 
 
 class QuestionSearchService(object):
