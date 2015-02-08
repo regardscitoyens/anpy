@@ -10,7 +10,7 @@ with open(path.join(here, 'anpy', '__version.py')) as __version:
     exec(__version.read())
 assert __version__ is not None
 
-with open(path.join(here, 'README.rst')) as readme:
+with open(path.join(here, 'README.md')) as readme:
     LONG_DESC = readme.read()
 
 setup(
