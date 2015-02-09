@@ -5,10 +5,10 @@ import unittest
 from anpy.service import QuestionSearchService
 
 
-class QuestionParsingTest(unittest.TestCase):
+class SearchQuestionServiceTest(unittest.TestCase):
     def test_get(self):
         service = QuestionSearchService()
-        self.assertEquals(5, len(service.get(legislature=13, size=5).results))
+        self.assertEqual(5, len(service.get(legislature=13, size=5).results))
 
     def test_is_answer(self):
         service = QuestionSearchService()
@@ -19,4 +19,4 @@ class QuestionParsingTest(unittest.TestCase):
         iterator = QuestionSearchService().iter(legislature=13, size=5)
         next(iterator)
         second_page_result = next(iterator)
-        self.assertEquals(5, len(second_page_result.results))
+        self.assertEqual(5, len(second_page_result.results))

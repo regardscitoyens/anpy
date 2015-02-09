@@ -14,7 +14,7 @@ class AmendementParsingTest(unittest.TestCase):
 
     def test_remove_inline_css_and_invalid_tags(self):
         soup = BeautifulSoup('<p style="text-align: justify;">Test <b>bold</b>, and <i>italic<b> with bold </b><u>and with u</u></i></p><p> 2nd test <i>italic</i></p>')
-        self.assertEquals(remove_inline_css_and_invalid_tags(soup), '<p>Test bold, and italic with bold and with u</p><p> 2nd test italic</p>')
+        self.assertEqual(remove_inline_css_and_invalid_tags(soup), '<p>Test bold, and italic with bold and with u</p><p> 2nd test italic</p>')
 
     def test_json_parsing(self):
         json_response = {
@@ -49,10 +49,10 @@ class AmendementParsingTest(unittest.TestCase):
 
         parsed_result = parse_amendements_summary('', json_response)
 
-        self.assertEquals(parsed_result.url, '')
-        self.assertEquals(parsed_result.start, 1)
-        self.assertEquals(parsed_result.size, 2500)
-        self.assertEquals(parsed_result.total_count, 6123)
+        self.assertEqual(parsed_result.url, '')
+        self.assertEqual(parsed_result.start, 1)
+        self.assertEqual(parsed_result.size, 2500)
+        self.assertEqual(parsed_result.total_count, 6123)
         self.assertDictEqual(expected_result, parsed_result.results[0].__dict__)
 
     def test_html_parsing(self):

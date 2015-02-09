@@ -19,6 +19,7 @@ class AmendementSearchService(object):
             'idAuteur': None,
             'idDossierLegislatif': None,
             'idExamen': None,
+            'idExamens': None,
             'periodeParlementaire': None,
             'dateDebut': None,
             'dateFin': None,
@@ -38,38 +39,38 @@ class AmendementSearchService(object):
         return response
 
     def get(self, texteRecherche=None, numAmend=None, idArticle=None, idAuteur=None, idDossierLegislatif=None,
-            idExamen=None, periodeParlementaire=None, dateDebut=None, dateFin=None, rows=100, start=None, sort=None):
+            idExamen=None, idExamens=None, periodeParlementaire=None, dateDebut=None, dateFin=None, rows=100, start=None, sort=None):
         response = self._get(
             texteRecherche=texteRecherche, numAmend=numAmend, idArticle=idArticle, idAuteur=idAuteur,
-            idDossierLegislatif=idDossierLegislatif, idExamen=idExamen, periodeParlementaire=periodeParlementaire,
-            dateDebut=dateDebut, dateFin=dateFin, rows=rows, start=start, sort=sort)
+            idDossierLegislatif=idDossierLegislatif, idExamen=idExamen, idExamens=idExamens,
+            periodeParlementaire=periodeParlementaire, dateDebut=dateDebut, dateFin=dateFin, rows=rows,
+            start=start, sort=sort
+        )
         return parse_amendements_summary(response.url, response.json())
 
     def total_count(self, **kwargs):
-        # First get total number of pages
-        response = self.get(**kwargs)
+        response = self.get(rows=1, **kwargs)
         return response.total_count
 
-    def iter(self, rows=100, **kwargs):
-        # First get total number of pages
-        response = self.get(rows=1, **kwargs)
-        import pdb
-        pdb.set_trace()
+    def iterator(self, rows=100, **kwargs):
+        response = self.get(rows=rows, **kwargs)
+        yield response
 
-        for start in range(0, response.total_count, rows):
-            yield self.get(rows=rows, **kwargs)
+        for start in range(rows, response.total_count, rows):
+            yield self.get(rows=rows, start=start + 1, **kwargs)
 
     def get_order(self, **kwargs):
-        iterator = AmendementSearchService().iter(**kwargs)
+        iterator = AmendementSearchService().iterator(**kwargs)
         order = []
-        for result in iterator:
-            order += [amendement.num_amend for amendement in self.get(**kwargs).results]
+        for it in iterator:
+            order += [amendement.num_amend for amendement in it.results]
         return order
 
 
 class QuestionSearchService(object):
     def __init__(self):
-        self.base_url = "http://www2.assemblee-nationale.fr/recherche/resultats_questions"
+        self.base_url = "http://www2.assemblee-nationale.fr"
+        self.search_url = "http://www2.assemblee-nationale.fr/recherche/resultats_questions"
         self.default_params = {
             'limit': 10,
             'legislature': None,
@@ -90,7 +91,10 @@ class QuestionSearchService(object):
 
         params.update({'legislature': legislature, 'limit': size, 'replies[]': is_answered, 'removed[]': is_removed})
 
-        return requests.post(self.base_url, data=params)
+        return requests.post(self.search_url, data=params)
+
+    def _get_next(self, next_url):
+        return parse_question_search_result(self.base_url + next_url, requests.get(self.base_url + next_url).content)
 
     def get(self, legislature=14, is_answered=None, is_removed=None, size=10):
         response = self._get(legislature=legislature, is_answered=is_answered, is_removed=is_removed, size=size)
@@ -99,13 +103,7 @@ class QuestionSearchService(object):
     def total_count(self, legislature=14, is_answered=None, is_removed=None):
         return self.get(legislature=legislature, is_answered=is_answered, is_removed=is_removed, size=1).total_count
 
-    @staticmethod
-    def _get_next(next_url):
-        next_url = "http://www2.assemblee-nationale.fr" + next_url
-        return parse_question_search_result(next_url, requests.get(next_url).content)
-
     def iter(self, legislature=14, is_answered=None, is_removed=None, size=10):
-        # First get total number of pages
         search_results = self.get(legislature=legislature, is_answered=is_answered, is_removed=is_removed, size=size)
         yield search_results
 

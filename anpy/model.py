@@ -55,6 +55,9 @@ class AmendementSummary(object):
         self.sort = sort
         self.legislature = legislature
 
+    def __repr__(self):
+        return self.__dict__.__repr__()
+
 
 class AmendementSearchResult(object):
     def __init__(self, url=None, total_count=None, start=None, size=None, results=None):
@@ -63,6 +66,9 @@ class AmendementSearchResult(object):
         self.start = start
         self.size = size
         self.results = results
+
+    def __repr__(self):
+        return self.__dict__.__repr__()
         
         
 class QuestionSummary(object):
@@ -75,6 +81,9 @@ class QuestionSummary(object):
         self.tags = tags
         self.publication_date = publication_date
         self.answer_date = answer_date
+
+    def __repr__(self):
+        return self.__dict__.__repr__()
         
 
 class QuestionSearchResult(object):
@@ -84,3 +93,6 @@ class QuestionSearchResult(object):
         self.next_url = next_url
         self.size = size
         self.results = results
+
+    def __repr__(self):
+        return self.__dict__.__repr__()
