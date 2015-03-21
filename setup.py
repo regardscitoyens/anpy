@@ -22,9 +22,11 @@ setup(
     long_description=LONG_DESC,
     license="MIT",
 
-    url='https://github.com/fmassot/anpy',
-    author='François Massot',
-    author_email='francois.massot@gmail.com',
+    url='https://github.com/regardscitoyens/anpy',
+    author='Regards Citoyens',
+    author_email='contact@regardscitoyens.org',
+
+    include_package_data=True,
 
     classifiers=[
         'Development Status :: 3 - Alpha',

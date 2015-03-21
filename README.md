@@ -14,7 +14,7 @@ pip install anpy
 ## Search services
 Currently, only two search services are provided :
  * **AmendementSearchService** to search for amendements
- * **QuestionService** to search for questions
+ * **QuestionSearchService** to search for questions
 
 ## Models
 There is no real api provided by http://assemblee-nationale.fr so there is no real data model exposed by the website.
