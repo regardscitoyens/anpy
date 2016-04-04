@@ -40,7 +40,7 @@ class Amendement(object):
 class AmendementSummary(object):
     def __init__(self, id=None, num_init=None, titre_dossier_legislatif=None, url_dossier_legislatif=None, instance=None, num_amend=None,
                  url_amend=None, designation_article=None, designation_alinea=None, date_depot=None, signataires=None,
-                 sort=None, legislature=None):
+                 sort=None, legislature=None, mission_visee=None):
         self.id = id
         self.num_init = num_init
         self.titre_dossier_legislatif = titre_dossier_legislatif
@@ -54,6 +54,7 @@ class AmendementSummary(object):
         self.signataires = signataires
         self.sort = sort
         self.legislature = legislature
+        self.mission_visee = mission_visee
 
     def __repr__(self):
         return self.__dict__.__repr__()

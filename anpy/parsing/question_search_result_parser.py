@@ -7,9 +7,11 @@ from bs4 import BeautifulSoup
 
 from ..model import QuestionSummary, QuestionSearchResult
 
+__all__ = ['parse_question_search_result']
+
 
 def parse_question_search_result(url, html_content):
-    soup = BeautifulSoup(html_content)
+    soup = BeautifulSoup(html_content, "html5lib")
 
     search_result = QuestionSearchResult(**{
         'url': url,

@@ -32,20 +32,27 @@ class AmendementSearchService(object):
             'typeDocument': 'amendement',
         }
 
-    def _get(self, **kwargs):
+    def get(self, **kwargs):
+        """
+        :param texteRecherche:
+        :param numAmend:
+        :param idArticle:
+        :param idAuteur:
+        :param idDossierLegislatif:
+        :param idExamen:
+        :param idExamens:
+        :param periodeParlementaire:
+        :param dateDebut:
+        :param dateFin:
+        :param rows:
+        :param start:
+        :param sort:
+        """
         params = self.default_params.copy()
         params.update(kwargs)
-        response = requests.get(self.base_url, params=params)
-        return response
 
-    def get(self, texteRecherche=None, numAmend=None, idArticle=None, idAuteur=None, idDossierLegislatif=None,
-            idExamen=None, idExamens=None, periodeParlementaire=None, dateDebut=None, dateFin=None, rows=100, start=None, sort=None):
-        response = self._get(
-            texteRecherche=texteRecherche, numAmend=numAmend, idArticle=idArticle, idAuteur=idAuteur,
-            idDossierLegislatif=idDossierLegislatif, idExamen=idExamen, idExamens=idExamens,
-            periodeParlementaire=periodeParlementaire, dateDebut=dateDebut, dateFin=dateFin, rows=rows,
-            start=start, sort=sort
-        )
+        response = requests.get(self.base_url, params=params)
+
         return parse_amendements_summary(response.url, response.json())
 
     def total_count(self, **kwargs):
@@ -69,17 +76,17 @@ class AmendementSearchService(object):
 
 class QuestionSearchService(object):
     def __init__(self):
-        self.base_url = "http://www2.assemblee-nationale.fr"
-        self.search_url = "http://www2.assemblee-nationale.fr/recherche/resultats_questions"
+        self.base_url = 'http://www2.assemblee-nationale.fr/'
+        self.search_url = '%srecherche/resultats_questions' % self.base_url
         self.default_params = {
             'limit': 10,
             'legislature': None,
-            'replies[]': None, # ar, sr
-            'removed[]': None, # 0,1
+            'replies[]': None,# ar, sr
+            'removed[]': None,# 0,1
             'ssTypeDocument[]': 'qe',
         }
 
-    def _get(self, legislature=14, is_answered=None, is_removed=None, size=10):
+    def get(self, legislature=14, is_answered=None, is_removed=None, size=10):
         params = self.default_params.copy()
 
         if is_answered:
@@ -90,14 +97,8 @@ class QuestionSearchService(object):
             is_removed = int(is_removed)
 
         params.update({'legislature': legislature, 'limit': size, 'replies[]': is_answered, 'removed[]': is_removed})
+        response = requests.post(self.search_url, data=params)
 
-        return requests.post(self.search_url, data=params)
-
-    def _get_next(self, next_url):
-        return parse_question_search_result(self.base_url + next_url, requests.get(self.base_url + next_url).content)
-
-    def get(self, legislature=14, is_answered=None, is_removed=None, size=10):
-        response = self._get(legislature=legislature, is_answered=is_answered, is_removed=is_removed, size=size)
         return parse_question_search_result(response.url, response.content)
 
     def total_count(self, legislature=14, is_answered=None, is_removed=None):
@@ -109,5 +110,4 @@ class QuestionSearchService(object):
 
         for start in range(1, search_results.total_count, size):
             if search_results.next_url is not None:
-                search_results = self._get_next(search_results.next_url)
-                yield search_results
+                yield parse_question_search_result(search_results.next_url, requests.get(self.base_url + search_results.next_url).content)

@@ -45,7 +45,7 @@ def parse_amendements_summary(url, json_response):
 
 
 def parse_amendement(url, html_response):
-    soup = BeautifulSoup(html_response)
+    soup = BeautifulSoup(html_response, "html5lib")
 
     meta_names = [
         'NUM_AMTXT', 'NUM_AMEND', 'AMEND_PARENT', 'URL_DOSSIER', 'NUM_INIT', 'ETAPE', 'DELIBERATION', 'TITRE_INIT', 'NUM_PARTIE',
