@@ -40,7 +40,7 @@ setup(
 
     packages=['anpy', 'anpy.parsing'],
 
-    install_requires=['pathlib', 'Click', 'requests', 'beautifulsoup4', 'xmltodict'],
+    install_requires=['pathlib', 'Click', 'requests', 'beautifulsoup4', 'xmltodict', 'html5lib'],
 
     scripts=['bin/anpy-cli.py'],
 )

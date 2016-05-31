@@ -8,5 +8,6 @@ install:
     - pip install beautifulsoup4
     - pip install xmltodict
     - pip install pytest
+    - pip install html5lib
 
 script: py.test
