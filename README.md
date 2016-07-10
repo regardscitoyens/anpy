@@ -27,21 +27,21 @@ Python classes used are *Amendement*, **AmendementSummary**, **AmendementSearchR
 A script anpy-cli.py is installed with the package, it provides the following commands :
 
 * Show an amendement given its url :
-```python
+```bash
 python anpy-cli.py show_amendement http://www.assemblee-nationale.fr/14/amendements/1847/CION-DVP/CD266.asp
 ```
 
 * Show amendements summaries after a given date :
-```python
+```bash
 python anpy-cli.py show_amendements_summary --start-date 2014-06-01
 ```
 
 * Print amendements order for a given id_dossier and id_examen :
-```python
+```bash
 python anpy-cli.py show_amendements_order 33299 4073
 ```
 
 * Show a question
-```python
+```bash
 python anpy-cli.py show_question http://questions.assemblee-nationale.fr/q14/14-73499QE.htm
 ```
