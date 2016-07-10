@@ -11,4 +11,4 @@ def test_question_parsing():
 
     assert ['@TYPE', 'LEGISLATURE', 'DEPOT', 'AUTEUR', 'GROUPE', 'CIRCONSCRIPTION', 'INDEXATION_AN', 'MINI', 'MINA',
             'ERRATUM_QUESTION', 'SIGNALEMENT', 'RENOUVELLEMENT', 'CLOTURE', 'REPONSE', 'ERRATUM_REPONSE'] \
-           == parsing_result.keys()
+           == list(parsing_result.keys())
