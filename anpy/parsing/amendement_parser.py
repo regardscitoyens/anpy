@@ -6,11 +6,7 @@ from bs4 import BeautifulSoup, NavigableString
 
 from ..model import AmendementSummary, Amendement, AmendementSearchResult
 
-
-def convert_camelcase_to_underscore(name):
-    # thx to http://stackoverflow.com/questions/1175208/elegant-python-function-to-convert-camelcase-to-camel-case
-    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+__all__ = ['parse_amendements_summary', 'parse_amendement']
 
 
 def parse_amendements_summary(url, json_response):
@@ -61,6 +57,12 @@ def parse_amendement(url, html_response):
     kwargs['url'] = url
 
     return Amendement(**kwargs)
+
+
+def convert_camelcase_to_underscore(name):
+    # thx to http://stackoverflow.com/questions/1175208/elegant-python-function-to-convert-camelcase-to-camel-case
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 
 def clean_text(text):

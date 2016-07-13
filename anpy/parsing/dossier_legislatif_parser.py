@@ -2,6 +2,8 @@
 
 from bs4 import BeautifulSoup
 
+__all__ = ['parse_dossier_legislatif']
+
 
 def parse_dossier_legislatif(url, html_response):
     data = {
