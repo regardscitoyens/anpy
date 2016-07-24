@@ -2,7 +2,7 @@
 
 import re
 
-from bs4 import BeautifulSoup, NavigableString
+from bs4 import BeautifulSoup, NavigableString, Comment
 
 from ..model import AmendementSummary, Amendement, AmendementSearchResult
 
@@ -79,6 +79,9 @@ def remove_inline_css_and_invalid_tags(soup):
     for invalid_tag in ['b', 'i', 'u']:
         for match in soup.findAll(invalid_tag):
             match.unwrap()
+
+    # remove comments
+    [comment.extract() for comment in soup.findAll(text=lambda text: isinstance(text, Comment))]
 
     for tag in soup:
         if type(tag) != NavigableString:

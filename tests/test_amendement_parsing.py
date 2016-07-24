@@ -90,3 +90,12 @@ def test_html_parsing():
     }
 
     assert expected_result == parsing_result.__dict__
+
+
+def test_if_comments_are_removed():
+    data = parse_amendement(
+        "http://www.assemblee-nationale.fr/14/amendements/0922/AN/406.asp",
+        requests.get("http://www.assemblee-nationale.fr/14/amendements/0922/AN/406.asp").content
+    )
+
+    assert data.dispositif == '<p></p><p>Supprimer le mot :</p><p></p><p>« républicaine ».</p><p></p>'
