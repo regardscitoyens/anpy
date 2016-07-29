@@ -21,7 +21,8 @@ def parse_question_search_result(url, html_content):
     for tr in soup.find_all('tr')[1:]:
         all_tds = tr.find_all('td')
         url = all_tds[0].a['href']
-        legislature, numero, question_type = re.search('(\d+)-(\d+)(QE|QOSD)\.htm', url).groups()
+        legislature, numero, question_type = re.search(
+            '(\d+)-(\d+)(QE|QOSD)\.htm', url).groups()
         dates = all_tds[2].find_all('strong')
         results.append(QuestionSummary(**{
             'url': url,
@@ -35,7 +36,8 @@ def parse_question_search_result(url, html_content):
         }))
 
     search_result.results = results
-    next_link = soup.find('div', class_='pagination-bootstrap').find_all('li')[-1]
+    next_link = soup.find('div',
+                          class_='pagination-bootstrap').find_all('li')[-1]
     search_result.next_url = next_link.a['href'] if next_link.a else None
 
     return search_result

@@ -11,7 +11,7 @@ __all__ = ['AmendementSearchService', 'QuestionSearchService']
 
 class AmendementSearchService(object):
     def __init__(self):
-        self.base_url = "http://www2.assemblee-nationale.fr/recherche/query_amendements"
+        self.base_url = "http://www2.assemblee-nationale.fr/recherche/query_amendements"  # noqa
         self.default_params = {
             'texteRecherche': None,
             'numAmend': None,
@@ -81,8 +81,8 @@ class QuestionSearchService(object):
         self.default_params = {
             'limit': 10,
             'legislature': None,
-            'replies[]': None,# ar, sr
-            'removed[]': None,# 0,1
+            'replies[]': None,  # ar, sr
+            'removed[]': None,  # 0,1
             'ssTypeDocument[]': 'qe',
         }
 
@@ -96,18 +96,29 @@ class QuestionSearchService(object):
         if is_removed is not None:
             is_removed = int(is_removed)
 
-        params.update({'legislature': legislature, 'limit': size, 'replies[]': is_answered, 'removed[]': is_removed})
+        params.update({
+            'legislature': legislature,
+            'limit': size,
+            'replies[]': is_answered,
+            'removed[]': is_removed
+        })
         response = requests.post(self.search_url, data=params)
 
         return parse_question_search_result(response.url, response.content)
 
     def total_count(self, legislature=14, is_answered=None, is_removed=None):
-        return self.get(legislature=legislature, is_answered=is_answered, is_removed=is_removed, size=1).total_count
+        return self.get(legislature=legislature, is_answered=is_answered,
+                        is_removed=is_removed, size=1).total_count
 
     def iter(self, legislature=14, is_answered=None, is_removed=None, size=10):
-        search_results = self.get(legislature=legislature, is_answered=is_answered, is_removed=is_removed, size=size)
+        search_results = self.get(legislature=legislature,
+                                  is_answered=is_answered,
+                                  is_removed=is_removed, size=size)
         yield search_results
 
         for start in range(1, search_results.total_count, size):
             if search_results.next_url is not None:
-                yield parse_question_search_result(search_results.next_url, requests.get(self.base_url + search_results.next_url).content)
+                yield parse_question_search_result(
+                    search_results.next_url,
+                    requests.get(self.base_url +
+                                 search_results.next_url).content)

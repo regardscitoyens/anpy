@@ -2,11 +2,15 @@
 
 
 class Amendement(object):
-    def __init__(self, url=None, num_amtxt=None, amend_parent=None, url_dossier=None, num_init=None, etape=None,
-                 deliberation=None, titre_init=None, num_partie=None, designation_article=None, url_division=None,
-                 designation_alinea=None, mission=None, auteurs=None, auteur_id=None, groupe_id=None,
-                 cosignataires_id=None, seance=None, sort=None, date_badage=None, date_sort=None, ordre_texte=None,
-                 code=None, refcode=None, legislature=None, dispositif=None, expose=None, num_amend=None):
+    def __init__(self, url=None, num_amtxt=None, amend_parent=None,
+                 url_dossier=None, num_init=None, etape=None,
+                 deliberation=None, titre_init=None, num_partie=None,
+                 designation_article=None, url_division=None,
+                 designation_alinea=None, mission=None, auteurs=None,
+                 auteur_id=None, groupe_id=None, cosignataires_id=None,
+                 seance=None, sort=None, date_badage=None, date_sort=None,
+                 ordre_texte=None, code=None, refcode=None, legislature=None,
+                 dispositif=None, expose=None, num_amend=None):
         self.url = url
         self.num_amtxt = num_amtxt
         self.amend_parent = amend_parent
@@ -38,8 +42,10 @@ class Amendement(object):
 
 
 class AmendementSummary(object):
-    def __init__(self, id=None, num_init=None, titre_dossier_legislatif=None, url_dossier_legislatif=None, instance=None, num_amend=None,
-                 url_amend=None, designation_article=None, designation_alinea=None, date_depot=None, signataires=None,
+    def __init__(self, id=None, num_init=None, titre_dossier_legislatif=None,
+                 url_dossier_legislatif=None, instance=None, num_amend=None,
+                 url_amend=None, designation_article=None,
+                 designation_alinea=None, date_depot=None, signataires=None,
                  sort=None, legislature=None, mission_visee=None):
         self.id = id
         self.num_init = num_init
@@ -61,7 +67,8 @@ class AmendementSummary(object):
 
 
 class AmendementSearchResult(object):
-    def __init__(self, url=None, total_count=None, start=None, size=None, results=None):
+    def __init__(self, url=None, total_count=None, start=None, size=None,
+                 results=None):
         self.url = url
         self.total_count = total_count
         self.start = start
@@ -70,10 +77,12 @@ class AmendementSearchResult(object):
 
     def __repr__(self):
         return self.__dict__.__repr__()
-        
-        
+
+
 class QuestionSummary(object):
-    def __init__(self, url=None, legislature=None, numero=None, question_type=None, author=None, tags=None, publication_date=None, answer_date=None):
+    def __init__(self, url=None, legislature=None, numero=None,
+                 question_type=None, author=None, tags=None,
+                 publication_date=None, answer_date=None):
         self.url = url
         self.legislature = legislature
         self.numero = numero
@@ -85,10 +94,11 @@ class QuestionSummary(object):
 
     def __repr__(self):
         return self.__dict__.__repr__()
-        
+
 
 class QuestionSearchResult(object):
-    def __init__(self, url=None, total_count=None, next_url=None, size=None, results=None):
+    def __init__(self, url=None, total_count=None, next_url=None, size=None,
+                 results=None):
         self.url = url
         self.total_count = total_count
         self.next_url = next_url
