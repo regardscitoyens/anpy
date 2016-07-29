@@ -98,4 +98,4 @@ def test_if_comments_are_removed():
         requests.get("http://www.assemblee-nationale.fr/14/amendements/0922/AN/406.asp").content
     )
 
-    assert data.dispositif == '<p></p><p>Supprimer le mot :</p><p></p><p>« républicaine ».</p><p></p>'
+    assert data.dispositif == u'<p></p><p>Supprimer le mot :</p><p></p><p>« républicaine ».</p><p></p>'
