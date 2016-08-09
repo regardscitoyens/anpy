@@ -11,7 +11,7 @@ def test_get():
 
 def test_total_count():
     service = AmendementSearchService()
-    assert 5 == service.total_count(idDossierLegislatif=31515, idExamen=3295)
+    assert 5 == service.total_count(rows=1, idDossierLegislatif=31515, idExamen=3295)
 
 
 def test_iterator():

@@ -56,15 +56,21 @@ class AmendementSearchService(object):
         return parse_amendements_summary(response.url, response.json())
 
     def total_count(self, **kwargs):
-        response = self.get(rows=1, **kwargs)
+        kwargs_copy = kwargs.copy()
+        kwargs_copy['rows'] = 1
+        response = self.get(**kwargs_copy)
         return response.total_count
 
-    def iterator(self, rows=100, **kwargs):
-        response = self.get(rows=rows, **kwargs)
+    def iterator(self, **kwargs):
+        rows = kwargs.get('rows', self.default_params['rows'])
+
+        response = self.get(**kwargs)
         yield response
 
         for start in range(rows, response.total_count, rows):
-            yield self.get(rows=rows, start=start + 1, **kwargs)
+            kwargs_copy = kwargs.copy()
+            kwargs_copy['start'] = start + 1
+            yield self.get(**kwargs_copy)
 
     def get_order(self, **kwargs):
         iterator = AmendementSearchService().iterator(**kwargs)
