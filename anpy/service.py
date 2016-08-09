@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 
+import logging
 import requests
+import time
 
 from .parsing.amendement_parser import parse_amendements_summary
 from .parsing.question_search_result_parser import parse_question_search_result
 
 __all__ = ['AmendementSearchService', 'QuestionSearchService']
+
+LOGGER = logging.getLogger(__name__)
 
 
 class AmendementSearchService(object):
@@ -51,7 +55,15 @@ class AmendementSearchService(object):
         params = self.default_params.copy()
         params.update(kwargs)
 
+        start = time.time()
         response = requests.get(self.base_url, params=params)
+        end = time.time()
+
+        LOGGER.debug(
+            'fetched amendements with search params: %s in %0.2f s',
+            params,
+            end - start
+        )
 
         return parse_amendements_summary(response.url, response.json())
 
@@ -65,9 +77,22 @@ class AmendementSearchService(object):
         rows = kwargs.get('rows', self.default_params['rows'])
 
         response = self.get(**kwargs)
+
+        LOGGER.debug('start to fetch %s amendements with page size of %s',
+                     response.total_count,
+                     rows)
+        LOGGER.debug('amendements fetched: %s / %s (%.1f%%)',
+                     rows,
+                     response.total_count,
+                     rows / response.total_count * 100)
+
         yield response
 
         for start in range(rows, response.total_count, rows):
+            LOGGER.debug('amendements fetched: %s / %s (%.1f%%)',
+                         rows + start,
+                         response.total_count,
+                         (rows + start) / response.total_count * 100)
             kwargs_copy = kwargs.copy()
             kwargs_copy['start'] = start + 1
             yield self.get(**kwargs_copy)
