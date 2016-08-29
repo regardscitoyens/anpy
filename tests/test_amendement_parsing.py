@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import requests
+import attr
 from bs4 import BeautifulSoup
 
 from anpy.parsing.amendement_parser import parse_amendements_summary, parse_amendement, remove_inline_css_and_invalid_tags
@@ -49,7 +50,7 @@ def test_json_parsing():
     assert parsed_result.start == 1
     assert parsed_result.size == 2500
     assert parsed_result.total_count == 6123
-    assert expected_result == parsed_result.results[0].__dict__
+    assert expected_result == attr.asdict(parsed_result.results[0])
 
 
 def test_html_parsing():
@@ -89,7 +90,7 @@ def test_html_parsing():
         u'url': u'http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp',
     }
 
-    assert expected_result == parsing_result.__dict__
+    assert expected_result == attr.asdict(parsing_result)
 
 
 def test_if_comments_are_removed():
