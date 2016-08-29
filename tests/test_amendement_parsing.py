@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 import requests
 import attr
@@ -14,34 +15,34 @@ def test_remove_inline_css_and_invalid_tags():
 
 def test_json_parsing():
     json_response = {
-        u'data_table': [
-            u"S-AMANR5L14PO59051B996N4|996|Justice : d\xe9ch\xe9ance de la nationalit\xe9 pour tout individu portant les armes contre l'arm\xe9e et la police|http://www.assemblee-nationale.fr/14/dossiers/decheance_nationalite_contre_armees_police.asp|Lois|CL4|http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp|Article UNIQUE||21 novembre 2014|M. Coronado et M. Molac|Adopt\xe9",
-            u"S-AMANR5L14PO59051B996N1|996|Justice : d\xe9ch\xe9ance de la nationalit\xe9 pour tout individu portant les armes contre l'arm\xe9e et la police|http://www.assemblee-nationale.fr/14/dossiers/decheance_nationalite_contre_armees_police.asp|Lois|CL1|http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL1.asp|Article UNIQUE||21 novembre 2014|M. Meunier, rapporteur|Tomb\xe9",
+        'data_table': [
+            'S-AMANR5L14PO59051B996N4|996|Justice : d\xe9ch\xe9ance de la nationalit\xe9 pour tout individu portant les armes contre l\'arm\xe9e et la police|http://www.assemblee-nationale.fr/14/dossiers/decheance_nationalite_contre_armees_police.asp|Lois|CL4|http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp|Article UNIQUE||21 novembre 2014|M. Coronado et M. Molac|Adopt\xe9',
+            'S-AMANR5L14PO59051B996N1|996|Justice : d\xe9ch\xe9ance de la nationalit\xe9 pour tout individu portant les armes contre l\'arm\xe9e et la police|http://www.assemblee-nationale.fr/14/dossiers/decheance_nationalite_contre_armees_police.asp|Lois|CL1|http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL1.asp|Article UNIQUE||21 novembre 2014|M. Meunier, rapporteur|Tomb\xe9',
         ],
-        u'infoGenerales': {
-            u'debut': 1,
-            u'description_schema': u'id|numInit|titreDossierLegislatif|urlDossierLegislatif|instance|numAmend|urlAmend|designationArticle|designationAlinea|dateDepot|signataires|sort',
-            u'nb_docs': 2500,
-            u'nb_resultats': 6123,
-            u'schema': u'partiel'
+        'infoGenerales': {
+            'debut': 1,
+            'description_schema': 'id|numInit|titreDossierLegislatif|urlDossierLegislatif|instance|numAmend|urlAmend|designationArticle|designationAlinea|dateDepot|signataires|sort',
+            'nb_docs': 2500,
+            'nb_resultats': 6123,
+            'schema': 'partiel'
         }
     }
 
     expected_result = {
-        u'id': u'S-AMANR5L14PO59051B996N4',
-        u'num_init': u'996',
-        u'titre_dossier_legislatif': u"Justice : d\xe9ch\xe9ance de la nationalit\xe9 pour tout individu portant les armes contre l'arm\xe9e et la police",
-        u'url_dossier_legislatif': u'http://www.assemblee-nationale.fr/14/dossiers/decheance_nationalite_contre_armees_police.asp',
-        u'instance': u'Lois',
-        u'num_amend': u'CL4',
-        u'url_amend': u'http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp',
-        u'designation_article': u'Article UNIQUE',
-        u'designation_alinea': u'',
-        u'date_depot': u'21 novembre 2014',
-        u'signataires': u'M. Coronado et M. Molac',
-        u'sort': u'Adopt\xe9',
-        u'legislature': u'14',
-        u'mission_visee': None,
+        'id': 'S-AMANR5L14PO59051B996N4',
+        'num_init': '996',
+        'titre_dossier_legislatif': 'Justice : d\xe9ch\xe9ance de la nationalit\xe9 pour tout individu portant les armes contre l\'arm\xe9e et la police',
+        'url_dossier_legislatif': 'http://www.assemblee-nationale.fr/14/dossiers/decheance_nationalite_contre_armees_police.asp',
+        'instance': 'Lois',
+        'num_amend': 'CL4',
+        'url_amend': 'http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp',
+        'designation_article': 'Article UNIQUE',
+        'designation_alinea': '',
+        'date_depot': '21 novembre 2014',
+        'signataires': 'M. Coronado et M. Molac',
+        'sort': 'Adopt\xe9',
+        'legislature': '14',
+        'mission_visee': None,
     }
 
     parsed_result = parse_amendements_summary('', json_response)
@@ -55,39 +56,39 @@ def test_json_parsing():
 
 def test_html_parsing():
     parsing_result = parse_amendement(
-        "http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp",
-        requests.get("http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp").content
+        'http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp',
+        requests.get('http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp').content
     )
 
     expected_result = {
-        u'amend_parent': u'',
-        u'auteur_id': u'610860',
-        u'auteurs': u'M. Coronado et M. Molac',
-        u'code': u'',
-        u'cosignataires_id': u'607619',
-        u'date_badage': u'24/11/2014',
-        u'date_sort': u'26/11/2014',
-        u'deliberation': u'',
-        u'designation_alinea': u'',
-        u'designation_article': u'ART. UNIQUE',
-        u'dispositif': u'<p>Supprimer cet article.</p>',
-        u'etape': u'1ère lecture (1ère assemblée saisie)',
-        u'expose': u'<p>La pr\xe9sente proposition de loi souhaite permettre la d\xe9ch\xe9ance de nationalit\xe9 \xe0 toute personne portant les armes contre les forces arm\xe9es fran\xe7aises et de police, ou leurs alli\xe9s.</p><p>Actuellement la loi pr\xe9voit d\xe9j\xe0 la possible de d\xe9choir de leur nationalit\xe9 fran\xe7aise les personnes condamn\xe9e<span>s</span> pour un crime ou d\xe9lit constituant une atteinte aux int\xe9r\xeats fondamentaux de la nation et les personnes condamn\xe9es, en France ou \xe0 l\'\xe9tranger, pour crime \xe0 au moins cinq ann\xe9es d\'emprisonnement.</p><p>Au-del\xe0 de son affichage, la pr\xe9sente proposition de loi ne couvrirait pas de cas nouveaux. Elle vise surtout \xe0 supprimer des garanties essentielles.</p><p>Comme le propose le rapporteur, l\'avis du Conseil d\'Etat resterait syst\xe9matique, mais il ne serait plus obligatoirement suivi. C\'est pourtant une garantie fondamentale. La garantie temporelle pr\xe9vu \xe0 l\'article 25-1 du code civil serait \xe9galement abrog\xe9e.</p><p>Il est \xe0 noter que la proposition de loi vise les personnes ayant acquis la nationalit\xe9 fran\xe7aise. Il est pourtant dangereux de consid\xe9rer qu\'il y aurait plusieurs cat\xe9gories de citoyens.</p><p>Les r\xe9centes affaires montrent \xe9galement que le probl\xe8me de \xab\xa0djihaddistes fran\xe7ais\xa0\xbb n\'est pas un probl\xe8me de binationaux, ou de personnes qui auraient acquis la nationalit\xe9 fran\xe7aise.</p><p>Pour toutes ces raisons, il est propos\xe9 de supprimer l\'article unique de cette loi.</p>',
-        u'groupe_id': u'656014',
-        u'legislature': u'14',
-        u'mission': u'',
-        u'num_amtxt': u'CL4',
-        u'num_amend': u'4',
-        u'num_init': u'996',
-        u'num_partie': u'',
-        u'ordre_texte': u'eaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac',
-        u'refcode': u'',
-        u'seance': u'',
-        u'sort': u'Adopté',
-        u'titre_init': u'DÉCHÉANCE DE NATIONALITÉ POUR LES ATTEINTES AUX FORCES ARMÉES ET DE POLICE(n°996)',
-        u'url_division': u'/14/textes/0996.asp#D_Article_unique',
-        u'url_dossier': u'http://www.assemblee-nationale.fr/14/dossiers/decheance_nationalite_contre_armees_police.asp',
-        u'url': u'http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp',
+        'amend_parent': '',
+        'auteur_id': '610860',
+        'auteurs': 'M. Coronado et M. Molac',
+        'code': '',
+        'cosignataires_id': '607619',
+        'date_badage': '24/11/2014',
+        'date_sort': '26/11/2014',
+        'deliberation': '',
+        'designation_alinea': '',
+        'designation_article': 'ART. UNIQUE',
+        'dispositif': '<p>Supprimer cet article.</p>',
+        'etape': '1ère lecture (1ère assemblée saisie)',
+        'expose': '<p>La pr\xe9sente proposition de loi souhaite permettre la d\xe9ch\xe9ance de nationalit\xe9 \xe0 toute personne portant les armes contre les forces arm\xe9es fran\xe7aises et de police, ou leurs alli\xe9s.</p><p>Actuellement la loi pr\xe9voit d\xe9j\xe0 la possible de d\xe9choir de leur nationalit\xe9 fran\xe7aise les personnes condamn\xe9e<span>s</span> pour un crime ou d\xe9lit constituant une atteinte aux int\xe9r\xeats fondamentaux de la nation et les personnes condamn\xe9es, en France ou \xe0 l\'\xe9tranger, pour crime \xe0 au moins cinq ann\xe9es d\'emprisonnement.</p><p>Au-del\xe0 de son affichage, la pr\xe9sente proposition de loi ne couvrirait pas de cas nouveaux. Elle vise surtout \xe0 supprimer des garanties essentielles.</p><p>Comme le propose le rapporteur, l\'avis du Conseil d\'Etat resterait syst\xe9matique, mais il ne serait plus obligatoirement suivi. C\'est pourtant une garantie fondamentale. La garantie temporelle pr\xe9vu \xe0 l\'article 25-1 du code civil serait \xe9galement abrog\xe9e.</p><p>Il est \xe0 noter que la proposition de loi vise les personnes ayant acquis la nationalit\xe9 fran\xe7aise. Il est pourtant dangereux de consid\xe9rer qu\'il y aurait plusieurs cat\xe9gories de citoyens.</p><p>Les r\xe9centes affaires montrent \xe9galement que le probl\xe8me de \xab\xa0djihaddistes fran\xe7ais\xa0\xbb n\'est pas un probl\xe8me de binationaux, ou de personnes qui auraient acquis la nationalit\xe9 fran\xe7aise.</p><p>Pour toutes ces raisons, il est propos\xe9 de supprimer l\'article unique de cette loi.</p>',
+        'groupe_id': '656014',
+        'legislature': '14',
+        'mission': '',
+        'num_amtxt': 'CL4',
+        'num_amend': '4',
+        'num_init': '996',
+        'num_partie': '',
+        'ordre_texte': 'eaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac',
+        'refcode': '',
+        'seance': '',
+        'sort': 'Adopté',
+        'titre_init': 'DÉCHÉANCE DE NATIONALITÉ POUR LES ATTEINTES AUX FORCES ARMÉES ET DE POLICE(n°996)',
+        'url_division': '/14/textes/0996.asp#D_Article_unique',
+        'url_dossier': 'http://www.assemblee-nationale.fr/14/dossiers/decheance_nationalite_contre_armees_police.asp',
+        'url': 'http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp',
     }
 
     assert expected_result == attr.asdict(parsing_result)
@@ -95,8 +96,8 @@ def test_html_parsing():
 
 def test_if_comments_are_removed():
     data = parse_amendement(
-        "http://www.assemblee-nationale.fr/14/amendements/0922/AN/406.asp",
-        requests.get("http://www.assemblee-nationale.fr/14/amendements/0922/AN/406.asp").content
+        'http://www.assemblee-nationale.fr/14/amendements/0922/AN/406.asp',
+        requests.get('http://www.assemblee-nationale.fr/14/amendements/0922/AN/406.asp').content
     )
 
-    assert data.dispositif == u'<p></p><p>Supprimer le mot :</p><p></p><p>« républicaine ».</p><p></p>'
+    assert data.dispositif == '<p></p><p>Supprimer le mot :</p><p></p><p>« républicaine ».</p><p></p>'
