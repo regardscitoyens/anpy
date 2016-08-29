@@ -48,7 +48,9 @@ setup(
         'requests',
         'beautifulsoup4',
         'xmltodict',
-        'html5lib'
+        'html5lib',
+        'html2text',
+        'mistune'
     ],
 
     scripts=['bin/anpy-cli.py'],
