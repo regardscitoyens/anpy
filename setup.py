@@ -50,7 +50,8 @@ setup(
         'xmltodict',
         'html5lib',
         'html2text',
-        'mistune'
+        'mistune',
+        'dateparser'
     ],
 
     scripts=['bin/anpy-cli.py'],
