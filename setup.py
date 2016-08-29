@@ -52,7 +52,8 @@ setup(
         'html2text',
         'mistune',
         'dateparser',
-        'attrs'
+        'attrs',
+        'future'
     ],
 
     scripts=['bin/anpy-cli.py'],

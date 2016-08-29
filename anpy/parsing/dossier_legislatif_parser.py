@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from future.utils import iteritems
+from builtins import map, filter, str
 
 import mistune
 import re
@@ -67,7 +70,8 @@ class DossierParser(object):
     @classmethod
     def filter_element(cls, element):
         return element.text.strip() and \
-               element.text not in ['_', 'Accueil > Dossiers']
+               not element.text.startswith('_') and \
+               not element.text.startswith('Accueil')
 
 
 class BaseNode(object):
@@ -144,20 +148,26 @@ class DossierNode(BaseNode):
 class LegislativeStepNode(BaseNode):
     steps_re = {
         LegislativeStep.AN_PREMIERE_LECTURE:
-            re.compile('^Assemblée nationale - 1ère lecture'),
+            re.compile('^Assemblée nationale - 1ère lecture',
+                       re.UNICODE),
         LegislativeStep.SENAT_PREMIERE_LECTURE:
-            re.compile('^Sénat - 1ère lecture'),
+            re.compile('^Sénat - 1ère lecture',
+                       re.UNICODE),
         LegislativeStep.AN_NOUVELLE_LECTURE:
-            re.compile('^Assemblée nationale - Nouvelle lecture'),
+            re.compile('^Assemblée nationale - Nouvelle lecture',
+                       re.UNICODE),
         LegislativeStep.SENAT_NOUVELLE_LECTURE:
-            re.compile('^Sénat - Nouvelle lecture'),
+            re.compile('^Sénat - Nouvelle lecture',
+                       re.UNICODE),
         LegislativeStep.AN_LECTURE_DEFINITIVE:
-            re.compile('^Assemblée nationale - Lecture définitive'),
+            re.compile('^Assemblée nationale - Lecture définitive',
+                       re.UNICODE),
         LegislativeStep.CONSEIL_CONSTIT:
-            re.compile('^conseil constitutionnel', re.I),
+            re.compile('^conseil constitutionnel',
+                       re.I | re.UNICODE),
         LegislativeStep.CMP:
             re.compile('^commission mixte paritaire \((Accord|Désaccord)?\)$',
-                       re.I)
+                       re.I | re.UNICODE)
     }
 
     @classmethod
@@ -178,7 +188,7 @@ class LegislativeStepNode(BaseNode):
         return next(
             map(itemgetter(0),
                 filter(lambda item: item[1].match(self.elements[0].text),
-                       self.steps_re.items())))
+                       iteritems(self.steps_re))))
 
 
 class LegislativeActNode(BaseNode):
@@ -206,11 +216,12 @@ class LegislativeActNode(BaseNode):
         return next(
             map(itemgetter(0),
                 filter(lambda item: item[1].match(self.elements[0].text),
-                       self.act_re.items())))
+                       iteritems(self.act_re))))
 
 
 class DepotLoiNode(LegislativeActNode):
-    regex = re.compile('^(Projet de loi|Proposition de loi).+déposée? le .*')
+    regex = re.compile('^(Projet de loi|Proposition de loi).+déposée? le .*',
+                       re.UNICODE)
 
     @classmethod
     def match(cls, html):
@@ -221,7 +232,7 @@ class DepotLoiNode(LegislativeActNode):
             return
 
         matched_dates = re.findall(' déposée? le (\d+ \w+ \d{4})',
-                                   self.elements[0].text)
+                                   self.elements[0].text, re.UNICODE)
 
         return {
             'type': LegislativeAct.DEPOT_INITIATIVE,
@@ -248,7 +259,7 @@ class DepotLoiNode(LegislativeActNode):
 
 
 class DiscussionSeancePubliqueNode(LegislativeActNode):
-    regex = re.compile('^Discussion en séance publique')
+    regex = re.compile('^Discussion en séance publique', re.UNICODE)
 
     @classmethod
     def match(cls, html):
@@ -315,7 +326,7 @@ class DiscussionSeancePubliqueNode(LegislativeActNode):
 
 
 class AvisConseilEtatNode(LegislativeActNode):
-    regex = re.compile('^avis du conseil d\'État', re.I)
+    regex = re.compile('^avis du conseil d\'État', re.I | re.UNICODE)
 
     @classmethod
     def match(cls, html):
@@ -332,7 +343,7 @@ class AvisConseilEtatNode(LegislativeActNode):
 
 
 class EtudeImpactNode(LegislativeActNode):
-    regex = re.compile('^Etude d\'impact', re.I)
+    regex = re.compile('^Etude d\'impact', re.I | re.UNICODE)
 
     @classmethod
     def match(cls, html):

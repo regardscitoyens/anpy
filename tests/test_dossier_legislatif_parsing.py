@@ -138,15 +138,15 @@ def test_avis_ce_data_extractor():
 
 
 def test_discussion_seance_extractor():
-    discussion_element_1 = BeautifulSoup('<p>Discussion en séance publique</p>')
+    discussion_element_1 = BeautifulSoup('<p>Discussion en séance publique</p>', 'html5lib')
     discussion_element_2 = BeautifulSoup('<p><strong><a href="/14/cri/2014-2015/20150212.asp">1<sup>ère</sup> séance du'
-                                         ' lundi 13 avril 2015</a></strong></p>')
+                                         ' lundi 13 avril 2015</a></strong></p>', 'html5lib')
     scrutin_element = BeautifulSoup('<p><a href="/14/scrutins/jo1109.asp">Scrutin public</a> n° 1109 sur l\'ensemble du'
                                     ' projet de loi relatif au renseignement (première lecture) au cours de la 2e '
-                                    'séance du mardi 5 mai 2015</p>')
+                                    'séance du mardi 5 mai 2015</p>', 'html5lib')
     decision_element = BeautifulSoup('<p>Projet de loi relatif au renseignement, adopté en 1ère lecture par '
                                      'l\'Assemblée nationale le 5 mai 2015 , <a href="/14/ta/ta0511.asp"> TA n° '
-                                     '511 </a></p>')
+                                     '511 </a></p>', 'html5lib')
 
     act = DiscussionSeancePubliqueNode()
     act.add_element(discussion_element_1)
@@ -170,7 +170,7 @@ def test_discussion_seance_extractor():
 
 def test_depot_loi_extractor():
     depot_element = BeautifulSoup(
-        '<p><a href="/14/projets/pl3318.asp">Projet de loi</a> pour une République numérique, n° 3318, déposé le 9 décembre 2015 (mis en ligne le 9 décembre 2015 à 18 heures 50)</p>')
+        '<p><a href="/14/projets/pl3318.asp">Projet de loi</a> pour une République numérique, n° 3318, déposé le 9 décembre 2015 (mis en ligne le 9 décembre 2015 à 18 heures 50)</p>', 'html5lib')
     act = DepotLoiNode()
     act.add_element(depot_element)
     act_data = act.extract_data()

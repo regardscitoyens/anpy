@@ -7,6 +7,7 @@ from enum import Enum
 class TT(object):
     url = attr.ib(default=None)
 
+
 @attr.s
 class Amendement(object):
     url = attr.ib(default=None)
