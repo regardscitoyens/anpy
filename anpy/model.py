@@ -88,12 +88,12 @@ class QuestionSearchResult(object):
     results = attr.ib(default=None)
 
 
-class ProcedureParlementaire(Enum):
+class ProcedureParlementaire(object):
     PJL = 'PJL'
     PPL = 'PPL'
 
 
-class LegislativeStep(Enum):
+class LegislativeStep(object):
     AN_PREMIERE_LECTURE = 'AN_PREMIERE_LECTURE'
     SENAT_PREMIERE_LECTURE = 'SENAT_PREMIERE_LECTURE'
     CMP = 'CMP'
@@ -103,13 +103,13 @@ class LegislativeStep(Enum):
     AN_LECTURE_DEFINITIVE = 'AN_LECTURE_DEFINITIVE'
 
 
-class DecisionStatus(Enum):
+class DecisionStatus(object):
     ADOPTED = 'ADOPTED'
     REJECTED = 'REJECTED'
     MODIFIED = 'MODIFIED'
 
 
-class LegislativeAct(Enum):
+class LegislativeAct(object):
     ETUDE_IMPACT = 'ETUDE_IMPACT'
     AVIS_CONSEIL_ETAT = 'AVIS_CONSEIL_DETAT'
     PROCEDURE_ACCELEREE = 'PROCEDURE_ACCELEREE'
