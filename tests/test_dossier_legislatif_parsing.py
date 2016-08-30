@@ -8,11 +8,11 @@ from bs4 import BeautifulSoup
 from anpy.model import DecisionStatus
 from anpy.parsing.dossier_legislatif_parser import (
     parse_dossier_legislatif,
-    DossierParser,
+    clean_html,
+    filter_dossier_element,
     DossierNode,
     LegislativeStepNode,
-    clean_html,
-    LegislativeActNode,
+    ProcedureAccelereeNode,
     ProcedureParlementaire,
     LegislativeAct,
     LegislativeStep,
@@ -35,23 +35,32 @@ def test_relevant_parent():
     step_node = LegislativeStepNode(parent=root)
     root.add_child(step_node)
     act_node = DepotLoiNode(parent=step_node)
-    act_node.add_child(act_node)
+    step_node.add_child(act_node)
 
-    assert [step_node, root] == act_node.get_ascendancy()
     assert root == act_node.get_relevant_parent(LegislativeStepNode)
     assert step_node == act_node.get_relevant_parent(EtudeImpactNode)
-    assert step_node == act_node.get_relevant_parent(LegislativeActNode)
-    assert step_node == step_node.get_relevant_parent(LegislativeActNode)
+    assert step_node == act_node.get_relevant_parent(ProcedureAccelereeNode)
+    assert step_node == step_node.get_relevant_parent(ProcedureAccelereeNode)
+
+
+def test_get_depot_loi_node():
+    root = DossierNode()
+    step_node = LegislativeStepNode(parent=root)
+    root.add_child(step_node)
+    act_node = DepotLoiNode(parent=step_node)
+    step_node.add_child(act_node)
+
+    assert act_node == root.get_depot_loi_node()
 
 
 def test_filtering_elemnts():
-    element_to_ignore = BeautifulSoup('<p>_</p>')
-    element_to_ignore_2 = BeautifulSoup('<p><a href=""></a>  </p>')
-    element_to_ignore_3 = BeautifulSoup('<p><a href="/index.asp">Accueil</a> &gt; <a href="/14/documents/index-dossier.asp">Dossiers</a></p>')
+    element_to_ignore = BeautifulSoup('<p>_</p>', 'html5lib')
+    element_to_ignore_2 = BeautifulSoup('<p><a href=""></a>  </p>', 'html5lib')
+    element_to_ignore_3 = BeautifulSoup('<p><a href="/index.asp">Accueil</a> &gt; <a href="/14/documents/index-dossier.asp">Dossiers</a></p>', 'html5lib')
 
-    assert not DossierParser.filter_element(element_to_ignore)
-    assert not DossierParser.filter_element(element_to_ignore_2)
-    assert not DossierParser.filter_element(element_to_ignore_3)
+    assert not filter_dossier_element(element_to_ignore)
+    assert not filter_dossier_element(element_to_ignore_2)
+    assert not filter_dossier_element(element_to_ignore_3)
 
 
 def test_etude_impact_matching():
@@ -86,7 +95,7 @@ def test_depot_loi_matching():
 def test_legislative_acts_matching():
     procedure_acceleree = BeautifulSoup('<p>Le Gouvernement a engagé la procédure accélérée sur ce projet.</p>')
 
-    assert LegislativeActNode.match(procedure_acceleree)
+    assert ProcedureAccelereeNode.match(procedure_acceleree)
 
 
 def test_legislative_steps_matching():
@@ -108,13 +117,17 @@ def test_legislative_steps_matching():
 
 
 def test_pjl_sante_legislative_step_parsing():
-    html = requests.get("http://www.assemblee-nationale.fr/14/dossiers/sante.asp").text
-    soup = BeautifulSoup(clean_html(html), "html5lib")
-    root = DossierParser.parse(soup)
+    url = 'http://www.assemblee-nationale.fr/14/dossiers/sante.asp'
+    data = parse_dossier_legislatif(url, requests.get(url).text)
 
-    assert len(root.children) == 7
-    class_names = [c.__class__.__name__ for c in root.children]
-    assert set(class_names) == {'LegislativeStepNode'}
+    assert len(data['steps']) == 7
+    assert [step['type'] for step in data['steps']] == [LegislativeStep.AN_PREMIERE_LECTURE,
+                                                        LegislativeStep.SENAT_PREMIERE_LECTURE,
+                                                        LegislativeStep.CMP,
+                                                        LegislativeStep.AN_NOUVELLE_LECTURE,
+                                                        LegislativeStep.SENAT_NOUVELLE_LECTURE,
+                                                        LegislativeStep.AN_LECTURE_DEFINITIVE,
+                                                        LegislativeStep.CONSEIL_CONSTIT]
 
 
 def test_etude_impact_data_extractor():
@@ -232,12 +245,10 @@ def test_dossier_data_extractor():
 
 
 def test_pjl_num_parsing():
-    dossier_data = parse_dossier_legislatif(
-        "http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp",
-        requests.get("http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp").content
-    )
+    url = 'http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp'
+    dossier_data = parse_dossier_legislatif(url, requests.get(url).content)
 
-    assert dossier_data['url'] == 'http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp'
+    assert dossier_data['url'] == url
     assert dossier_data['title'] == 'Economie : pour une République numérique'
     assert dossier_data['legislature'] == '14'
     assert dossier_data['procedure'] == ProcedureParlementaire.PJL
