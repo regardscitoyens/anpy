@@ -1,0 +1,248 @@
+{
+    "legislature": "14",
+    "procedure": "PJL",
+    "steps": [
+        {
+            "acts": [
+                {
+                    "date": "2014-10-15T00:00:00",
+                    "type": "DEPOT_INITIATIVE",
+                    "url": "http://www.assemblee-nationale.fr/14/projets/pl2302.asp"
+                },
+                {
+                    "type": "ETUDE_IMPACT",
+                    "url": "http://www.assemblee-nationale.fr/14/projets/pl2302-ei.asp"
+                },
+                {
+                    "type": "PROCEDURE_ACCELEREE"
+                },
+                {
+                    "decision": {
+                        "date": "2015-04-14T00:00:00",
+                        "status": "ADOPTED",
+                        "url": "http://www.assemblee-nationale.fr/14/ta/ta0505.asp"
+                    },
+                    "seances": [
+                        {
+                            "date": "2015-03-31T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150194.asp"
+                        },
+                        {
+                            "date": "2015-03-31T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150195.asp"
+                        },
+                        {
+                            "date": "2015-04-01T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150196.asp"
+                        },
+                        {
+                            "date": "2015-04-01T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150197.asp"
+                        },
+                        {
+                            "date": "2015-04-03T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150200.asp"
+                        },
+                        {
+                            "date": "2015-04-03T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150201.asp"
+                        },
+                        {
+                            "date": "2015-04-07T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150202.asp"
+                        },
+                        {
+                            "date": "2015-04-07T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150203.asp"
+                        },
+                        {
+                            "date": "2015-04-08T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150204.asp"
+                        },
+                        {
+                            "date": "2015-04-08T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150205.asp"
+                        },
+                        {
+                            "date": "2015-04-09T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150206.asp"
+                        },
+                        {
+                            "date": "2015-04-09T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150207.asp"
+                        },
+                        {
+                            "date": "2015-04-09T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150208.asp"
+                        },
+                        {
+                            "date": "2015-04-10T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150209.asp"
+                        },
+                        {
+                            "date": "2015-04-10T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150210.asp"
+                        },
+                        {
+                            "date": "2015-04-10T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150211.asp"
+                        },
+                        {
+                            "date": "2015-04-14T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150214.asp"
+                        }
+                    ],
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE"
+                }
+            ],
+            "type": "AN_PREMIERE_LECTURE"
+        },
+        {
+            "acts": [
+                {
+                    "date": "2015-04-15T00:00:00",
+                    "type": "DEPOT_INITIATIVE",
+                    "url": "http://www.senat.fr/leg/pjl14-406.html"
+                },
+                {
+                    "decision": {
+                        "date": "2015-10-06T00:00:00",
+                        "status": "MODIFIED",
+                        "url": "http://www.senat.fr/leg/tas15-003.html"
+                    },
+                    "seances": [
+                        {
+                            "url": "http://www.senat.fr/seances/s201509/s20150914/st20150914000.html"
+                        },
+                        {
+                            "url": "http://www.senat.fr/seances/s201509/s20150915/st20150915000.html"
+                        },
+                        {
+                            "url": "http://www.senat.fr/seances/s201509/s20150916/st20150916000.html"
+                        },
+                        {
+                            "url": "http://www.senat.fr/seances/s201509/s20150917/st20150917000.html"
+                        },
+                        {
+                            "url": "http://www.senat.fr/seances/s201509/s20150918/st20150918000.html"
+                        },
+                        {
+                            "url": "http://www.senat.fr/seances/s201509/s20150928/st20150928000.html"
+                        },
+                        {
+                            "url": "http://www.senat.fr/seances/s201509/s20150929/st20150929000.html"
+                        },
+                        {
+                            "url": "http://www.senat.fr/seances/s201509/s20150930/st20150930000.html"
+                        },
+                        {
+                            "url": "http://www.senat.fr/seances/s201510/s20151001/st20151001000.html"
+                        },
+                        {
+                            "url": "http://www.senat.fr/seances/s201510/s20151006/st20151006000.html"
+                        }
+                    ],
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE"
+                }
+            ],
+            "type": "SENAT_PREMIERE_LECTURE"
+        },
+        {
+            "acts": [],
+            "type": "CMP"
+        },
+        {
+            "acts": [
+                {
+                    "date": "2015-10-07T00:00:00",
+                    "type": "DEPOT_INITIATIVE",
+                    "url": "http://www.assemblee-nationale.fr/14/projets/pl3103.asp"
+                },
+                {
+                    "decision": {
+                        "date": null,
+                        "status": "ADOPTED",
+                        "url": "http://www.assemblee-nationale.fr/14/ta/ta0618.asp"
+                    },
+                    "seances": [
+                        {
+                            "date": "2015-11-24T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160063.asp"
+                        },
+                        {
+                            "date": "2015-11-24T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160064.asp"
+                        },
+                        {
+                            "date": "2015-11-25T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160066.asp"
+                        },
+                        {
+                            "date": "2015-11-27T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160069.asp"
+                        },
+                        {
+                            "date": "2015-11-27T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160070.asp"
+                        },
+                        {
+                            "date": "2015-12-01T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160073.asp"
+                        }
+                    ],
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE"
+                }
+            ],
+            "type": "AN_NOUVELLE_LECTURE"
+        },
+        {
+            "acts": [
+                {
+                    "date": "2015-12-02T00:00:00",
+                    "type": "DEPOT_INITIATIVE",
+                    "url": "http://www.senat.fr/leg/pjl15-209.html"
+                },
+                {
+                    "decision": {
+                        "date": "2015-12-14T00:00:00",
+                        "status": "REJECTED",
+                        "url": "http://www.senat.fr/leg/tas15-054.html"
+                    },
+                    "seances": [
+                        {
+                            "date": "2015-12-14T00:00:00",
+                            "url": "http://www.senat.fr/seances/s201512/s20151214/st20151214000.html"
+                        }
+                    ],
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE"
+                }
+            ],
+            "type": "SENAT_NOUVELLE_LECTURE"
+        },
+        {
+            "acts": [
+                {
+                    "decision": {
+                        "date": "2015-12-17T00:00:00",
+                        "status": "ADOPTED",
+                        "url": "http://www.assemblee-nationale.fr/14/ta/ta0650.asp"
+                    },
+                    "seances": [
+                        {
+                            "date": "2015-12-17T00:00:00",
+                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160091.asp"
+                        }
+                    ],
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE"
+                }
+            ],
+            "type": "AN_LECTURE_DEFINITIVE"
+        },
+        {
+            "acts": [],
+            "type": "CONSEIL_CONSTITUT"
+        }
+    ],
+    "title": "Questions sociales et santé : modernisation de notre système de santé",
+    "url": "http://www.assemblee-nationale.fr/14/dossiers/sante.asp"
+}

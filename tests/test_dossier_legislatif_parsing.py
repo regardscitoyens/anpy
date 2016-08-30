@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import requests
+import codecs
 from datetime import datetime
 from bs4 import BeautifulSoup
 
 from anpy.model import DecisionStatus
+from anpy.parsing.json_utils import json_dumps, json_loads
 from anpy.parsing.dossier_legislatif_parser import (
     parse_dossier_legislatif,
     clean_html,
@@ -114,20 +115,6 @@ def test_legislative_steps_matching():
     assert LegislativeStepNode.match(senat_new_lecture)
     assert LegislativeStepNode.match(an_final_lecture)
     assert LegislativeStepNode.match(cc)
-
-
-def test_pjl_sante_legislative_step_parsing():
-    url = 'http://www.assemblee-nationale.fr/14/dossiers/sante.asp'
-    data = parse_dossier_legislatif(url, requests.get(url).text)
-
-    assert len(data['steps']) == 7
-    assert [step['type'] for step in data['steps']] == [LegislativeStep.AN_PREMIERE_LECTURE,
-                                                        LegislativeStep.SENAT_PREMIERE_LECTURE,
-                                                        LegislativeStep.CMP,
-                                                        LegislativeStep.AN_NOUVELLE_LECTURE,
-                                                        LegislativeStep.SENAT_NOUVELLE_LECTURE,
-                                                        LegislativeStep.AN_LECTURE_DEFINITIVE,
-                                                        LegislativeStep.CONSEIL_CONSTIT]
 
 
 def test_etude_impact_data_extractor():
@@ -244,30 +231,23 @@ def test_dossier_data_extractor():
     assert dossier_data['procedure'] == ProcedureParlementaire.PJL
 
 
+def test_pjl_sante_legislative_step_parsing():
+    url = 'http://www.assemblee-nationale.fr/14/dossiers/sante.asp'
+    html = codecs.open('tests/resources/14_dossiers_sante.html', encoding='iso-8859-1')
+    dossier_data = parse_dossier_legislatif(url, html)
+    expected_data = json_loads(
+        codecs.open('tests/resources/14_dossiers_sante.json', encoding='utf-8').read())
+    assert dossier_data == expected_data
+
+
 def test_pjl_num_parsing():
     url = 'http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp'
-    dossier_data = parse_dossier_legislatif(url, requests.get(url).content)
+    html = codecs.open('tests/resources/14_dossiers_republique_numerique.html', encoding='iso-8859-1').read()
+    dossier_data = parse_dossier_legislatif(url, html)
+    expected_data = json_loads(
+        codecs.open('tests/resources/14_dossiers_republique_numerique.json', encoding='utf-8').read())
+    assert dossier_data == expected_data
 
-    assert dossier_data['url'] == url
-    assert dossier_data['title'] == 'Economie : pour une République numérique'
-    assert dossier_data['legislature'] == '14'
-    assert dossier_data['procedure'] == ProcedureParlementaire.PJL
-    assert len(dossier_data['steps']) == 3
-    assert dossier_data['steps'][0]['type'] == LegislativeStep.AN_PREMIERE_LECTURE
-    assert len(dossier_data['steps'][0]['acts']) == 5
-    assert dossier_data['steps'][0]['acts'][0] == {
-        'type': LegislativeAct.DEPOT_INITIATIVE,
-        'url': 'http://www.assemblee-nationale.fr/14/projets/pl3318.asp',
-        'date': datetime(2015, 12, 9)
-    }
-    assert dossier_data['steps'][0]['acts'][1] == {
-        'type': LegislativeAct.ETUDE_IMPACT,
-        'url': 'http://www.assemblee-nationale.fr/14/projets/pl3318-ei.asp'
-    }
-    assert dossier_data['steps'][0]['acts'][2] == {
-        'type': LegislativeAct.AVIS_CONSEIL_ETAT,
-        'url': 'http://www.assemblee-nationale.fr/14/pdf/projets/pl3318-ace.pdf'
-    }
-    assert dossier_data['steps'][0]['acts'][3] == {
-        'type': LegislativeAct.PROCEDURE_ACCELEREE
-    }
+
+
+
