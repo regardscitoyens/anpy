@@ -1,7 +1,9 @@
 # ANpy
+[![PyPI version](https://badge.fury.io/py/anpy.svg)](https://badge.fury.io/py/anpy)
+[![Build Status](https://travis-ci.org/fmassot/rc-tools.svg)](https://travis-ci.org/fmassot/anpy)
+
 A python client of the "api" of http://assemblee-nationale.fr website
 
-[![Build Status](https://travis-ci.org/fmassot/rc-tools.svg)](https://travis-ci.org/fmassot/anpy)
 
 ## Main goal
 Retrieve painlessly json data from assemblee-nationale.fr
