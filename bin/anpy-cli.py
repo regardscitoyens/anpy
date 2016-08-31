@@ -59,7 +59,7 @@ def show_amendement(url):
 @cli.command()
 @click.argument('url')
 def show_question(url):
-    question_html = requests.get(url).content
+    question_html = requests.get(url + '/vue/xml').content
     parsed_data = parse_question(url, question_html)
     print(json.dumps(parsed_data, indent=4, sort_keys=True,
                      ensure_ascii=False))
