@@ -51,7 +51,7 @@ def test_get_depot_loi_node():
     act_node = DepotLoiNode(parent=step_node)
     step_node.add_child(act_node)
 
-    assert act_node == root.get_depot_loi_node()
+    assert act_node == root.get_first_depot_loi_node()
 
 
 def test_filtering_elemnts():

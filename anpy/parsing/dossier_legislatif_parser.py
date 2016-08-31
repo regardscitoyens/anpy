@@ -103,7 +103,7 @@ class BaseNode(object):
 
 class DossierNode(BaseNode):
     def extract_data(self):
-        depot_loi_node = self.get_depot_loi_node()
+        depot_loi_node = self.get_first_depot_loi_node()
 
         return {
             'title': self.extract_title(),
@@ -120,7 +120,7 @@ class DossierNode(BaseNode):
 
         return self.elements[0].text
 
-    def get_depot_loi_node(self):
+    def get_first_depot_loi_node(self):
         depot_act_nodes = [
             child for step in self.children for child in step.children
             if isinstance(child, DepotLoiNode)]
