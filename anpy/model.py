@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import attr
-from enum import Enum
 
 
 @attr.s

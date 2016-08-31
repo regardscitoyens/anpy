@@ -184,7 +184,8 @@ class LegislativeActNode(BaseNode):
         return cls.regex.match(html.text) if cls.regex else False
 
     def get_relevant_parent(self, node_class):
-        return self.parent if issubclass(node_class, LegislativeActNode) else self.parent.parent
+        return self.parent if issubclass(node_class, LegislativeActNode)\
+            else self.parent.parent
 
     def extract_data(self):
         raise NotImplementedError
@@ -294,7 +295,9 @@ class DiscussionSeancePubliqueNode(LegislativeActNode):
         elif 'rejeté' in last_element.text:
             status = DecisionStatus.REJECTED
 
-        matched_dates = re.findall(' le (\d+ \w+ \d{4})', last_element.text)
+        matched_dates = re.findall(' le (\d+ \w+ \d{4})',
+                                   last_element.text,
+                                   re.I | re.UNICODE)
 
         return {
             'status': status,
@@ -323,4 +326,3 @@ class EtudeImpactNode(LegislativeActNode):
             'type': LegislativeAct.ETUDE_IMPACT,
             'url': urljoin(AN_BASE_URL, self.elements[0].a['href'])
         }
-
