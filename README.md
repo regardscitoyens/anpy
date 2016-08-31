@@ -2,7 +2,7 @@
 [![PyPI version](https://badge.fury.io/py/anpy.svg)](https://badge.fury.io/py/anpy)
 [![Build Status](https://travis-ci.org/regardscitoyens/anpy.svg)](https://travis-ci.org/regardscitoyens/anpy)
 
-A python client of the "api" of http://assemblee-nationale.fr website
+ANpy is a python library for extracting data from http://assemblee-nationale.fr website
 
 
 ## Main goal
