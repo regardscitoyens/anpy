@@ -18,7 +18,8 @@
                     "url": "http://www.assemblee-nationale.fr/14/pdf/projets/pl3318-ace.pdf"
                 },
                 {
-                    "type": "PROCEDURE_ACCELEREE"
+                    "type": "PROCEDURE_ACCELEREE",
+                    "date": "2015-12-09T00:00:00"
                 },
                 {
                     "decision": {

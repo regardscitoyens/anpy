@@ -207,8 +207,14 @@ class ProcedureAccelereeNode(LegislativeActNode):
         if not self.elements:
             return
 
+        matched_dates = re.findall(' le (\d+\s?\w* \\w+ \d{4})',
+                                   self.elements[0].text,
+                                   re.I | re.UNICODE)
+
         return {
             'type': LegislativeAct.PROCEDURE_ACCELEREE,
+            'date': extract_datetime(matched_dates[0])
+            if matched_dates else None
         }
 
 

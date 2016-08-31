@@ -14,7 +14,8 @@
                     "url": "http://www.assemblee-nationale.fr/14/projets/pl2302-ei.asp"
                 },
                 {
-                    "type": "PROCEDURE_ACCELEREE"
+                    "type": "PROCEDURE_ACCELEREE",
+                    "date": "2015-03-16T00:00:00"
                 },
                 {
                     "decision": {
