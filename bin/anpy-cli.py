@@ -6,6 +6,7 @@ import json
 
 import click
 import requests
+import attr
 from pathlib import Path
 
 from anpy.service import AmendementSearchService
@@ -40,11 +41,11 @@ def show_amendements_order(id_dossier, id_examen, limit):
 @click.option('--numero')
 @click.option('--rows', default=100)
 def show_amendements_summary(start_date, end_date, numero, rows):
-    iterator = AmendementSearchService().iter(rows=rows, dateDebut=start_date,
+    iterator = AmendementSearchService().iterator(rows=rows, dateDebut=start_date,
                                               dateFin=end_date,
                                               numAmend=numero)
     for result in iterator:
-        print(json.dumps(result.__dict__, indent=4, sort_keys=True,
+        print(json.dumps(attr.asdict(result), indent=4, sort_keys=True,
                          ensure_ascii=False))
 
 

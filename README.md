@@ -38,7 +38,7 @@ python anpy-cli.py show_amendements_summary --start-date 2014-06-01
 
 * Print amendements order for a given id_dossier and id_examen :
 ```bash
-python anpy-cli.py show_amendements_order 33299 4073
+python anpy-cli.py show_amendements_order 33299 --id-examen 4073
 ```
 
 * Show a question
