@@ -45,3 +45,8 @@ python anpy-cli.py show_amendements_order 33299 --id-examen 4073
 ```bash
 python anpy-cli.py show_question http://questions.assemblee-nationale.fr/q14/14-73499QE.htm
 ```
+
+* Show a dossier
+```bash
+python anpy-cli.py show_dossier http://www.assemblee-nationale.fr/14/dossiers/sante.asp
+```
