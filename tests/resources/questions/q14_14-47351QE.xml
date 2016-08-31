@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QUESTION TYPE="QE">
+    <LEGISLATURE>14</LEGISLATURE>
+    <DEPOT NUMERO="47351">
+        <DATE_JO>07/01/2014</DATE_JO>
+        <PAGE_JO>18</PAGE_JO>
+        <TYPE_JO>JO_QUESTION</TYPE_JO>
+        <NUMERO_JO>1</NUMERO_JO>
+    </DEPOT>
+    <AUTEUR ID_MANDAT="645363">
+        <ID_ACTEUR>923</ID_ACTEUR>
+        <CIVILITE>M.</CIVILITE>
+        <NOM>Cornut-Gentille</NOM>
+        <PRENOM>François</PRENOM>
+    </AUTEUR>
+    <GROUPE SIGLE="LES-REP">
+        <LIBELLE>Les Républicains</LIBELLE>
+        <ID_GROUPE>707869</ID_GROUPE>
+    </GROUPE>
+    <CIRCONSCRIPTION NUMERO_CIRCONSCRIPTION="2">
+        <CODE_DEPARTEMENT>52</CODE_DEPARTEMENT>
+        <DEPARTEMENT>Haute-Marne</DEPARTEMENT>
+        <CODE_REGION>36</CODE_REGION>
+        <REGION>Alsace - Champagne-Ardenne - Lorraine</REGION>
+    </CIRCONSCRIPTION>
+    <INDEXATION_AN RUBRIQUE="défense">
+        <TETE_ANALYSE>équipements</TETE_ANALYSE>
+        <ANALYSE>
+            <ANA>équipements militaires</ANA>
+            <ANA>vieillissement</ANA>
+            <ANA>bilan</ANA>
+        </ANALYSE>
+    </INDEXATION_AN>
+    <MINI>
+        <ABREGE>Défense</ABREGE>
+        <DEVELOPPE>Ministère de la défense</DEVELOPPE>
+        <ID_MINI>653280</ID_MINI>
+    </MINI>
+    <MINA>
+        <ORDRE NUMERO="1">
+            <ABREGE>Défense</ABREGE>
+            <DEVELOPPE>Ministère de la défense</DEVELOPPE>
+            <ID_MINA>653280</ID_MINA>
+            <DATE_JO>07/01/2014</DATE_JO>
+            <TYPE_JO>JO_QUESTION</TYPE_JO>
+            <NUMERO_JO>1</NUMERO_JO>
+        </ORDRE>
+        <ORDRE NUMERO="2">
+            <ABREGE>Défense</ABREGE>
+            <DEVELOPPE>Ministère de la défense</DEVELOPPE>
+            <ID_MINA>700737</ID_MINA>
+            <DATE_JO>03/04/2014</DATE_JO>
+            <TYPE_JO>JO_LOI_DECRET</TYPE_JO>
+            <NUMERO_JO/>
+        </ORDRE>
+    </MINA>
+    <DEPOT>
+        <TEXTE_DEPOT>
+            <![CDATA[M. François Cornut-Gentille interroge M. le ministre de la défense sur les équipements des unités du génie de l'armée de terre. Afin d'évaluer le coût du vieillissement des équipements militaires, il lui demande de préciser le nombre et le taux de disponibilité au 31 décembre 2012 et au 31 décembre 2013, le coût du MCO pour l'année 2013 et l'âge moyen de chacun des équipements des unités du génie de l'armée de terre.]]></TEXTE_DEPOT>
+    </DEPOT>
+    <ERRATUM_QUESTION>
+        <DATE_JO/>
+        <PAGE_JO/>
+        <TYPE_JO/>
+    </ERRATUM_QUESTION>
+    <SIGNALEMENT>
+        <DATE_JO/>
+        <DATE_DEPOT_SIGNAL/>
+        <TYPE_JO/>
+        <NUMERO_JO/>
+    </SIGNALEMENT>
+    <RENOUVELLEMENT>
+        <ORDRE NUMERO="1">
+            <DATE_RENOUVELLEMENT>15/04/2014</DATE_RENOUVELLEMENT>
+            <TYPE_JO>JO_QUESTION</TYPE_JO>
+            <NUMERO_JO>15</NUMERO_JO>
+        </ORDRE>
+    </RENOUVELLEMENT>
+    <CLOTURE>
+        <DATE_JO>13/05/2014</DATE_JO>
+        <PAGE_JO>3858</PAGE_JO>
+        <ABREGE>REP_PUB</ABREGE>
+        <LIBELLE>Réponse publiée</LIBELLE>
+        <NUMERO_JO>19</NUMERO_JO>
+        <TYPE_JO>JO_QUESTION</TYPE_JO>
+    </CLOTURE>
+    <REPONSE>
+        <TEXTE_REPONSE>
+            <![CDATA[Les données relatives aux équipements du génie dédiés à l'agencement de l'espace terrestre sollicitées par l'honorable parlementaire figurent dans le tableau suivant :<!-- DEBTAB --><div align='center'><center><table border='1'><tr> <th rowspan=2">TYPE DE MATÉRIEL</th> <th colspan="2">NOMBRE DE MATÉRIEL<br>en service</br></th> <th colspan="2">TAUX DE DISPONIBILITÉ<br>moyen (en %)</br></th> <th rowspan=2">ÂGE MOYEN<br>des matériels</br>(en années)</th> <th rowspan=2">COÛT UNITAIRE DU MAINTIEN<br>en condition opérationnelle en 2013</br>(en euros)</th> </tr><tr> <th>au<br>31-12-2012</br></th> <th>au<br>31-12-2013</br></th> <th>sur la durée<br>de l'année 2012</br></th> <th>sur la durée<br>de l'année 2013</br></th> </tr><tr> <td align='center'>AMX30B2 DT<br>(char télécommandé, équipé d'outils de déminage pour permettre la création de brèches)</br></td> <td align='center'>10</td> <td align='center'>10</td> <td align='center'>23,30</td> <td align='center'>37,60</td> <td align='center'>12</td> <td align='center'>194&#160;588</td> </tr><tr> <td align='center'>BUFFALO<br>(équipement de protection contre les engins explosifs)</br></td> <td align='center'>5</td> <td align='center'>5</td> <td align='center'>44,50</td> <td align='center'>25,40</td> <td align='center'>5</td> <td align='center'>30&#160;262</td> </tr><tr> <td align='center'>DISPERSEUR<br>(équipement permettant la réalisation rapide d'un champ de mines antichars)</br></td> <td align='center'>18</td> <td align='center'>15</td> <td align='center'>46,30</td> <td align='center'>40,30</td> <td align='center'>16</td> <td align='center'>pas de marché</td> </tr><tr> <td align='center'>EBG<br>(engin destiné à appuyer les unités blindées en zone avant)</br></td> <td align='center'>42</td> <td align='center'>42</td> <td align='center'>22,00</td> <td align='center'>24,90</td> <td align='center'>20</td> <td align='center'>190&#160;013</td> </tr><tr> <td align='center'>EFA<br>(engin amphibie et ambidrome destiné à faire franchir tous les véhicules en dotation dans l'armée de terre)</br></td> <td align='center'>30</td> <td align='center'>30</td> <td align='center'>30,80</td> <td align='center'>37,40</td> <td align='center'>25</td> <td align='center'>200&#160;000</td> </tr><tr> <td align='center'>EGAME<br>(aide au déploiement - franchissement de brèches, amélioration du terrain, terrassement, création et amélioration de plateformes)</br></td> <td align='center'>35</td> <td align='center'>35</td> <td align='center'>63,50</td> <td align='center'>53,70</td> <td align='center'>5</td> <td align='center'>228&#160;400</td> </tr><tr> <td align='center'>EGRAP<br>(aide au déploiement -aménagement et protection du terrain)</br></td> <td align='center'>138</td> <td align='center'>138</td> <td align='center'>67,90</td> <td align='center'>53,70</td> <td align='center'>4</td> <td align='center'>2&#160;756</td> </tr><tr> <td align='center'>EMAD<br>(aide au déploiement - aménagement et protection du terrain)</br></td> <td align='center'>45</td> <td align='center'>45</td> <td align='center'>32,70</td> <td align='center'>28,10</td> <td align='center'>17</td> <td align='center'>12&#160;191</td> </tr><tr> <td align='center'>MADEZ<br>(matériel de déminage de zone destiné à permettre le déploiement et l'installation d'unités)</br></td> <td align='center'>8</td> <td align='center'>8</td> <td align='center'>18,40</td> <td align='center'>19,50</td> <td align='center'>20</td> <td align='center'>3&#160;700</td> </tr><tr> <td align='center'>MATEM<br>(aide au déploiement - matériel de traitement de l'eau)</br></td> <td align='center'>10</td> <td align='center'>7</td> <td align='center'>0,00</td> <td align='center'>9,00</td> <td align='center'>20</td> <td align='center'>19&#160;000</td> </tr><tr> <td align='center'>PFM<br>(aide au franchissement par la pose d'un pont flottant) </br></td> <td align='center'>70</td> <td align='center'>70</td> <td align='center'>54,60</td> <td align='center'>50,00</td> <td align='center'>25</td> <td align='center'>6&#160;143</td> </tr><tr> <td align='center'>SDPMAC<br>(système permettant de neutraliser, par le tir de roquettes, les mines antichars enfouies ou dispersées au sol)</br></td> <td align='center'>12</td> <td align='center'>12</td> <td align='center'>11,90</td> <td align='center'>9,20</td> <td align='center'>6</td> <td align='center'>200&#160;000</td> </tr><tr> <td align='center'>SOUVIM 2<br>(véhicule de détection multifonctions pour l'ouverture d'itinéraires)</br></td> <td align='center'>8</td> <td align='center'>8</td> <td align='center'>71,10</td> <td align='center'>29,50</td> <td align='center'>4</td> <td align='center'>275&#160;000</td> </tr><tr> <td align='center'>SPRAT<br>(aide au franchissement des coupures par la pose rapide de travures pour les véhicules chenillés ou à roues)</br></td> <td align='center'>8</td> <td align='center'>10</td> <td align='center'>100,00</td> <td align='center'>96,50</td> <td align='center'>2</td> <td align='center'>309&#160;500</td> </tr><tr> <td align='center'>VAB Génie</td> <td align='center'>314</td> <td align='center'>302</td> <td align='center'>43,10</td> <td align='center'>36,70</td> <td align='center'>30</td> <td align='center'>28&#160;972</td> </tr><tr> <td align='center'>VBHP<br>(véhicule blindé d'accompagnement des détachements - ouverture d'itinéraires piégés)</br></td> <td align='center'>15</td> <td align='center'>14</td> <td align='center'>70,30</td> <td align='center'>11,30</td> <td align='center'>4</td> <td align='center'>125&#160;000</td> </tr></table></center></div><!-- FINTAB -->]]></TEXTE_REPONSE>
+        <DATE_JO_REPONSE>13/05/2014</DATE_JO_REPONSE>
+        <PAGE_JO_REPONSE>3858</PAGE_JO_REPONSE>
+    </REPONSE>
+    <ERRATUM_REPONSE>
+        <DATE_JO/>
+        <PAGE_JO/>
+        <TYPE_JO/>
+    </ERRATUM_REPONSE>
+</QUESTION>

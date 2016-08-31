@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import requests
+import codecs
 import attr
 from bs4 import BeautifulSoup
 
@@ -55,10 +55,8 @@ def test_json_parsing():
 
 
 def test_html_parsing():
-    parsing_result = parse_amendement(
-        'http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp',
-        requests.get('http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp').content
-    )
+    html = codecs.open('tests/resources/amendements/14_amendements_0996_CION_LOIS_CL4.html', encoding='utf-8').read()
+    parsing_result = parse_amendement('http://www.assemblee-nationale.fr/14/amendements/0996/CION_LOIS/CL4.asp', html)
 
     expected_result = {
         'amend_parent': '',
@@ -95,9 +93,7 @@ def test_html_parsing():
 
 
 def test_if_comments_are_removed():
-    data = parse_amendement(
-        'http://www.assemblee-nationale.fr/14/amendements/0922/AN/406.asp',
-        requests.get('http://www.assemblee-nationale.fr/14/amendements/0922/AN/406.asp').content
-    )
+    html = codecs.open('tests/resources/amendements/14_amendements_0922_AN_406.html', encoding='utf-8').read()
+    data = parse_amendement('http://www.assemblee-nationale.fr/14/amendements/0922/AN/406.asp', html)
 
     assert data.dispositif == '<p></p><p>Supprimer le mot :</p><p></p><p>« républicaine ».</p><p></p>'
