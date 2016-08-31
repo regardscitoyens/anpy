@@ -149,7 +149,8 @@
         },
         {
             "acts": [],
-            "type": "CMP"
+            "type": "CMP",
+            "status": "DESACCORD"
         },
         {
             "acts": [

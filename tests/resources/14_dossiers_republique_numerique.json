@@ -139,7 +139,8 @@
                     "type": "DISCUSSION_SEANCE_PUBLIQUE"
                 }
             ],
-            "type": "CMP"
+            "type": "CMP",
+            "status": "ACCORD"
         }
     ],
     "title": "Economie : pour une République numérique",

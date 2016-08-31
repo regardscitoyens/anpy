@@ -161,10 +161,18 @@ class LegislativeStepNode(BaseNode):
         return self.parent if node_class == LegislativeStepNode else self
 
     def extract_data(self):
-        return {
+        data = {
             'type': self.extract_type(),
             'acts': [child.extract_data() for child in self.children]
         }
+
+        if data['type'] == LegislativeStep.CMP and self.elements:
+            if 'Accord' in self.elements[0].text:
+                data['status'] = 'ACCORD'
+            if 'Désaccord' in self.elements[0].text:
+                data['status'] = 'DESACCORD'
+
+        return data
 
     def extract_type(self):
         if not self.elements:
