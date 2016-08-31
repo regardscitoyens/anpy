@@ -303,7 +303,7 @@ class DiscussionSeancePubliqueNode(LegislativeActNode):
         elif 'rejeté' in last_element.text:
             status = DecisionStatus.REJECTED
 
-        matched_dates = re.findall(' le (\d+ \w+ \d{4})',
+        matched_dates = re.findall(' le (\d+\s?\w* \\w+ \d{4})',
                                    last_element.text,
                                    re.I | re.UNICODE)
 
