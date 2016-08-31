@@ -233,21 +233,21 @@ def test_dossier_data_extractor():
 
 def test_pjl_sante_parsing():
     url = 'http://www.assemblee-nationale.fr/14/dossiers/sante.asp'
-    html = codecs.open('tests/resources/14_dossiers_sante.html', encoding='iso-8859-1').read()
+    html = codecs.open('tests/resources/dossiers/14_dossiers_sante.html', encoding='iso-8859-1').read()
     dossier_data = parse_dossier_legislatif(url, html)
     dossier_data = json_loads(json_dumps(dossier_data))
     expected_data = json_loads(
-        codecs.open('tests/resources/14_dossiers_sante.json', encoding='utf-8').read())
+        codecs.open('tests/resources/dossiers/14_dossiers_sante.json', encoding='utf-8').read())
     assert dossier_data == expected_data
 
 
 def test_pjl_num_parsing():
     url = 'http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp'
-    html = codecs.open('tests/resources/14_dossiers_republique_numerique.html', encoding='iso-8859-1').read()
+    html = codecs.open('tests/resources/dossiers/14_dossiers_republique_numerique.html', encoding='iso-8859-1').read()
     dossier_data = parse_dossier_legislatif(url, html)
     dossier_data = json_loads(json_dumps(dossier_data))
     expected_data = json_loads(
-        codecs.open('tests/resources/14_dossiers_republique_numerique.json', encoding='utf-8').read())
+        codecs.open('tests/resources/dossiers/14_dossiers_republique_numerique.json', encoding='utf-8').read())
     assert dossier_data == expected_data
 
 
