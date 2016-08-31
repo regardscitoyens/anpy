@@ -297,11 +297,11 @@ class DiscussionSeancePubliqueNode(LegislativeActNode):
 
         status = None
         if 'adopté' in last_element.text:
-            status = DecisionStatus.ADOPTED
+            status = DecisionStatus.ADOPTE
         elif 'modifié' in last_element.text:
-            status = DecisionStatus.MODIFIED
+            status = DecisionStatus.MODIFIE
         elif 'rejeté' in last_element.text:
-            status = DecisionStatus.REJECTED
+            status = DecisionStatus.REJETE
 
         matched_dates = re.findall(' le (\d+\s?\w* \\w+ \d{4})',
                                    last_element.text,

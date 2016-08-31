@@ -23,7 +23,7 @@
                 {
                     "decision": {
                         "date": "2016-01-26T00:00:00",
-                        "status": "ADOPTED",
+                        "status": "ADOPTE",
                         "url": "http://www.assemblee-nationale.fr/14/ta/ta0663.asp"
                     },
                     "seances": [
@@ -75,7 +75,7 @@
                 {
                     "decision": {
                         "date": "2016-05-03T00:00:00",
-                        "status": "MODIFIED",
+                        "status": "MODIFIE",
                         "url": "http://www.senat.fr/leg/tas15-131.html"
                     },
                     "seances": [
@@ -113,7 +113,7 @@
                 {
                     "decision": {
                         "date": "2016-07-20T00:00:00",
-                        "status": "ADOPTED",
+                        "status": "ADOPTE",
                         "url": "http://www.assemblee-nationale.fr/14/ta/ta0802.asp"
                     },
                     "seances": [

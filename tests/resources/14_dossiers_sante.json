@@ -19,7 +19,7 @@
                 {
                     "decision": {
                         "date": "2015-04-14T00:00:00",
-                        "status": "ADOPTED",
+                        "status": "ADOPTE",
                         "url": "http://www.assemblee-nationale.fr/14/ta/ta0505.asp"
                     },
                     "seances": [
@@ -107,7 +107,7 @@
                 {
                     "decision": {
                         "date": "2015-10-06T00:00:00",
-                        "status": "MODIFIED",
+                        "status": "MODIFIE",
                         "url": "http://www.senat.fr/leg/tas15-003.html"
                     },
                     "seances": [
@@ -162,7 +162,7 @@
                 {
                     "decision": {
                         "date": "2015-12-01T00:00:00",
-                        "status": "ADOPTED",
+                        "status": "ADOPTE",
                         "url": "http://www.assemblee-nationale.fr/14/ta/ta0618.asp"
                     },
                     "seances": [
@@ -206,7 +206,7 @@
                 {
                     "decision": {
                         "date": "2015-12-14T00:00:00",
-                        "status": "REJECTED",
+                        "status": "REJETE",
                         "url": "http://www.senat.fr/leg/tas15-054.html"
                     },
                     "seances": [
@@ -225,7 +225,7 @@
                 {
                     "decision": {
                         "date": "2015-12-17T00:00:00",
-                        "status": "ADOPTED",
+                        "status": "ADOPTE",
                         "url": "http://www.assemblee-nationale.fr/14/ta/ta0650.asp"
                     },
                     "seances": [

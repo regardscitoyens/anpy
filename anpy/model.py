@@ -103,9 +103,9 @@ class LegislativeStep(object):
 
 
 class DecisionStatus(object):
-    ADOPTED = 'ADOPTED'
-    REJECTED = 'REJECTED'
-    MODIFIED = 'MODIFIED'
+    ADOPTE = 'ADOPTE'
+    REJETE = 'REJETE'
+    MODIFIE = 'MODIFIE'
 
 
 class LegislativeAct(object):

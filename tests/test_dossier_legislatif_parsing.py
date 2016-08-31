@@ -164,7 +164,7 @@ def test_discussion_seance_extractor():
     assert act_data['decision'] == {
         'date': datetime(2015, 5, 5),
         'url': 'http://www.assemblee-nationale.fr/14/ta/ta0511.asp',
-        'status': DecisionStatus.ADOPTED
+        'status': DecisionStatus.ADOPTE
     }
 
 
