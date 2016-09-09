@@ -12,40 +12,91 @@ from html2text import html2text
 from .date_utils import extract_datetime
 from ..model import (
     ProcedureParlementaire,
-    LegislativeAct,
-    LegislativeStep,
+    LegislativeActType,
+    LegislativeStepType,
+    Dossier,
     DecisionStatus)
 
-__all__ = ['parse_dossier_legislatif']
+__all__ = ['build_dossier_legislatif', 'DossierParser']
 
 AN_BASE_URL = 'http://www.assemblee-nationale.fr'
 
 
-def parse_dossier_legislatif(url, html):
-    soup = BeautifulSoup(clean_html(html), 'html5lib')
-    tree = build_dossier_tree(soup)
-
-    data = tree.extract_data()
-    data['url'] = url
-
-    return data
+def build_dossier_legislatif(url, html):
+    return DossierParser(url, html).parse()
 
 
-def build_dossier_tree(soup):
-    root_node = DossierNode()
-    current_node = root_node
+class DossierParser(object):
+    def __init__(self, url, html):
+        self.url = url
+        self.html = html
+        self.soup = BeautifulSoup(clean_html(html), 'html5lib')
 
-    for element in filter(filter_dossier_element, soup.find_all(['p', 'h2'])):
-        new_node_class = BaseNode.match_node_class(element)
+    def parse(self):
+        return Dossier(
+            url=self.url,
+            title=self.parse_title(),
+            legislature=self.parse_legislature(),
+            procedure=self.parse_procedure(),
+            steps=self.parse_steps(),
+            senat_url=self.parse_senat_url())
 
-        if new_node_class:
-            parent = current_node.get_relevant_parent(new_node_class)
-            current_node = new_node_class(parent=parent)
-            parent.add_child(current_node)
+    def parse_title(self):
+        return self.soup.strong.text if self.soup.strong else None
 
-        current_node.add_element(element)
+    def parse_procedure(self):
+        re_procedure = re.compile('(projet de loi|proposition de loi)', re.I)
 
-    return root_node
+        def match_procedure(a):
+            return re_procedure.match(a.text)
+
+        def get_procedure(a):
+            proc = match_procedure(a).group(1).lower()
+            if proc == 'projet de loi':
+                return ProcedureParlementaire.PJL
+            elif proc == 'proposition de loi':
+                return ProcedureParlementaire.PPL
+
+        return next(map(get_procedure,
+                        filter(match_procedure, self.soup.find_all('a'))), None)
+
+    def parse_senat_url(self):
+        re_url = re.compile('http://www.senat.fr/dossier-legislatif')
+
+        return next(filter(lambda url: re_url.match(url),
+                           map(lambda a: a['href'], self.soup.find_all('a'))), None)
+
+    def parse_legislature(self):
+        re_legislature = re.compile('/(\d{2})/')
+
+        def match_legislature(a):
+            return re_legislature.match(a['href'])
+
+        def get_matched_group(a):
+            return match_legislature(a).group(1) if match_legislature(a) else None
+
+        return next(map(get_matched_group,
+                        filter(match_legislature, self.soup.find_all('a'))))
+
+    def parse_steps(self):
+        tree = self.build_step_tree()
+        return tree.extract_data()
+
+    def build_step_tree(self):
+        root_node = DossierNode()
+        current_node = root_node
+
+        for element in filter(filter_dossier_element, self.soup.find_all(['p', 'h2'])):
+            new_node_class = BaseNode.match_node_class(element)
+
+            if new_node_class:
+                parent = current_node.get_relevant_parent(new_node_class)
+                current_node = new_node_class(parent=parent)
+                parent.add_child(current_node)
+
+            current_node.add_element(element)
+
+        return root_node
 
 
 def clean_html(html):
@@ -79,7 +130,8 @@ class BaseNode(object):
                        DepotLoiNode,
                        ProcedureAccelereeNode,
                        AvisConseilEtatNode,
-                       EtudeImpactNode]:
+                       EtudeImpactNode,
+                       DecisionNode]:
             if class_.match(element):
                 return class_
 
@@ -103,52 +155,30 @@ class BaseNode(object):
 
 class DossierNode(BaseNode):
     def extract_data(self):
-        depot_loi_node = self.get_first_depot_loi_node()
-
-        return {
-            'title': self.extract_title(),
-            'legislature': depot_loi_node.extract_legislature()
-            if depot_loi_node else None,
-            'procedure': depot_loi_node.extract_procedure()
-            if depot_loi_node else None,
-            'steps': [step.extract_data() for step in self.children],
-        }
-
-    def extract_title(self):
-        if not self.elements:
-            return
-
-        return self.elements[0].text
-
-    def get_first_depot_loi_node(self):
-        depot_act_nodes = [
-            child for step in self.children for child in step.children
-            if isinstance(child, DepotLoiNode)]
-
-        return depot_act_nodes[0] if depot_act_nodes else None
+        return [step.extract_data() for step in self.children]
 
 
 class LegislativeStepNode(BaseNode):
     steps_re = {
-        LegislativeStep.AN_PREMIERE_LECTURE:
+        LegislativeStepType.AN_PREMIERE_LECTURE:
             re.compile('^assemblée nationale - 1ère lecture',
                        re.I | re.UNICODE),
-        LegislativeStep.SENAT_PREMIERE_LECTURE:
+        LegislativeStepType.SENAT_PREMIERE_LECTURE:
             re.compile('^sénat - 1ère lecture',
                        re.I | re.UNICODE),
-        LegislativeStep.AN_NOUVELLE_LECTURE:
+        LegislativeStepType.AN_NOUVELLE_LECTURE:
             re.compile('^assemblée nationale - nouvelle lecture',
                        re.I | re.UNICODE),
-        LegislativeStep.SENAT_NOUVELLE_LECTURE:
+        LegislativeStepType.SENAT_NOUVELLE_LECTURE:
             re.compile('^sénat - nouvelle lecture',
                        re.I | re.UNICODE),
-        LegislativeStep.AN_LECTURE_DEFINITIVE:
+        LegislativeStepType.AN_LECTURE_DEFINITIVE:
             re.compile('^assemblée nationale - lecture définitive',
                        re.I | re.UNICODE),
-        LegislativeStep.CONSEIL_CONSTIT:
+        LegislativeStepType.CONSEIL_CONSTIT:
             re.compile('^conseil constitutionnel',
                        re.I | re.UNICODE),
-        LegislativeStep.CMP:
+        LegislativeStepType.CMP:
             re.compile('^commission mixte paritaire \((accord|désaccord)?\)$',
                        re.I | re.UNICODE)
     }
@@ -163,10 +193,10 @@ class LegislativeStepNode(BaseNode):
     def extract_data(self):
         data = {
             'type': self.extract_type(),
-            'acts': [child.extract_data() for child in self.children]
+            'acts': [act for child in self.children for act in child.extract_data()]
         }
 
-        if data['type'] == LegislativeStep.CMP and self.elements:
+        if data['type'] == LegislativeStepType.CMP and self.elements:
             if 'Accord' in self.elements[0].text:
                 data['status'] = 'ACCORD'
             if 'Désaccord' in self.elements[0].text:
@@ -185,11 +215,11 @@ class LegislativeStepNode(BaseNode):
 
 
 class LegislativeActNode(BaseNode):
-    regex = None
+    rule = None
 
     @classmethod
     def match(cls, html):
-        return cls.regex.match(html.text) if cls.regex else False
+        return cls.rule.match(html.text) if cls.rule else False
 
     def get_relevant_parent(self, node_class):
         return self.parent if issubclass(node_class, LegislativeActNode)\
@@ -200,8 +230,8 @@ class LegislativeActNode(BaseNode):
 
 
 class ProcedureAccelereeNode(LegislativeActNode):
-    regex = re.compile('^le gouvernement a engagé la procédure accélérée',
-                       re.I | re.UNICODE)
+    rule = re.compile('^le gouvernement a engagé la procédure accélérée',
+                      re.I | re.UNICODE)
 
     def extract_data(self):
         if not self.elements:
@@ -211,30 +241,30 @@ class ProcedureAccelereeNode(LegislativeActNode):
                                    self.elements[0].text,
                                    re.I | re.UNICODE)
 
-        return {
-            'type': LegislativeAct.PROCEDURE_ACCELEREE,
+        return [{
+            'type': LegislativeActType.PROCEDURE_ACCELEREE,
             'date': extract_datetime(matched_dates[0])
             if matched_dates else None
-        }
+        }]
 
 
 class DepotLoiNode(LegislativeActNode):
-    regex = re.compile('^(projet de loi|proposition de loi).+déposée? le',
-                       re.I | re.UNICODE)
+    rule = re.compile('^(projet de loi|proposition de loi).+déposée? le',
+                      re.I | re.UNICODE)
 
     @classmethod
     def match(cls, html):
-        return cls.regex.match(html.text) and html.a if cls.regex else False
+        return cls.rule.match(html.text) and html.a if cls.rule else False
 
     def extract_data(self):
         if not self.elements:
             return
 
-        return {
-            'type': LegislativeAct.DEPOT_INITIATIVE,
+        return [{
+            'type': LegislativeActType.DEPOT_INITIATIVE,
             'url': self.extract_url(),
             'date': self.extract_date()
-        }
+        }]
 
     def extract_date(self):
         matched_dates = re.findall(' déposée? le (\d+ \w+ \d{4})',
@@ -260,17 +290,37 @@ class DepotLoiNode(LegislativeActNode):
             return ProcedureParlementaire.PPL
 
 
-class DiscussionSeancePubliqueNode(LegislativeActNode):
-    regex = re.compile('^discussion en séance publique', re.I | re.UNICODE)
+class DecisionNode(LegislativeActNode):
+    rule = re.compile('^(projet de loi|proposition de loi)(?!.*déposé)',
+                      re.I | re.UNICODE)
 
     def extract_data(self):
-        return {
-            'type': LegislativeAct.DISCUSSION_SEANCE_PUBLIQUE,
-            'seances': self.extract_seances(),
-            'decision': self.extract_decision()
-        }
+        status = None
+        if 'adopté' in self.elements[0].text:
+            status = DecisionStatus.ADOPTE
+        elif 'modifié' in self.elements[0].text:
+            status = DecisionStatus.MODIFIE
+        elif 'rejeté' in self.elements[0].text:
+            status = DecisionStatus.REJETE
+    
+        matched_dates = re.findall(' le (\d+\s?\w* \\w+ \d{4})',
+                                   self.elements[0].text,
+                                   re.I | re.UNICODE)
+    
+        return [{
+            'type': LegislativeActType.DECISION,
+            'status': status,
+            'date': extract_datetime(matched_dates[0])
+            if matched_dates else None,
+            'url': urljoin(AN_BASE_URL, self.elements[0].a['href'])
+            if self.elements[0].a else None
+        }]
 
-    def extract_seances(self):
+
+class DiscussionSeancePubliqueNode(LegislativeActNode):
+    rule = re.compile('^discussion en séance publique', re.I | re.UNICODE)
+
+    def extract_data(self):
         return self.extract_seances_from_first_element() \
             if self.seances_in_first_element() \
             else self.extract_seances_from_all_elements()
@@ -279,7 +329,8 @@ class DiscussionSeancePubliqueNode(LegislativeActNode):
         return 'au cours des séances' in self.elements[0].text
 
     def extract_seances_from_first_element(self):
-        return [{'url': urljoin(AN_BASE_URL, a['href'])}
+        return [{'url': urljoin(AN_BASE_URL, a['href']),
+                 'type': LegislativeActType.DISCUSSION_SEANCE_PUBLIQUE}
                 for a in self.elements[0].find_all('a')]
 
     def extract_seances_from_all_elements(self):
@@ -287,7 +338,8 @@ class DiscussionSeancePubliqueNode(LegislativeActNode):
             return {
                 'url': urljoin(AN_BASE_URL, element.a['href'])
                 if element.a else None,
-                'date': extract_datetime(element.text.split('séance du ')[1])
+                'date': extract_datetime(element.text.split('séance du ')[1]),
+                'type': LegislativeActType.DISCUSSION_SEANCE_PUBLIQUE
             }
 
         def filter_seance(element):
@@ -296,47 +348,22 @@ class DiscussionSeancePubliqueNode(LegislativeActNode):
 
         return list(map(extract_seance, filter(filter_seance, self.elements)))
 
-    def extract_decision(self):
-        last_element = next(filter(lambda e: 'de loi' in e.text and
-                                             'Scrutin' not in e.text,
-                                   self.elements))
-
-        status = None
-        if 'adopté' in last_element.text:
-            status = DecisionStatus.ADOPTE
-        elif 'modifié' in last_element.text:
-            status = DecisionStatus.MODIFIE
-        elif 'rejeté' in last_element.text:
-            status = DecisionStatus.REJETE
-
-        matched_dates = re.findall(' le (\d+\s?\w* \\w+ \d{4})',
-                                   last_element.text,
-                                   re.I | re.UNICODE)
-
-        return {
-            'status': status,
-            'date': extract_datetime(matched_dates[0])
-            if matched_dates else None,
-            'url': urljoin(AN_BASE_URL, last_element.a['href'])
-            if last_element.a else None
-        }
-
 
 class AvisConseilEtatNode(LegislativeActNode):
-    regex = re.compile('^avis du conseil d\'État', re.I | re.UNICODE)
+    rule = re.compile('^avis du conseil d\'État', re.I | re.UNICODE)
 
     def extract_data(self):
-        return {
-            'type': LegislativeAct.AVIS_CONSEIL_ETAT,
+        return [{
+            'type': LegislativeActType.AVIS_CONSEIL_ETAT,
             'url': urljoin(AN_BASE_URL, self.elements[0].a['href'])
-        }
+        }]
 
 
 class EtudeImpactNode(LegislativeActNode):
-    regex = re.compile('^etude d\'impact', re.I | re.UNICODE)
+    rule = re.compile('^etude d\'impact', re.I | re.UNICODE)
 
     def extract_data(self):
-        return {
-            'type': LegislativeAct.ETUDE_IMPACT,
+        return [{
+            'type': LegislativeActType.ETUDE_IMPACT,
             'url': urljoin(AN_BASE_URL, self.elements[0].a['href'])
-        }
+        }]

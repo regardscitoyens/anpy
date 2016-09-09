@@ -1,6 +1,7 @@
 {
     "legislature": "14",
     "procedure": "PJL",
+    "senat_url": "http://www.senat.fr/dossier-legislatif/pjl15-325.html",
     "steps": [
         {
             "acts": [
@@ -18,50 +19,54 @@
                     "url": "http://www.assemblee-nationale.fr/14/pdf/projets/pl3318-ace.pdf"
                 },
                 {
-                    "type": "PROCEDURE_ACCELEREE",
-                    "date": "2015-12-09T00:00:00"
+                    "date": "2015-12-09T00:00:00",
+                    "type": "PROCEDURE_ACCELEREE"
                 },
                 {
-                    "decision": {
-                        "date": "2016-01-26T00:00:00",
-                        "status": "ADOPTE",
-                        "url": "http://www.assemblee-nationale.fr/14/ta/ta0663.asp"
-                    },
-                    "seances": [
-                        {
-                            "date": "2016-01-19T00:00:00",
-                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160103.asp"
-                        },
-                        {
-                            "date": "2016-01-19T00:00:00",
-                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160104.asp"
-                        },
-                        {
-                            "date": "2016-01-20T00:00:00",
-                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160105.asp"
-                        },
-                        {
-                            "date": "2016-01-20T00:00:00",
-                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160106.asp"
-                        },
-                        {
-                            "date": "2016-01-21T00:00:00",
-                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160107.asp"
-                        },
-                        {
-                            "date": "2016-01-21T00:00:00",
-                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160108.asp"
-                        },
-                        {
-                            "date": "2016-01-21T00:00:00",
-                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160109.asp"
-                        },
-                        {
-                            "date": "2016-01-26T00:00:00",
-                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160110.asp"
-                        }
-                    ],
-                    "type": "DISCUSSION_SEANCE_PUBLIQUE"
+                    "date": "2016-01-19T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160103.asp"
+                },
+                {
+                    "date": "2016-01-19T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160104.asp"
+                },
+                {
+                    "date": "2016-01-20T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160105.asp"
+                },
+                {
+                    "date": "2016-01-20T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160106.asp"
+                },
+                {
+                    "date": "2016-01-21T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160107.asp"
+                },
+                {
+                    "date": "2016-01-21T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160108.asp"
+                },
+                {
+                    "date": "2016-01-21T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160109.asp"
+                },
+                {
+                    "date": "2016-01-26T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160110.asp"
+                },
+                {
+                    "date": "2016-01-26T00:00:00",
+                    "status": "ADOPTE",
+                    "type": "DECISION",
+                    "url": "http://www.assemblee-nationale.fr/14/ta/ta0663.asp"
                 }
             ],
             "type": "AN_PREMIERE_LECTURE"
@@ -74,32 +79,34 @@
                     "url": "http://www.senat.fr/leg/pjl15-325.html"
                 },
                 {
-                    "decision": {
-                        "date": "2016-05-03T00:00:00",
-                        "status": "MODIFIE",
-                        "url": "http://www.senat.fr/leg/tas15-131.html"
-                    },
-                    "seances": [
-                        {
-                            "url": "http://www.senat.fr/seances/s201604/s20160426/st20160426000.html"
-                        },
-                        {
-                            "url": "http://www.senat.fr/seances/s201604/s20160427/st20160427000.html"
-                        },
-                        {
-                            "url": "http://www.senat.fr/seances/s201604/s20160428/st20160428000.html"
-                        },
-                        {
-                            "url": "http://www.senat.fr/seances/s201604/s20160429/st20160429000.html"
-                        },
-                        {
-                            "url": "http://www.senat.fr/seances/s201605/s20160502/st20160502000.html"
-                        },
-                        {
-                            "url": "http://www.senat.fr/seances/s201605/s20160503/st20160503000.html"
-                        }
-                    ],
-                    "type": "DISCUSSION_SEANCE_PUBLIQUE"
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201604/s20160426/st20160426000.html"
+                },
+                {
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201604/s20160427/st20160427000.html"
+                },
+                {
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201604/s20160428/st20160428000.html"
+                },
+                {
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201604/s20160429/st20160429000.html"
+                },
+                {
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201605/s20160502/st20160502000.html"
+                },
+                {
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201605/s20160503/st20160503000.html"
+                },
+                {
+                    "date": "2016-05-03T00:00:00",
+                    "status": "MODIFIE",
+                    "type": "DECISION",
+                    "url": "http://www.senat.fr/leg/tas15-131.html"
                 }
             ],
             "type": "SENAT_PREMIERE_LECTURE"
@@ -112,36 +119,24 @@
                     "url": "http://www.assemblee-nationale.fr/14/projets/pl3724.asp"
                 },
                 {
-                    "decision": {
-                        "date": "2016-07-20T00:00:00",
-                        "status": "ADOPTE",
-                        "url": "http://www.assemblee-nationale.fr/14/ta/ta0802.asp"
-                    },
-                    "seances": [
-                        {
-                            "date": "2016-07-20T00:00:00",
-                            "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016-extra/20161016.asp"
-                        }
-                    ],
-                    "type": "DISCUSSION_SEANCE_PUBLIQUE"
+                    "date": "2016-07-20T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016-extra/20161016.asp"
                 },
                 {
-                    "decision": {
-                        "date": null,
-                        "status": null,
-                        "url": null
-                    },
-                    "seances": [
-                        {
-                            "date": "2016-09-27T00:00:00",
-                            "url": null
-                        }
-                    ],
-                    "type": "DISCUSSION_SEANCE_PUBLIQUE"
+                    "date": "2016-07-20T00:00:00",
+                    "status": "ADOPTE",
+                    "type": "DECISION",
+                    "url": "http://www.assemblee-nationale.fr/14/ta/ta0802.asp"
+                },
+                {
+                    "date": "2016-09-27T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": null
                 }
             ],
-            "type": "CMP",
-            "status": "ACCORD"
+            "status": "ACCORD",
+            "type": "CMP"
         }
     ],
     "title": "Economie : pour une République numérique",

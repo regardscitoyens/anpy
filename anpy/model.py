@@ -92,7 +92,7 @@ class ProcedureParlementaire(object):
     PPL = 'PPL'
 
 
-class LegislativeStep(object):
+class LegislativeStepType(object):
     AN_PREMIERE_LECTURE = 'AN_PREMIERE_LECTURE'
     SENAT_PREMIERE_LECTURE = 'SENAT_PREMIERE_LECTURE'
     CMP = 'CMP'
@@ -108,7 +108,7 @@ class DecisionStatus(object):
     MODIFIE = 'MODIFIE'
 
 
-class LegislativeAct(object):
+class LegislativeActType(object):
     ETUDE_IMPACT = 'ETUDE_IMPACT'
     AVIS_CONSEIL_ETAT = 'AVIS_CONSEIL_DETAT'
     PROCEDURE_ACCELEREE = 'PROCEDURE_ACCELEREE'
@@ -123,3 +123,24 @@ class LegislativeAct(object):
     SAISIE_COM_FOND = 'SAISIE_COM_FOND'
     PROMULGATION = 'PROMULGATION'
     SAISINE_CONSEIL_CONSTIT = 'SAISINE_CONSEIL_CONSTIT'
+
+
+class Dossier(object):
+    def __init__(self, url=None, senat_url=None, title=None,
+                 legislature=None, procedure=None, steps=None):
+        self.url = url
+        self.senat_url = senat_url
+        self.title = title
+        self.legislature = legislature
+        self.procedure = procedure
+        self.steps = steps or []
+
+    def to_dict(self):
+        return {
+            'url': self.url,
+            'senat_url': self.senat_url,
+            'title': self.title,
+            'legislature': self.legislature,
+            'procedure': self.procedure,
+            'steps': self.steps
+        }

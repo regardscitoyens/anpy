@@ -12,7 +12,7 @@ from pathlib import Path
 from anpy.service import AmendementSearchService
 from anpy.parsing.question_parser import parse_question
 from anpy.parsing.amendement_parser import parse_amendement
-from anpy.parsing.dossier_legislatif_parser import parse_dossier_legislatif
+from anpy.parsing.dossier_legislatif_parser import build_dossier_legislatif
 from anpy.parsing.json_utils import json_dumps
 
 
@@ -71,8 +71,8 @@ def show_question(url):
 @click.argument('url')
 def show_dossier(url):
     html = requests.get(url).content
-    parsed_data = parse_dossier_legislatif(url, html)
-    print(json_dumps(parsed_data, indent=4, sort_keys=True,
+    dossier = build_dossier_legislatif(url, html)
+    print(json_dumps(dossier.to_dict(), indent=4, sort_keys=True,
                      ensure_ascii=False))
 
 if __name__ == '__main__':
