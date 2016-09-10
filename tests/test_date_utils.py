@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 from datetime import datetime
-from anpy.parsing.date_utils import extract_datetime
+
+from anpy.utils.date_utils import extract_datetime
 
 
 def test_extract_date():

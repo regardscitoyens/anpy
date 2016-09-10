@@ -3,25 +3,26 @@ from __future__ import unicode_literals
 
 import codecs
 from datetime import datetime
+
 from bs4 import BeautifulSoup
 
-from anpy.model import DecisionStatus
-from anpy.parsing.json_utils import json_dumps, json_loads
-from anpy.parsing.dossier_legislatif_parser import (
+from anpy.dossier import (
+    ProcedureParlementaire,
+    LegislativeStepType,
+    LegislativeActType,
+    EtudeImpactNode,
     DossierParser,
     clean_html,
     filter_dossier_element,
     DossierNode,
     LegislativeStepNode,
     ProcedureAccelereeNode,
-    ProcedureParlementaire,
-    LegislativeActType,
-    LegislativeStepType,
-    EtudeImpactNode,
-    AvisConseilEtatNode,
-    DiscussionSeancePubliqueNode,
     DepotLoiNode,
-    DecisionNode)
+    DecisionNode,
+    DiscussionSeancePubliqueNode,
+    AvisConseilEtatNode,
+    DecisionStatus)
+from anpy.utils.json_utils import json_dumps, json_loads
 
 
 def test_html_clean():

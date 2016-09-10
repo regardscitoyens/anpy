@@ -2,7 +2,7 @@
 
 import codecs
 
-from anpy.parsing.question_parser import parse_question
+from anpy.question import parse_question
 
 
 def test_question_parsing():

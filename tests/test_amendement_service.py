@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from anpy.service import AmendementSearchService
+from anpy.amendement import AmendementSearchService
 
 
 def test_get():

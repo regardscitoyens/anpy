@@ -2,10 +2,11 @@
 from __future__ import unicode_literals
 
 import codecs
+
 import attr
 from bs4 import BeautifulSoup
 
-from anpy.parsing.amendement_parser import parse_amendements_summary, parse_amendement, remove_inline_css_and_invalid_tags
+from anpy.amendement import parse_amendements_summary, parse_amendement, remove_inline_css_and_invalid_tags
 
 
 def test_remove_inline_css_and_invalid_tags():

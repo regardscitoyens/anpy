@@ -9,21 +9,68 @@ from six.moves.urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from operator import itemgetter
 from html2text import html2text
-from .date_utils import extract_datetime
-from ..model import (
-    ProcedureParlementaire,
-    LegislativeActType,
-    LegislativeStepType,
-    Dossier,
-    DecisionStatus)
-
-__all__ = ['build_dossier_legislatif', 'DossierParser']
+from .utils.date_utils import extract_datetime
 
 AN_BASE_URL = 'http://www.assemblee-nationale.fr'
 
 
-def build_dossier_legislatif(url, html):
-    return DossierParser(url, html).parse()
+class Dossier(object):
+    def __init__(self, url=None, senat_url=None, title=None,
+                 legislature=None, procedure=None, steps=None):
+        self.url = url
+        self.senat_url = senat_url
+        self.title = title
+        self.legislature = legislature
+        self.procedure = procedure
+        self.steps = steps or []
+
+    def to_dict(self):
+        return {
+            'url': self.url,
+            'senat_url': self.senat_url,
+            'title': self.title,
+            'legislature': self.legislature,
+            'procedure': self.procedure,
+            'steps': self.steps
+        }
+
+
+class ProcedureParlementaire(object):
+    PJL = 'PJL'
+    PPL = 'PPL'
+
+
+class LegislativeStepType(object):
+    AN_PREMIERE_LECTURE = 'AN_PREMIERE_LECTURE'
+    SENAT_PREMIERE_LECTURE = 'SENAT_PREMIERE_LECTURE'
+    CMP = 'CMP'
+    CONSEIL_CONSTIT = 'CONSEIL_CONSTITUT'
+    AN_NOUVELLE_LECTURE = 'AN_NOUVELLE_LECTURE'
+    SENAT_NOUVELLE_LECTURE = 'SENAT_NOUVELLE_LECTURE'
+    AN_LECTURE_DEFINITIVE = 'AN_LECTURE_DEFINITIVE'
+
+
+class DecisionStatus(object):
+    ADOPTE = 'ADOPTE'
+    REJETE = 'REJETE'
+    MODIFIE = 'MODIFIE'
+
+
+class LegislativeActType(object):
+    ETUDE_IMPACT = 'ETUDE_IMPACT'
+    AVIS_CONSEIL_ETAT = 'AVIS_CONSEIL_DETAT'
+    PROCEDURE_ACCELEREE = 'PROCEDURE_ACCELEREE'
+    REUNION_COMMISSION = 'REUNION_COMMISSION'
+    DISCUSSION_COMMISSION = 'DISCUSSION_COMMISSION'
+    DEPOT_RAPPORT = 'DEPOT_RAPPORT'
+    SAISIE_COM_AVIS = 'SAISIE_COM_AVIS'
+    NOMINATION_RAPPORTEURS = 'NOMINATION_RAPPORTEURS'
+    DISCUSSION_SEANCE_PUBLIQUE = 'DISCUSSION_SEANCE_PUBLIQUE'
+    DECISION = 'DECISION'
+    DEPOT_INITIATIVE = 'DEPOT_INITIATIVE'
+    SAISIE_COM_FOND = 'SAISIE_COM_FOND'
+    PROMULGATION = 'PROMULGATION'
+    SAISINE_CONSEIL_CONSTIT = 'SAISINE_CONSEIL_CONSTIT'
 
 
 class DossierParser(object):
@@ -248,6 +295,15 @@ class ProcedureAccelereeNode(LegislativeActNode):
         }]
 
 
+class EtudeImpactNode(LegislativeActNode):
+    rule = re.compile('^etude d\'impact', re.I | re.UNICODE)
+
+    def extract_data(self):
+        return [{
+            'type': LegislativeActType.ETUDE_IMPACT,
+            'url': urljoin(AN_BASE_URL, self.elements[0].a['href'])
+        }]
+
 class DepotLoiNode(LegislativeActNode):
     rule = re.compile('^(projet de loi|proposition de loi).+déposée? le',
                       re.I | re.UNICODE)
@@ -302,11 +358,11 @@ class DecisionNode(LegislativeActNode):
             status = DecisionStatus.MODIFIE
         elif 'rejeté' in self.elements[0].text:
             status = DecisionStatus.REJETE
-    
+
         matched_dates = re.findall(' le (\d+\s?\w* \\w+ \d{4})',
                                    self.elements[0].text,
                                    re.I | re.UNICODE)
-    
+
         return [{
             'type': LegislativeActType.DECISION,
             'status': status,
@@ -355,15 +411,5 @@ class AvisConseilEtatNode(LegislativeActNode):
     def extract_data(self):
         return [{
             'type': LegislativeActType.AVIS_CONSEIL_ETAT,
-            'url': urljoin(AN_BASE_URL, self.elements[0].a['href'])
-        }]
-
-
-class EtudeImpactNode(LegislativeActNode):
-    rule = re.compile('^etude d\'impact', re.I | re.UNICODE)
-
-    def extract_data(self):
-        return [{
-            'type': LegislativeActType.ETUDE_IMPACT,
             'url': urljoin(AN_BASE_URL, self.elements[0].a['href'])
         }]

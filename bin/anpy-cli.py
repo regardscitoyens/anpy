@@ -1,20 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
 import json
-
-import click
-import requests
-import attr
+import sys
 from pathlib import Path
 
-from anpy.service import AmendementSearchService
-from anpy.parsing.question_parser import parse_question
-from anpy.parsing.amendement_parser import parse_amendement
-from anpy.parsing.dossier_legislatif_parser import build_dossier_legislatif
-from anpy.parsing.json_utils import json_dumps
+import attr
+import click
+import requests
 
+from anpy.dossier import DossierParser
+from anpy.question import parse_question
+from anpy.amendement import parse_amendement, AmendementSearchService
+from anpy.utils.json_utils import json_dumps
 
 sys.path.append(str(Path(__file__).absolute().parents[1]))
 
@@ -71,7 +69,7 @@ def show_question(url):
 @click.argument('url')
 def show_dossier(url):
     html = requests.get(url).content
-    dossier = build_dossier_legislatif(url, html)
+    dossier = DossierParser(url, html).parse()
     print(json_dumps(dossier.to_dict(), indent=4, sort_keys=True,
                      ensure_ascii=False))
 

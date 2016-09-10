@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from anpy.service import QuestionSearchService
+from anpy.question import QuestionSearchService
 
 
 def test_get():
