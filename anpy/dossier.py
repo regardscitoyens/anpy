@@ -5,6 +5,7 @@ from builtins import map, filter, str
 
 import mistune
 import re
+import requests
 from six.moves.urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from operator import itemgetter
@@ -23,6 +24,10 @@ class Dossier(object):
         self.legislature = legislature
         self.procedure = procedure
         self.steps = steps or []
+
+    @staticmethod
+    def download_and_build(url):
+        return DossierParser(url, requests.get(url).content).parse()
 
     def to_dict(self):
         return {
