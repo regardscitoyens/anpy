@@ -3,11 +3,6 @@ import attr
 
 
 @attr.s
-class TT(object):
-    url = attr.ib(default=None)
-
-
-@attr.s
 class Amendement(object):
     url = attr.ib(default=None)
     num_amtxt = attr.ib(default=None)
