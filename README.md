@@ -1,29 +1,41 @@
-# ANpy
+# ANpy: Scrape painlessly Assemblée Nationale website
 [![PyPI version](https://badge.fury.io/py/anpy.svg)](https://badge.fury.io/py/anpy)
 [![Build Status](https://travis-ci.org/regardscitoyens/anpy.svg)](https://travis-ci.org/regardscitoyens/anpy)
 
-ANpy is a python library for extracting data from http://assemblee-nationale.fr website
+ANpy is a python library for easily scraping data from http://assemblee-nationale.fr website
 
+Forget the ugly html, just get data:
 
-## Main goal
-Retrieve painlessly json data from assemblee-nationale.fr
+    >>> from anpy.dossier import Dossier
+    >>> url = 'http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp'
+    >>> dossier = Dossier.download_and_build(url)
+    >>> dossier.title
+    'Economie : pour une République numérique'
+    >>> dossier.legislature
+    14
+    >>> r.procedure
+    'PPL'
+    >>> r.senat_url
+    'http://www.senat.fr/dossier-legislatif/pjl15-325.html'
+    >>> r.steps
+    [{'type': 'AN_PREMIERE_LECTURE', 'acts': [...]}]
+
+## Supported Features
+
+ANpy currently provides the following features:
+
+- Amendement parsing
+- Amendement search
+- Question parsing
+- Question search
+- Dossier parsing
+
+ANpy supports Python 2.7 & 3.5.
 
 ## Install :
 ```bash
 pip install anpy
 ```
-
-## Search services
-Currently, only two search services are provided :
- * **AmendementSearchService** to search for amendements
- * **QuestionSearchService** to search for questions
-
-## Models
-There is no real api provided by http://assemblee-nationale.fr so there is no real data model exposed by the website.
-It is sometimes hard to remember what you can get from the response, so I chose to declare all parsed data fields in models even if it's quite heavy just because it's easier to remember them...
-
-Python classes used are *Amendement*, **AmendementSummary**, **AmendementSearchResult**, **QuestionSummary** and **QuestionSearchResult**.
-
 
 ## CLI
 A script anpy-cli.py is installed with the package, it provides the following commands :
