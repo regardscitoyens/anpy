@@ -12,7 +12,7 @@ import requests
 from anpy.dossier import DossierParser
 from anpy.question import parse_question
 from anpy.amendement import parse_amendement, AmendementSearchService
-from anpy.utils.json_utils import json_dumps
+from anpy.utils import json_dumps
 
 sys.path.append(str(Path(__file__).absolute().parents[1]))
 

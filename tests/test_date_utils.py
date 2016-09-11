@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 
-from anpy.utils.date_utils import extract_datetime
+from anpy.date_utils import extract_datetime
 
 
 def test_extract_date():
