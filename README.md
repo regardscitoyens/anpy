@@ -37,6 +37,11 @@ ANpy supports Python 2.7 & 3.5.
 pip install anpy
 ```
 
+## Documentation
+
+Documentation is available at http://anpy.readthedocs.io/en/latest
+
+
 ## CLI
 A script anpy-cli.py is installed with the package, it provides the following commands :
 
