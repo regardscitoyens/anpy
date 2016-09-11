@@ -12,7 +12,7 @@ from future.utils import iteritems
 from html2text import html2text
 from six.moves.urllib.parse import urljoin
 
-from anpy.date_utils import extract_datetime
+from anpy.utils import extract_datetime
 
 AN_BASE_URL = 'http://www.assemblee-nationale.fr'
 

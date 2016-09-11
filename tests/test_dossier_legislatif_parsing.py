@@ -22,7 +22,6 @@ from anpy.dossier import (
     DiscussionSeancePubliqueNode,
     AvisConseilEtatNode,
     DecisionStatus)
-from anpy.utils.json_utils import json_loads
 from anpy.utils import json_dumps, json_loads
 
 
