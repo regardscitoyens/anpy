@@ -9,6 +9,6 @@ install:
     - pip install -e .
 
 script:
-    - pep8 --exclude=tests .
-    - flake8 --exclude=tests .
+    - pep8 --exclude=tests,docs .
+    - flake8 --exclude=tests,docs .
     - py.test

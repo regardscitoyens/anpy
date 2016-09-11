@@ -111,14 +111,16 @@ class DossierParser(object):
             elif proc == 'proposition de loi':
                 return ProcedureParlementaire.PPL
 
-        return next(map(get_procedure,
-                        filter(match_procedure, self.soup.find_all('a'))), None)
+        return next(
+            map(get_procedure,
+                filter(match_procedure, self.soup.find_all('a'))), None)
 
     def parse_senat_url(self):
         re_url = re.compile('http://www.senat.fr/dossier-legislatif')
 
-        return next(filter(lambda url: re_url.match(url),
-                           map(lambda a: a['href'], self.soup.find_all('a'))), None)
+        return next(
+            filter(lambda url: re_url.match(url),
+                   map(lambda a: a['href'], self.soup.find_all('a'))), None)
 
     def parse_legislature(self):
         re_legislature = re.compile('/(\d{2})/')
@@ -127,7 +129,8 @@ class DossierParser(object):
             return re_legislature.match(a['href'])
 
         def get_matched_group(a):
-            return match_legislature(a).group(1) if match_legislature(a) else None
+            return match_legislature(a).group(1) \
+                if match_legislature(a) else None
 
         return next(map(get_matched_group,
                         filter(match_legislature, self.soup.find_all('a'))))
@@ -140,7 +143,8 @@ class DossierParser(object):
         root_node = DossierNode()
         current_node = root_node
 
-        for element in filter(filter_dossier_element, self.soup.find_all(['p', 'h2'])):
+        for element in filter(filter_dossier_element,
+                              self.soup.find_all(['p', 'h2'])):
             new_node_class = BaseNode.match_node_class(element)
 
             if new_node_class:
@@ -247,7 +251,8 @@ class LegislativeStepNode(BaseNode):
     def extract_data(self):
         data = {
             'type': self.extract_type(),
-            'acts': [act for child in self.children for act in child.extract_data()]
+            'acts': [act for child in self.children
+                     for act in child.extract_data()]
         }
 
         if data['type'] == LegislativeStepType.CMP and self.elements:
@@ -310,6 +315,7 @@ class EtudeImpactNode(LegislativeActNode):
             'type': LegislativeActType.ETUDE_IMPACT,
             'url': urljoin(AN_BASE_URL, self.elements[0].a['href'])
         }]
+
 
 class DepotLoiNode(LegislativeActNode):
     rule = re.compile('^(projet de loi|proposition de loi).+déposée? le',
