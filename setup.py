@@ -40,7 +40,7 @@ setup(
 
     keywords='scraping politics data',
 
-    packages=['anpy', 'anpy.parsing'],
+    packages=['anpy'],
 
     install_requires=[
         'pathlib',
