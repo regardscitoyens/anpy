@@ -27,7 +27,7 @@ Forget the ugly html, just get data::
 Supported Features
 ------------------
 
-Requests is ready for today's web.
+ANpy currently provides the following features:
 
 - Amendement parsing
 - Amendement search
@@ -35,7 +35,7 @@ Requests is ready for today's web.
 - Question search
 - Dossier parsing
 
-ANpy supports Python 2.7 & 3.3–3.5.
+ANpy supports Python 2.7 & 3.5.
 
 The User Guide
 --------------
