@@ -29,6 +29,7 @@ ANpy currently provides the following features:
 - Question parsing
 - Question search
 - Dossier parsing
+- Scrutin parsing
 
 ANpy supports Python 2.7 & 3.5.
 
@@ -69,3 +70,7 @@ python anpy-cli.py show_question http://questions.assemblee-nationale.fr/q14/14-
 ```bash
 python anpy-cli.py show_dossier http://www.assemblee-nationale.fr/14/dossiers/sante.asp
 ```
+
+* Show a scrutin
+```bash
+python anpy-cli.py show_scrutin http://www2.assemblee-nationale.fr/scrutins/detail/(legislature)/14/(num)/1212

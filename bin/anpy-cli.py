@@ -12,6 +12,7 @@ import requests
 from anpy.dossier import Dossier
 from anpy.question import parse_question
 from anpy.amendement import Amendement, AmendementSearchService
+from anpy.scrutin import Scrutin
 from anpy.utils import json_dumps
 
 sys.path.append(str(Path(__file__).absolute().parents[1]))
@@ -71,6 +72,15 @@ def show_dossier(url):
     dossier = Dossier.download_and_build(url)
     print(json_dumps(dossier.to_dict(), indent=4, sort_keys=True,
                      ensure_ascii=False))
+
+
+@cli.command()
+@click.argument('url')
+def show_scrutin(url):
+    scrutin = Scrutin.download_and_build(url)
+    print(json_dumps(scrutin.to_dict(), indent=4, sort_keys=True,
+                     ensure_ascii=False))
+
 
 if __name__ == '__main__':
     cli()

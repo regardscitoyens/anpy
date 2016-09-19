@@ -1,0 +1,774 @@
+    <!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="fr-FR"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="fr-FR"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="fr-FR"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="fr-FR"> <!--<![endif]-->    <head>
+
+
+        <meta charset="utf-8">
+                <title>Analyse du scrutin n° 1212 - Première séance du 26/01/2016 - Assemblée nationale</title>
+
+
+
+
+                    <meta name="Content-Type" content="text/html; charset=utf-8">
+                    <meta name="Content-language" content="fr-FR">
+
+                                    <meta name="X-UA-Compatible" content="IE=edge,chrome=1">
+                                                <meta name="viewport" content="width=954">
+                                                <meta name="author" content="Assemblée Nationale">
+                                                <meta name="copyright" content="Assemblée Nationale">
+                                                <meta name="description" content="Presentation de l'Assemblee nationale, du palais Bourbon, de ses membres (deputes), de son fonctionnement et de son actualite : agenda, travaux en cours (amendements, rapports, commissions, lois), textes et dossiers (legislatifs ou d'actualite)...">
+                                                <meta name="keywords" content="député, hémicycle, Palais Bourbon, Assemblée nationale, parlementaire">
+
+
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-ico">
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="/extension/common/design/an/stylesheets/bootstrap-2.1.1.min.css" />
+<link rel="stylesheet" type="text/css" href="/extension/common/design/an/stylesheets/jquery-ui-1.8.21.custom.css" />
+<link rel="stylesheet" type="text/css" href="/extension/ezswidl-dashboard/design/standard/stylesheets/datatable_page.css" />
+<link rel="stylesheet" type="text/css" href="/extension/ezswidl-dashboard/design/standard/stylesheets/datatable_table_jui.css" />
+<link rel="stylesheet" type="text/css" href="/extension/common/design/an/stylesheets/chosen-0.9.12.css" />
+<link rel="stylesheet" type="text/css" href="/extension/common/design/an/stylesheets/perfect-scrollbar-0.4.5.min.css" />
+<link rel="stylesheet" type="text/css" href="/extension/common/design/an/stylesheets/font-awesome-4.5.0.min.css" />
+<link rel="stylesheet" type="text/css" href="/extension/common/design/an/stylesheets/debug.css" />
+<link rel="stylesheet" type="text/css" href="/extension/an/design/an/stylesheets/scrutin.css" />
+
+
+
+
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="/var/ezflow_site/cache/public/stylesheets/e87528ad474eb17924b38cc35ff06cd8.css" />
+<link rel="stylesheet" type="text/css" href="/var/ezflow_site/cache/public/stylesheets/6f35aaf00939d02ed6cfc0a3d5be2521.css" />
+<link rel="stylesheet" type="text/css" href="/var/ezflow_site/cache/public/stylesheets/62800204062e1502f2166987c7bd53f2.css" />
+<link rel="stylesheet" type="text/css" href="/var/ezflow_site/cache/public/stylesheets/bae2a78a91c53de77d1e6953dc88b959.css" />
+<link rel="stylesheet" type="text/css" href="/var/ezflow_site/cache/public/stylesheets/0cd1d8b265b58ef8ead2c0cf09fb347a.css" />
+
+
+
+
+    <script src="/extension/common/design/an/javascript/modernizr-2.6.2.min.js"></script>
+<link rel="stylesheet" href="/extension/common/design/an/stylesheets/print.css" media="print">
+
+
+
+
+        <script type="text/javascript" src="/extension/common/design/an/javascript/jquery-1.7.2.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+(function($) {
+    var _rootUrl = '/', _serverUrl = _rootUrl + 'ezjscore/', _seperator = '@SEPERATOR$',
+        _prefUrl = _rootUrl + 'user/preferences';
+
+    // FIX: Ajax is broken on IE8 / IE7 on jQuery 1.4.x as it's trying to use the broken window.XMLHttpRequest object
+    if ( window.XMLHttpRequest && window.ActiveXObject )
+        $.ajaxSettings.xhr = function() { try { return new window.ActiveXObject('Microsoft.XMLHTTP'); } catch(e) {} };
+
+    // (static) jQuery.ez() uses jQuery.post() (Or jQuery.get() if post paramer is false)
+    //
+    // @param string callArgs
+    // @param object|array|string|false post Optional post values, uses get request if false or undefined
+    // @param function Optional callBack
+    function _ez( callArgs, post, callBack )
+    {
+        callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
+        var url = _serverUrl + 'call/';
+        if ( post )
+        {
+            var _token = '', _tokenNode = document.getElementById('ezxform_token_js');
+            if ( _tokenNode ) _token = _tokenNode.getAttribute('title');
+            if ( post.join !== undefined )// support serializeArray() format
+            {
+                post.push( { 'name': 'ezjscServer_function_arguments', 'value': callArgs } );
+                post.push( { 'name': 'ezxform_token', 'value': _token } );
+            }
+            else if ( typeof(post) === 'string' )// string
+            {
+                post += ( post ? '&' : '' ) + 'ezjscServer_function_arguments=' + callArgs + '&ezxform_token=' + _token;
+            }
+            else // object
+            {
+                post['ezjscServer_function_arguments'] = callArgs;
+                post['ezxform_token'] = _token;
+            }
+            return $.post( url, post, callBack, 'json' );
+        }
+        return $.get( url + encodeURIComponent( callArgs ), {}, callBack, 'json' );
+    };
+    _ez.url = _serverUrl;
+    _ez.root_url = _rootUrl;
+    _ez.seperator = _seperator;
+    $.ez = _ez;
+
+    $.ez.setPreference = function( name, value )
+    {
+        var param = {'Function': 'set_and_exit', 'Key': name, 'Value': value};
+            _tokenNode = document.getElementById( 'ezxform_token_js' );
+        if ( _tokenNode )
+            param.ezxform_token = _tokenNode.getAttribute( 'title' );
+
+        return $.post( _prefUrl, param );
+    };
+
+    // Method version, for loading response into elements
+    // NB: Does not use json (not possible with .load), so ezjscore/call will return string
+    function _ezLoad( callArgs, post, selector, callBack )
+    {
+        callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
+        var url = _serverUrl + 'call/';
+        if ( post )
+        {
+            post['ezjscServer_function_arguments'] = callArgs;
+            post['ezxform_token'] = jQuery('#ezxformtoken').attr('title');
+        }
+        else
+            url += encodeURIComponent( callArgs );
+
+        return this.load( url + ( selector ? ' ' + selector : '' ), post, callBack );
+    };
+    $.fn.ez = _ezLoad;
+})(jQuery);
+
+</script>
+
+
+
+    <script>
+        var _gaq = [['_setAccount', 'UA-40085081-1'], ['_trackPageview']];
+        (function(d, t) {
+            var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            g.async = true; g.src = '//www.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s);
+        })(document, 'script');
+    </script>
+
+
+
+
+    </head>
+    <body>
+        <div id="header">
+            <header>
+                <div id="header-bg" class="container">
+                    <a id="logo" href="http://www.assemblee-nationale.fr">
+                        <img src="/extension/common/design/an/images/layout/logo.png" alt="Logo de l'Assemblée nationale" />
+                    </a>
+                    <div id="header-title">Assemblée nationale</div>
+                </div>
+            </header>
+
+
+    <nav>
+        <ul id="navigation" class="sf-menu sf-navbar container">
+            <li id="nav-home">
+                <a href="http://www.assemblee-nationale.fr" accesskey="1">Accueil</a>
+            </li>
+            <li tabindex="1" id="nav-deputies">
+                <a title="Ouvrir le menu les députés" href="#menupresident">Les<br />députés<span class="bord"> </span></a>
+                <ul>
+                    <li><a id="menupresident" href="http://presidence.assemblee-nationale.fr">Le Président</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/qui/">577 députés</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/tribun/xml/bureau_assemblee.asp">Le Bureau</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/tribun/xml/conf_pre.asp">La Conférence des Présidents</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/tribun/xml/effectifs_groupes.asp">Les Groupes politiques</a></li>
+                    <li><a href="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/le-depute/le-statut-du-depute">Statut des députes</a></li>
+                    <li><a href="http://www2.assemblee-nationale.fr/deputes2/deontologie-a-l-assemblee-nationale">Déontologie</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/elections/2012/index.asp">Élections législatives</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/histoire/trombinoscope/VRepublique/legislatures.asp">Anciens députés</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/qui/xml/liste_alpha.asp?legislature=14">Contacter son député</a></li>
+                    <li class="hide"><a href="#nav-org-tra">Ouvrir le menu dans l'hémicycle</a></li>
+               </ul>
+            </li>
+            <li tabindex="2" id="nav-org-tra">
+                <a title="Ouvrir le menu dans l'hémicycle" href="#menuodj">Dans<br />l'Hémicycle<span class="bord"> </span></a>
+                <ul>
+                    <li><a id="menuodj" href="http://www.assemblee-nationale.fr/agendas/odj.asp">Ordre du jour</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/seance/previsionnel.asp">Calendrier de la session</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/debats/index.asp">Comptes rendus des séances</a></li>
+                    <li>
+                        <a href="#">Scrutins<span class="sf-sub-indicator"></span></a>
+                        <ul>
+                            <li><a href="http://www.assemblee-nationale.fr/14/documents/index-scrutins.asp">Les scrutins solennels</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/14/scrutins/table-redirect.asp">Tous les scrutins publics</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="http://www2.assemblee-nationale.fr/le-congres-du-parlement">Le Congrès</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/documents/engagements.asp">Engagements de responsabilité et motions de censure</a></li>
+                    <li><a href="/dans-l-hemicycle/budget-et-securite-sociale">Budget et sécurité sociale</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/infos/assister.asp">Assister à une séance</a></li>
+                    <li>
+                        <a href="#">Archives<span class="sf-sub-indicator"></span></a>
+                        <ul>
+                            <li><a href="http://www.assemblee-nationale.fr/13/documents/archives-13leg.asp">XIII<sup>e</sup> législature</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/12/documents/archives-12leg.asp">XII<sup>e</sup> législature</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/11/documents/archives-11leg.asp">XI<sup>e</sup> législature</a></li>
+                            <li><a href="http://archives.assemblee-nationale.fr/">Autres législatures</a></li>
+                        </ul>
+                    </li>
+                    <li class="hide"><a href="#nav-commissions">Ouvrir le menu commissions et autres instances</a></li>
+                </ul>
+            </li>
+            <li tabindex="3" id="nav-commissions">
+                <a title="Ouvrir le menu commissions et autres instances" href="#menuagenda">Commissions et<br />autres instances<span class="bord"> </span></a>
+                <ul>
+                    <li><a id="menuagenda" href="http://www.assemblee-nationale.fr/agendas/index.asp">Agendas</a></li>
+                    <li>
+                        <a href="#">Les Commissions permanentes<span class="sf-sub-indicator"></span></a>
+                        <ul>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/419604_tab.asp">Affaires culturelles</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/419610_tab.asp">Affaires économiques</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/59047_tab.asp">Affaires étrangères</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/420120_tab.asp">Affaires sociales</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/59046_tab.asp">Défense</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/419865_tab.asp">Développement durable</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/59048_tab.asp">Finances</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/59051_tab.asp">Lois</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Autres commissions<span class="sf-sub-indicator"></span></a>
+                        <ul>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/due-index.asp">Affaires européennes</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/14/controle/index_enquete_mission.asp">Commissions d'enquête</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/14/commissions/cspeciales-index.asp">Commissions spéciales</a></li>
+                            <li><a href="http://www2.assemblee-nationale.fr/14/autres-commissions/commissions-mixtes-paritaires-composition">Commissions mixtes paritaires</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/connaissance/comptesan.asp">Commission chargée d'apurer les comptes</a></li>
+          <li><a href="http://www.assemblee-nationale.fr/qui/xml/organe.asp?id_organe=/14/tribun/xml/xml/organes/271850.xml">Commission-article 26 de la Constitution</a></li>
+          <li><a href="http://www2.assemblee-nationale.fr/14/commissions/numerique">Droits et libertés à l'âge du numérique</a></li>
+          <li><a href="http://www2.assemblee-nationale.fr/14/commissions/avenir-des-institutions">Avenir des institutions</a></li>
+          <li><a href="http://www2.assemblee-nationale.fr/14/commissions/mission-engagement-et-appartenance-republicaine">Engagement citoyen</a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Les Délégations, Comité et  Offices parlementaires<span class="sf-sub-indicator"></span></a>
+                        <ul>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/delf-index.asp">Délégation aux Droits<br> des Femmes</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/dom-index.asp">Délégation aux outre-mer</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/connaissance/delegation_renseignement.asp">Délégation au renseignement</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/14/controle/com_cec/">Comité d'évaluation et de contrôle</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/commissions/opecst-index.asp">Office parlementaire d'évaluation des choix scientifiques et technologiques</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/controle/index-missions-info.asp">Missions d'information</a></li>
+                    <li><a href="http://www2.assemblee-nationale.fr/14/les-groupes-d-etudes">Groupes d'études</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/tribun/xml/liste_organisme_extra_d.asp">Organismes extra-parlementaires</a></li>
+
+                    <li>
+                        <a href="#">Archives<span class="sf-sub-indicator"></span></a>
+                        <ul>
+                            <li><a href="http://www.assemblee-nationale.fr/13/documents/archives-13leg.asp">XIII<sup>e</sup> législature</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/12/documents/archives-12leg.asp">XII<sup>e</sup> législature</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/11/documents/archives-11leg.asp">XI<sup>e</sup> législature</a></li>
+                            <li><a href="http://archives.assemblee-nationale.fr/">Autres législatures</a></li>
+                        </ul>
+                    </li>
+                    <li class="hide"><a href="#nav-docs">Ouvrir le menu documents parlementaires</a></li>
+                </ul>
+            </li>
+            <li tabindex="4" id="nav-docs">
+                <a title="Ouvrir le menu documents parlementaires" href="#menudoc">Documents<br />parlementaires<span class="bord"> </span></a>
+                <ul>
+                    <li>
+                        <a id="menudoc" href="#">Documents de références<span class="sf-sub-indicator"></span></a>
+                        <ul>
+                            <li><a href="http://www.assemblee-nationale.fr/connaissance/constitution.asp">Constitution</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/connaissance/reglement.asp">Règlement de l'Assemblée nationale</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/connaissance/instruction.asp">Instruction générale du Bureau (IGB)</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/connaissance/loi15042009.asp">Loi organique n°&amp;2009-403 du 15 avril 2009</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/connaissance/reglement_congres.asp">Règlement du Congrès</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/connaissance/pouvoirs-publics/pouvoirs_publics-08.asp#P13383_1259070">Ordonnance relative au fonctionnement des assemblées parlementaires</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/connaissance/ordonnance-finances.asp">Loi organique relative aux lois de finances</a></li>
+                            <li><a href="http://www.assemblee-nationale.fr/connaissance/pouvoirs-publics/pouvoirs_publics.asp">Recueil des textes relatifs aux pouvoirs publics</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/documents/index-projets.asp">Projets de loi</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/documents/index-proposition.asp">Propositions de loi</a></li>
+                    <li><a href="http://www2.assemblee-nationale.fr/recherche/amendements">Amendements</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/documents/index-ta.asp">Textes adoptés</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/documents/index-rapports.asp">Rapports législatifs</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/documents/index-dossier.asp">Dossiers législatifs</a></li>
+                    <li><a href="/dans-l-hemicycle/budget-et-securite-sociale">Documents budgétaires</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/liste/rapport_information1.asp">Rapports d'information</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/liste/rapport_application_lois1.asp">Rapports sur l'application de la loi</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/controle/questions.asp">Questions écrites et orales</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/documents/motions.asp">Motions et résolutions</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/14/documents/autres-motions.asp">Autres motions et résolutions</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/documents/index.asp">Tous les documents parlementaires</a></li>
+                    <li class="hide"><a href="#nav-international">Ouvrir le menu europe et international</a></li>
+                </ul>
+            </li>
+            <li tabindex="5" id="nav-international">
+                <a title="Ouvrir le menu europe et international" href="#menuinter">Europe<br />et international<span class="bord"> </span></a>
+                <ul>
+                    <li><a id="menuinter" href="http://www.assemblee-nationale.fr/agendas/international.asp">L'agenda européen et international</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/europe/">L'Assemblée nationale et l'Union Européenne</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/international/index.asp">Activités parlementaires internationales</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/international/groupes-amitie-index.asp">Groupes d'amitié</a></li>
+                    <li class="hide"><a href="#nav-ass-nat">Ouvrir le menu découvrir l'Assemblée</a></li>
+                </ul>
+            </li>
+            <li tabindex="6" id="nav-ass-nat">
+                <a title="Ouvrir le menu découvrir l'Assemblée" href="#menubienvenue">Découvrir<br />l'Assemblée<span class="bord"> </span></a>
+                <ul>
+                    <li><a id="menubienvenue" href="http://www.assemblee-nationale.fr/connaissance/bienvenue.asp">Bienvenue à l'Assemblée nationale</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/infos/visiter.asp">Visiter l'Assemblée nationale</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/connaissance/index.asp">Rôle et pouvoirs de l'Assemblée</a></li>
+                    <li>
+                        <a href="#">Statistiques<span class="sf-sub-indicator"></span></a>
+                        <ul>
+                            <li><a href="http://www2.assemblee-nationale.fr/14/statistiques-de-l-activite-parlementaire">Statistiques de la session en cours</a></li>
+                            <li><a href="http://www2.assemblee-nationale.fr/14/statistiques-de-l-activite-parlementaire/bulletins-annuels">Bulletins annuels</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="http://www.assemblee-nationale.fr/connaissance/comptesan.asp">Comptes de l'Assemblée</a></li>
+                    <li><a href="/decouvrir-l-assemblee/histoire">Histoire</a></li>
+                    <li><a href="/decouvrir-l-assemblee/patrimoine">Patrimoine</a></li>
+
+                    <li><a href="http://www.assemblee-nationale.fr/juniors/index.asp">Juniors</a></li>
+                    <li><a href="http://archives.assemblee-nationale.fr/">Site des archives de l'Assemblée nationale</a></li>
+                    <li class="hide"><a href="#nav-infos">Ouvrir le menu informations pratiques  </a></li>
+                </ul>
+            </li>
+            <li tabindex="7" id="nav-infos">
+                <a title="Ouvrir le menu informations pratiques" href="#menuserendre">Informations<br />pratiques<span class="bord"></span></a>
+                <ul>
+                    <li><a href="http://www.assemblee-nationale.fr/infos/services.asp">Les services de l’Assemblée</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/concours/index.asp">Concours et recrutement</a></li>
+                    <li><a href="http://www.assemblee-nationale.fr/marches-publics/index.asp">Marchés publics</a></li>
+                    <li><a href="http://www2.assemblee-nationale.fr/informations-pratiques/archives-et-bibliotheque">Bibliothèque et archives</a></li>
+                    <li><a href="/informations-pratiques/contacts-et-plan-d-acces">Contact et plan d'accès</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+        </div>
+        <div id="page-fond" class="clearfix">
+            <div id="page" class="clearfix ">
+                <div class="clearfix">
+
+
+<div id="scrutin">
+
+<section>
+    <div id="haut-contenu-page" class="clearfix">
+                <div class="interieur-contenu-principal clearfix">
+    <ol class="breadcrumb">
+        <li class="sr-only">Vous êtes ici :</li>
+        <li><a href="http://www.assemblee-nationale.fr/">Accueil</a></li>
+                        <li><a href="http://www.assemblee-nationale.fr/14/seance/" title="Travaux en séance">Travaux en...</a></li>
+                                <li><a href="/scrutins/liste/(legislature)/14" title="Liste des scrutins">Liste des...</a></li>
+                                <li class="active">Analyse du scrutin n°1212</li>
+                    </ol>
+</div>
+
+        <div class="titre-bandeau-bleu  to-print">
+            <h1 class="">Analyse du scrutin n° 1212<br/>
+Première séance du 26/01/2016</h1>
+<h3 class="president-title">Scrutin public sur l'ensemble du projet de loi pour une République numérique (première lecture).</h3>
+        </div>
+
+        <article>
+            <div class="contenu-principal clearfix to-print">
+                <div class="interieur-contenu-principal clearfix">
+
+                    <div class="interieur-media-colonne clearfix" id="chart-container">
+                        <div id="chart"></div>
+                    </div>
+                    <div class="interieur-media-moyenne-colonne-scrutin clearfix">
+                        <h2 class="synthese"><span class="synthesevote">Synthèse du vote</span></h2>
+                        <p id="total" class="repartitionvotes total">Nombre de votants : <b>544</b></p>
+                        <p class="repartitionvotes">Nombre de suffrages exprimés : <b>357</b></p>
+                        <p class="repartitionvotes">Majorité absolue : <b>179</b></p>
+                        <p id="pour" class="repartitionvotes votes">Pour l'adoption : <b>356</b></p>
+                        <p id="contre" class="repartitionvotes votes">Contre : <b>1</b></p>
+                        <p class="annonce"><span class="annoncevote">L'Assemblée nationale a adopté.</span></p>
+                    </div>
+                                    </div>
+                <div class="interieur-contenu-principal clearfix">
+                    <div class="interieur-entiere-colonne clearfix">
+                    </div>
+                </div>
+                <span class="ligne-ombre-pied"></span>
+            </div>
+        </article>
+        <aside>
+            <div class="contenu-secondaire clearfix">
+            <nav>
+                <h2 class="hide">Navigation</h2>
+                <ul id="menu-missions" class="menu-secondaire">
+                                    <li><a href="#G0">Groupe socialiste, républicain et citoyen</a></li>
+                                    <li><a href="#G1">Groupe Les Républicains</a></li>
+                                    <li><a href="#G2">Groupe de l'union des démocrates et indépendants</a></li>
+                                    <li><a href="#G3">Groupe écologiste</a></li>
+                                    <li><a href="#G4">Groupe radical, républicain, démocrate et progressiste</a></li>
+                                    <li><a href="#G5">Groupe de la gauche démocrate et républicaine</a></li>
+                                    <li><a href="#G6">Non inscrits</a></li>
+                                </ul>
+            </nav>
+            </div>
+        </aside>
+        <span class="haut-contenu-page-fond-pied"></span>
+    </div>
+</section>
+<!-- /#haut-contenu-page -->
+<section>
+    <div id="contenu-page" class="clearfix">
+        <article>
+            <div class="contenu-principal clearfix">
+                <div class="interieur-contenu-principal clearfix">
+                    <div id="analyse" class="clearfix">
+
+
+                    <div class="TTgroupe">
+                    <a class="agroupe" name="Groupe socialiste, républicain et citoyen" id="G0"></a>
+                    <p class="nomgroupe">Groupe socialiste, républicain et citoyen (287 membres)</p>
+                                        <div class="Pour">
+                        <p class="typevote">Pour: <b>272</b></p>
+                        <ul class="deputes">
+                        <li>            Ibrahim&nbsp;<b>Aboubacar</b></li><li> Patricia&nbsp;<b>Adam</b></li><li> Sylviane&nbsp;<b>Alaux</b></li><li> Jean-Pierre&nbsp;<b>Allossery</b></li><li> Pouria&nbsp;<b>Amirshahi</b></li><li> François&nbsp;<b>André</b></li><li> Nathalie&nbsp;<b>Appéré</b></li><li> Christian&nbsp;<b>Assaf</b></li><li> Pierre&nbsp;<b>Aylagas</b></li><li> Jean-Marc&nbsp;<b>Ayrault</b></li><li> Guillaume&nbsp;<b>Bachelay</b></li><li> Jean-Paul&nbsp;<b>Bacquet</b></li><li> Dominique&nbsp;<b>Baert</b></li><li> Guy&nbsp;<b>Bailliart</b></li><li> Gérard&nbsp;<b>Bapt</b></li><li> Frédéric&nbsp;<b>Barbier</b></li><li> Serge&nbsp;<b>Bardy</b></li><li> Ericka&nbsp;<b>Bareigts</b></li><li> Christian&nbsp;<b>Bataille</b></li><li> Delphine&nbsp;<b>Batho</b></li><li> Marie-Noëlle&nbsp;<b>Battistel</b></li><li> Philippe&nbsp;<b>Baumel</b></li><li> Nicolas&nbsp;<b>Bays</b></li><li> Catherine&nbsp;<b>Beaubatie</b></li><li> Marie-Françoise&nbsp;<b>Bechtel</b></li><li> Jean-Marie&nbsp;<b>Beffara</b></li><li> Luc&nbsp;<b>Belot</b></li><li> Karine&nbsp;<b>Berger</b></li><li> Chantal&nbsp;<b>Berthelot</b></li><li> Gisèle&nbsp;<b>Biémouret</b></li><li> Philippe&nbsp;<b>Bies</b></li><li> Erwann&nbsp;<b>Binet</b></li><li> Jean-Pierre&nbsp;<b>Blazy</b></li><li> Yves&nbsp;<b>Blein</b></li><li> Jean-Luc&nbsp;<b>Bleunven</b></li><li> Patrick&nbsp;<b>Bloche</b></li><li> Daniel&nbsp;<b>Boisserie</b></li><li> Christophe&nbsp;<b>Borgel</b></li><li> Florent&nbsp;<b>Boudié</b></li><li> Marie-Odile&nbsp;<b>Bouillé</b></li><li> Christophe&nbsp;<b>Bouillon</b></li><li> Brigitte&nbsp;<b>Bourguignon</b></li><li> Malek&nbsp;<b>Boutih</b></li><li> Kheira&nbsp;<b>Bouziane-Laroussi</b></li><li> Émeric&nbsp;<b>Bréhier</b></li><li> Jean-Louis&nbsp;<b>Bricout</b></li><li> Jean-Jacques&nbsp;<b>Bridey</b></li><li> Isabelle&nbsp;<b>Bruneau</b></li><li> Gwenegan&nbsp;<b>Bui</b></li><li> Sabine&nbsp;<b>Buis</b></li><li> Jean-Claude&nbsp;<b>Buisine</b></li><li> Sylviane&nbsp;<b>Bulteau</b></li><li> Vincent&nbsp;<b>Burroni</b></li><li> Alain&nbsp;<b>Calmette</b></li><li> Jean-Christophe&nbsp;<b>Cambadélis</b></li><li> Colette&nbsp;<b>Capdevielle</b></li><li> Yann&nbsp;<b>Capet</b></li><li> Christophe&nbsp;<b>Caresche</b></li><li> Marie-Arlette&nbsp;<b>Carlotti</b></li><li> Fanélie&nbsp;<b>Carrey-Conte</b></li><li> Martine&nbsp;<b>Carrillon-Couvreur</b></li><li> Christophe&nbsp;<b>Castaner</b></li><li> Laurent&nbsp;<b>Cathala</b></li><li> Jean-Yves&nbsp;<b>Caullet</b></li><li> Guy&nbsp;<b>Chambefort</b></li><li> Jean-Paul&nbsp;<b>Chanteguet</b></li><li> Marie-Anne&nbsp;<b>Chapdelaine</b></li><li> Guy-Michel&nbsp;<b>Chauveau</b></li><li> Dominique&nbsp;<b>Chauvel</b></li><li> Pascal&nbsp;<b>Cherki</b></li><li> Jean-David&nbsp;<b>Ciot</b></li><li> Alain&nbsp;<b>Claeys</b></li><li> Jean-Michel&nbsp;<b>Clément</b></li><li> Marie-Françoise&nbsp;<b>Clergeau</b></li><li> Romain&nbsp;<b>Colas</b></li><li> David&nbsp;<b>Comet</b></li><li> Philip&nbsp;<b>Cordery</b></li><li> Valérie&nbsp;<b>Corre</b></li><li> Jean-Jacques&nbsp;<b>Cottel</b></li><li> Catherine&nbsp;<b>Coutelle</b></li><li> Jacques&nbsp;<b>Cresta</b></li><li> Pascale&nbsp;<b>Crozon</b></li><li> Frédéric&nbsp;<b>Cuvillier</b></li><li> Seybah&nbsp;<b>Dagoma</b></li><li> Yves&nbsp;<b>Daniel</b></li><li> Carlos&nbsp;<b>Da&nbsp;Silva</b></li><li> Pascal&nbsp;<b>Deguilhem</b></li><li> Florence&nbsp;<b>Delaunay</b></li><li> Michèle&nbsp;<b>Delaunay</b></li><li> Guy&nbsp;<b>Delcourt</b></li><li> Pascal&nbsp;<b>Demarthe</b></li><li> Sébastien&nbsp;<b>Denaja</b></li><li> Françoise&nbsp;<b>Descamps-Crosnier</b></li><li> Sophie&nbsp;<b>Dessus</b></li><li> Jean-Louis&nbsp;<b>Destans</b></li><li> Michel&nbsp;<b>Destot</b></li><li> Fanny&nbsp;<b>Dombre-Coste</b></li><li> René&nbsp;<b>Dosière</b></li><li> Sandrine&nbsp;<b>Doucet</b></li><li> Philippe&nbsp;<b>Doucet</b></li><li> Françoise&nbsp;<b>Dubois</b></li><li> Jean-Pierre&nbsp;<b>Dufau</b></li><li> Anne-Lise&nbsp;<b>Dufour-Tonini</b></li><li> Françoise&nbsp;<b>Dumas</b></li><li> William&nbsp;<b>Dumas</b></li><li> Laurence&nbsp;<b>Dumont</b></li><li> Jean-Paul&nbsp;<b>Dupré</b></li><li> Yves&nbsp;<b>Durand</b></li><li> Philippe&nbsp;<b>Duron</b></li><li> Olivier&nbsp;<b>Dussopt</b></li><li> Henri&nbsp;<b>Emmanuelli</b></li><li> Corinne&nbsp;<b>Erhel</b></li><li> Sophie&nbsp;<b>Errante</b></li><li> Marie-Hélène&nbsp;<b>Fabre</b></li><li> Martine&nbsp;<b>Faure</b></li><li> Olivier&nbsp;<b>Faure</b></li><li> Alain&nbsp;<b>Fauré</b></li><li> Hervé&nbsp;<b>Féron</b></li><li> Richard&nbsp;<b>Ferrand</b></li><li> Aurélie&nbsp;<b>Filippetti</b></li><li> Geneviève&nbsp;<b>Fioraso</b></li><li> Hugues&nbsp;<b>Fourage</b></li><li> Jean-Marc&nbsp;<b>Fournel</b></li><li> Valérie&nbsp;<b>Fourneyron</b></li><li> Michèle&nbsp;<b>Fournier-Armand</b></li><li> Michel&nbsp;<b>Françaix</b></li><li> Christian&nbsp;<b>Franqueville</b></li><li> Jean-Claude&nbsp;<b>Fruteau</b></li><li> Jean-Louis&nbsp;<b>Gagnaire</b></li><li> Geneviève&nbsp;<b>Gaillard</b></li><li> Guillaume&nbsp;<b>Garot</b></li><li> Hélène&nbsp;<b>Geoffroy</b></li><li> Jean-Marc&nbsp;<b>Germain</b></li><li> Jean-Patrick&nbsp;<b>Gille</b></li><li> Jean&nbsp;<b>Glavany</b></li><li> Daniel&nbsp;<b>Goldberg</b></li><li> Geneviève&nbsp;<b>Gosselin-Fleury</b></li><li> Pascale&nbsp;<b>Got</b></li><li> Marc&nbsp;<b>Goua</b></li><li> Linda&nbsp;<b>Gourjade</b></li><li> Laurent&nbsp;<b>Grandguillaume</b></li><li> Estelle&nbsp;<b>Grelier</b></li><li> Jean&nbsp;<b>Grellier</b></li><li> Edith&nbsp;<b>Gueugneau</b></li><li> Élisabeth&nbsp;<b>Guigou</b></li><li> Chantal&nbsp;<b>Guittet</b></li><li> Razzy&nbsp;<b>Hammadi</b></li><li> Benoît&nbsp;<b>Hamon</b></li><li> Mathieu&nbsp;<b>Hanotin</b></li><li> Joëlle&nbsp;<b>Huillier</b></li><li> Christian&nbsp;<b>Hutin</b></li><li> Monique&nbsp;<b>Iborra</b></li><li> Françoise&nbsp;<b>Imbert</b></li><li> Michel&nbsp;<b>Issindou</b></li><li> Éric&nbsp;<b>Jalton</b></li><li> Serge&nbsp;<b>Janquin</b></li><li> Henri&nbsp;<b>Jibrayel</b></li><li> Régis&nbsp;<b>Juanico</b></li><li> Armand&nbsp;<b>Jung</b></li><li> Laurent&nbsp;<b>Kalinowski</b></li><li> Marietta&nbsp;<b>Karamanli</b></li><li> Philippe&nbsp;<b>Kemel</b></li><li> Chaynesse&nbsp;<b>Khirouni</b></li><li> Bernadette&nbsp;<b>Laclais</b></li><li> Conchita&nbsp;<b>Lacuey</b></li><li> François&nbsp;<b>Lamy</b></li><li> Anne-Christine&nbsp;<b>Lang</b></li><li> Colette&nbsp;<b>Langlade</b></li><li> Jean&nbsp;<b>Launay</b></li><li> Jean-Luc&nbsp;<b>Laurent</b></li><li> Pierre-Yves&nbsp;<b>Le&nbsp;Borgn'</b></li><li> Jean-Yves&nbsp;<b>Le&nbsp;Bouillonnec</b></li><li> Gilbert&nbsp;<b>Le&nbsp;Bris</b></li><li> Anne-Yvonne&nbsp;<b>Le&nbsp;Dain</b></li><li> Jean-Yves&nbsp;<b>Le&nbsp;Déaut</b></li><li> Viviane&nbsp;<b>Le&nbsp;Dissez</b></li><li> Michel&nbsp;<b>Lefait</b></li><li> Dominique&nbsp;<b>Lefebvre</b></li><li> Annie&nbsp;<b>Le&nbsp;Houerou</b></li><li> Annick&nbsp;<b>Le&nbsp;Loch</b></li><li> Patrick&nbsp;<b>Lemasle</b></li><li> Catherine&nbsp;<b>Lemorton</b></li><li> Christophe&nbsp;<b>Léonard</b></li><li> Annick&nbsp;<b>Lepetit</b></li><li> Jean-Pierre&nbsp;<b>Le&nbsp;Roch</b></li><li> Bruno&nbsp;<b>Le&nbsp;Roux</b></li><li> Arnaud&nbsp;<b>Leroy</b></li><li> Michel&nbsp;<b>Lesage</b></li><li> Bernard&nbsp;<b>Lesterlin</b></li><li> Serge&nbsp;<b>Letchimy</b></li><li> Marie&nbsp;<b>Le&nbsp;Vern</b></li><li> Michel&nbsp;<b>Liebgott</b></li><li> Martine&nbsp;<b>Lignières-Cassou</b></li><li> Audrey&nbsp;<b>Linkenheld</b></li><li> François&nbsp;<b>Loncle</b></li><li> Gabrielle&nbsp;<b>Louis-Carabin</b></li><li> Lucette&nbsp;<b>Lousteau</b></li><li> Victorin&nbsp;<b>Lurel</b></li><li> Jacqueline&nbsp;<b>Maquet</b></li><li> Marie-Lou&nbsp;<b>Marcel</b></li><li> Jean-René&nbsp;<b>Marsac</b></li><li> Philippe&nbsp;<b>Martin</b></li><li> Martine&nbsp;<b>Martinel</b></li><li> Frédérique&nbsp;<b>Massat</b></li><li> Sandrine&nbsp;<b>Mazetier</b></li><li> Michel&nbsp;<b>Ménard</b></li><li> Patrick&nbsp;<b>Mennucci</b></li><li> Kléber&nbsp;<b>Mesquida</b></li><li> Pierre-Alain&nbsp;<b>Muet</b></li><li> Philippe&nbsp;<b>Nauche</b></li><li> Nathalie&nbsp;<b>Nieson</b></li><li> Robert&nbsp;<b>Olive</b></li><li> Maud&nbsp;<b>Olivier</b></li><li> Monique&nbsp;<b>Orphé</b></li><li> Michel&nbsp;<b>Pajon</b></li><li> Luce&nbsp;<b>Pane</b></li><li> Christian&nbsp;<b>Paul</b></li><li> Rémi&nbsp;<b>Pauvros</b></li><li> Germinal&nbsp;<b>Peiro</b></li><li> Hervé&nbsp;<b>Pellois</b></li><li> Jean-Claude&nbsp;<b>Perez</b></li><li> Sébastien&nbsp;<b>Pietrasanta</b></li><li> Christine&nbsp;<b>Pires&nbsp;Beaune</b></li><li> Philippe&nbsp;<b>Plisson</b></li><li> Élisabeth&nbsp;<b>Pochon</b></li><li> Napole&nbsp;<b>Polutélé</b></li><li> Pascal&nbsp;<b>Popelin</b></li><li> Dominique&nbsp;<b>Potier</b></li><li> Régine&nbsp;<b>Povéda</b></li><li> Patrice&nbsp;<b>Prat</b></li><li> Christophe&nbsp;<b>Premat</b></li><li> Joaquim&nbsp;<b>Pueyo</b></li><li> François&nbsp;<b>Pupponi</b></li><li> Catherine&nbsp;<b>Quéré</b></li><li> Valérie&nbsp;<b>Rabault</b></li><li> Monique&nbsp;<b>Rabin</b></li><li> Dominique&nbsp;<b>Raimbourg</b></li><li> Marie&nbsp;<b>Récalde</b></li><li> Marie-Line&nbsp;<b>Reynaud</b></li><li> Pierre&nbsp;<b>Ribeaud</b></li><li> Eduardo&nbsp;<b>Rihan&nbsp;Cypel</b></li><li> Alain&nbsp;<b>Rodet</b></li><li> Marcel&nbsp;<b>Rogemont</b></li><li> Frédéric&nbsp;<b>Roig</b></li><li> Bernard&nbsp;<b>Roman</b></li><li> Gwendal&nbsp;<b>Rouillard</b></li><li> René&nbsp;<b>Rouquet</b></li><li> Alain&nbsp;<b>Rousset</b></li><li> Boinali&nbsp;<b>Said</b></li><li> Béatrice&nbsp;<b>Santais</b></li><li> Odile&nbsp;<b>Saugues</b></li><li> Gilbert&nbsp;<b>Sauvan</b></li><li> Gérard&nbsp;<b>Sebaoun</b></li><li> Christophe&nbsp;<b>Sirugue</b></li><li> Julie&nbsp;<b>Sommaruga</b></li><li> Suzanne&nbsp;<b>Tallard</b></li><li> Pascal&nbsp;<b>Terrasse</b></li><li> Sylvie&nbsp;<b>Tolmont</b></li><li> Jean-Louis&nbsp;<b>Touraine</b></li><li> Stéphane&nbsp;<b>Travert</b></li><li> Catherine&nbsp;<b>Troallic</b></li><li> Cécile&nbsp;<b>Untermaier</b></li><li> Jean-Jacques&nbsp;<b>Urvoas</b></li><li> Daniel&nbsp;<b>Vaillant</b></li><li> Jacques&nbsp;<b>Valax</b></li><li> Michel&nbsp;<b>Vauzelle</b></li><li> Fabrice&nbsp;<b>Verdier</b></li><li> Michel&nbsp;<b>Vergnier</b></li><li> Patrick&nbsp;<b>Vignal</b></li><li> Jean-Michel&nbsp;<b>Villaumé</b></li><li> Jean&nbsp;Jacques&nbsp;<b>Vlody</b></li><li>Paola&nbsp;<b>Zanetti</b></li>
+                        </ul>
+                    </div>
+                                        <div class="Non-votants">
+                        <p class="typevote">Non-votants: <b>2</b></p>
+                        <ul class="deputes">
+                                    MM.&nbsp;Claude&nbsp;<b>Bartolone</b>&nbsp;(Président&nbsp;de&nbsp;l'Assemblée&nbsp;nationale) et David&nbsp;<b>Habib</b>&nbsp;(Président&nbsp;de&nbsp;séance).
+                        </ul>
+                    </div>
+                                        </div>
+
+
+
+                    <div class="TTgroupe">
+                    <a class="agroupe" name="Groupe Les Républicains" id="G1"></a>
+                    <p class="nomgroupe">Groupe Les Républicains (197 membres)</p>
+                                        <div class="Pour">
+                        <p class="typevote">Pour: <b>4</b></p>
+                        <ul class="deputes">
+                        <li>            Patrick&nbsp;<b>Devedjian</b></li><li> Henri&nbsp;<b>Guaino</b></li><li> Nathalie&nbsp;<b>Kosciusko-Morizet</b></li><li>Patrice&nbsp;<b>Martin-Lalande</b></li>
+                        </ul>
+                    </div>
+                                        <div class="Contre">
+                        <p class="typevote">Contre: <b>1</b></p>
+                        <ul class="deputes">
+                        <li>            Nicolas&nbsp;<b>Dhuicq</b></li>
+                        </ul>
+                    </div>
+                                        <div class="Abstention">
+                        <p class="typevote">Abstention: <b>184</b></p>
+                        <ul class="deputes">
+                        <li>            Bernard&nbsp;<b>Accoyer</b></li><li> Yves&nbsp;<b>Albarello</b></li><li> Nicole&nbsp;<b>Ameline</b></li><li> Benoist&nbsp;<b>Apparu</b></li><li> Laurence&nbsp;<b>Arribagé</b></li><li> Julien&nbsp;<b>Aubert</b></li><li> Olivier&nbsp;<b>Audibert-Troin</b></li><li> Patrick&nbsp;<b>Balkany</b></li><li> Jean-Pierre&nbsp;<b>Barbier</b></li><li> Jacques&nbsp;Alain&nbsp;<b>Bénisti</b></li><li> Sylvain&nbsp;<b>Berrios</b></li><li> Étienne&nbsp;<b>Blanc</b></li><li> Marcel&nbsp;<b>Bonnot</b></li><li> Jean-Claude&nbsp;<b>Bouchet</b></li><li> Philippe&nbsp;<b>Briand</b></li><li> Bernard&nbsp;<b>Brochand</b></li><li> Dominique&nbsp;<b>Bussereau</b></li><li> Olivier&nbsp;<b>Carré</b></li><li> Gilles&nbsp;<b>Carrez</b></li><li> Yves&nbsp;<b>Censi</b></li><li> Jérôme&nbsp;<b>Chartier</b></li><li> Luc&nbsp;<b>Chatel</b></li><li> Gérard&nbsp;<b>Cherpion</b></li><li> Guillaume&nbsp;<b>Chevrollier</b></li><li> Alain&nbsp;<b>Chrétien</b></li><li> Jean-Louis&nbsp;<b>Christ</b></li><li> Dino&nbsp;<b>Cinieri</b></li><li> Éric&nbsp;<b>Ciotti</b></li><li> Philippe&nbsp;<b>Cochet</b></li><li> Jean-François&nbsp;<b>Copé</b></li><li> François&nbsp;<b>Cornut-Gentille</b></li><li> Jean-Louis&nbsp;<b>Costes</b></li><li> Édouard&nbsp;<b>Courtial</b></li><li> Jean-Michel&nbsp;<b>Couve</b></li><li> Marie-Christine&nbsp;<b>Dalloz</b></li><li> Gérald&nbsp;<b>Darmanin</b></li><li> Olivier&nbsp;<b>Dassault</b></li><li> Marc-Philippe&nbsp;<b>Daubresse</b></li><li> Bernard&nbsp;<b>Debré</b></li><li> Jean-Pierre&nbsp;<b>Decool</b></li><li> Bernard&nbsp;<b>Deflesselles</b></li><li> Lucien&nbsp;<b>Degauchy</b></li><li> Rémi&nbsp;<b>Delatte</b></li><li> Sophie&nbsp;<b>Dion</b></li><li> Jean-Pierre&nbsp;<b>Door</b></li><li> Dominique&nbsp;<b>Dord</b></li><li> David&nbsp;<b>Douillet</b></li><li> Marianne&nbsp;<b>Dubois</b></li><li> Virginie&nbsp;<b>Duby-Muller</b></li><li> Christian&nbsp;<b>Estrosi</b></li><li> Daniel&nbsp;<b>Fasquelle</b></li><li> Georges&nbsp;<b>Fenech</b></li><li> François&nbsp;<b>Fillon</b></li><li> Marie-Louise&nbsp;<b>Fort</b></li><li> Yves&nbsp;<b>Foulon</b></li><li> Marc&nbsp;<b>Francina</b></li><li> Yves&nbsp;<b>Fromion</b></li><li> Laurent&nbsp;<b>Furst</b></li><li> Claude&nbsp;de&nbsp;<b>Ganay</b></li><li> Sauveur&nbsp;<b>Gandolfi-Scheit</b></li><li> Hervé&nbsp;<b>Gaymard</b></li><li> Annie&nbsp;<b>Genevard</b></li><li> Guy&nbsp;<b>Geoffroy</b></li><li> Bernard&nbsp;<b>Gérard</b></li><li> Alain&nbsp;<b>Gest</b></li><li> Daniel&nbsp;<b>Gibbes</b></li><li> Franck&nbsp;<b>Gilard</b></li><li> Georges&nbsp;<b>Ginesta</b></li><li> Charles-Ange&nbsp;<b>Ginesy</b></li><li> Jean-Pierre&nbsp;<b>Giran</b></li><li> Claude&nbsp;<b>Goasguen</b></li><li> Jean-Pierre&nbsp;<b>Gorges</b></li><li> Philippe&nbsp;<b>Gosselin</b></li><li> Philippe&nbsp;<b>Goujon</b></li><li> Claude&nbsp;<b>Greff</b></li><li> Anne&nbsp;<b>Grommerch</b></li><li> Arlette&nbsp;<b>Grosskost</b></li><li> Serge&nbsp;<b>Grouard</b></li><li> Françoise&nbsp;<b>Guégot</b></li><li> Jean-Claude&nbsp;<b>Guibal</b></li><li> Jean-Jacques&nbsp;<b>Guillet</b></li><li> Christophe&nbsp;<b>Guilloteau</b></li><li> Michel&nbsp;<b>Heinrich</b></li><li> Michel&nbsp;<b>Herbillon</b></li><li> Antoine&nbsp;<b>Herth</b></li><li> Patrick&nbsp;<b>Hetzel</b></li><li> Philippe&nbsp;<b>Houillon</b></li><li> Guénhaël&nbsp;<b>Huet</b></li><li> Sébastien&nbsp;<b>Huyghe</b></li><li> Christian&nbsp;<b>Jacob</b></li><li> Denis&nbsp;<b>Jacquat</b></li><li> Christian&nbsp;<b>Kert</b></li><li> Jacques&nbsp;<b>Kossowski</b></li><li> Patrick&nbsp;<b>Labaune</b></li><li> Valérie&nbsp;<b>Lacroute</b></li><li> Marc&nbsp;<b>Laffineur</b></li><li> Jacques&nbsp;<b>Lamblin</b></li><li> Jean-François&nbsp;<b>Lamour</b></li><li> Laure&nbsp;de&nbsp;<b>La&nbsp;Raudière</b></li><li> Guillaume&nbsp;<b>Larrivé</b></li><li> Charles&nbsp;de&nbsp;<b>La&nbsp;Verpillière</b></li><li> Thierry&nbsp;<b>Lazaro</b></li><li> Alain&nbsp;<b>Leboeuf</b></li><li> Isabelle&nbsp;<b>Le&nbsp;Callennec</b></li><li> Frédéric&nbsp;<b>Lefebvre</b></li><li> Marc&nbsp;<b>Le&nbsp;Fur</b></li><li> Pierre&nbsp;<b>Lellouche</b></li><li> Bruno&nbsp;<b>Le&nbsp;Maire</b></li><li> Dominique&nbsp;<b>Le&nbsp;Mèner</b></li><li> Jean&nbsp;<b>Leonetti</b></li><li> Pierre&nbsp;<b>Lequiller</b></li><li> Philippe&nbsp;<b>Le&nbsp;Ray</b></li><li> Céleste&nbsp;<b>Lett</b></li><li> Véronique&nbsp;<b>Louwagie</b></li><li> Lionnel&nbsp;<b>Luca</b></li><li> Gilles&nbsp;<b>Lurton</b></li><li> Jean-François&nbsp;<b>Mancel</b></li><li> Laurent&nbsp;<b>Marcangeli</b></li><li> Hervé&nbsp;<b>Mariton</b></li><li> Alain&nbsp;<b>Marleix</b></li><li> Olivier&nbsp;<b>Marleix</b></li><li> Franck&nbsp;<b>Marlin</b></li><li> Philippe&nbsp;Armand&nbsp;<b>Martin</b></li><li> Alain&nbsp;<b>Marty</b></li><li> Jean-Claude&nbsp;<b>Mathis</b></li><li> François&nbsp;de&nbsp;<b>Mazières</b></li><li> Gérard&nbsp;<b>Menuel</b></li><li> Damien&nbsp;<b>Meslot</b></li><li> Philippe&nbsp;<b>Meunier</b></li><li> Jean-Claude&nbsp;<b>Mignon</b></li><li> Pierre&nbsp;<b>Morange</b></li><li> Yannick&nbsp;<b>Moreau</b></li><li> Pierre&nbsp;<b>Morel-A-L'Huissier</b></li><li> Alain&nbsp;<b>Moyne-Bressand</b></li><li> Jacques&nbsp;<b>Myard</b></li><li> Dominique&nbsp;<b>Nachury</b></li><li> Yves&nbsp;<b>Nicolin</b></li><li> Patrick&nbsp;<b>Ollier</b></li><li> Jacques&nbsp;<b>Pélissard</b></li><li> Bernard&nbsp;<b>Perrut</b></li><li> Édouard&nbsp;<b>Philippe</b></li><li> Jean-Frédéric&nbsp;<b>Poisson</b></li><li> Bérengère&nbsp;<b>Poletti</b></li><li> Axel&nbsp;<b>Poniatowski</b></li><li> Christophe&nbsp;<b>Priou</b></li><li> Didier&nbsp;<b>Quentin</b></li><li> Frédéric&nbsp;<b>Reiss</b></li><li> Jean-Luc&nbsp;<b>Reitzer</b></li><li> Bernard&nbsp;<b>Reynès</b></li><li> Franck&nbsp;<b>Riester</b></li><li> Arnaud&nbsp;<b>Robinet</b></li><li> Camille&nbsp;de&nbsp;<b>Rocca&nbsp;Serra</b></li><li> Sophie&nbsp;<b>Rohfritsch</b></li><li> Martial&nbsp;<b>Saddier</b></li><li> Paul&nbsp;<b>Salen</b></li><li> François&nbsp;<b>Scellier</b></li><li> Claudine&nbsp;<b>Schmid</b></li><li> André&nbsp;<b>Schneider</b></li><li> Jean-Marie&nbsp;<b>Sermier</b></li><li> Fernand&nbsp;<b>Siré</b></li><li> Thierry&nbsp;<b>Solère</b></li><li> Michel&nbsp;<b>Sordi</b></li><li> Éric&nbsp;<b>Straumann</b></li><li> Claude&nbsp;<b>Sturni</b></li><li> Alain&nbsp;<b>Suguenot</b></li><li> Michèle&nbsp;<b>Tabarot</b></li><li> Lionel&nbsp;<b>Tardy</b></li><li> Jean-Charles&nbsp;<b>Taugourdeau</b></li><li> Guy&nbsp;<b>Teissier</b></li><li> Michel&nbsp;<b>Terrot</b></li><li> Jean-Marie&nbsp;<b>Tetart</b></li><li> Dominique&nbsp;<b>Tian</b></li><li> François&nbsp;<b>Vannson</b></li><li> Catherine&nbsp;<b>Vautrin</b></li><li> Patrice&nbsp;<b>Verchère</b></li><li> Arnaud&nbsp;<b>Viala</b></li><li> Jean-Sébastien&nbsp;<b>Vialatte</b></li><li> Jean-Pierre&nbsp;<b>Vigier</b></li><li> Philippe&nbsp;<b>Vitel</b></li><li> Michel&nbsp;<b>Voisin</b></li><li> Jean-Luc&nbsp;<b>Warsmann</b></li><li> Laurent&nbsp;<b>Wauquiez</b></li><li> Éric&nbsp;<b>Woerth</b></li><li>Marie-Jo&nbsp;<b>Zimmermann</b></li>
+                        </ul>
+                    </div>
+                                        </div>
+
+
+
+                    <div class="TTgroupe">
+                    <a class="agroupe" name="Groupe de l'union des démocrates et indépendants" id="G2"></a>
+                    <p class="nomgroupe">Groupe de l'union des démocrates et indépendants (29 membres)</p>
+                                        <div class="Pour">
+                        <p class="typevote">Pour: <b>28</b></p>
+                        <ul class="deputes">
+                        <li>            Thierry&nbsp;<b>Benoit</b></li><li> Charles&nbsp;de&nbsp;<b>Courson</b></li><li> Laurent&nbsp;<b>Degallaix</b></li><li> Stéphane&nbsp;<b>Demilly</b></li><li> Yannick&nbsp;<b>Favennec</b></li><li> Philippe&nbsp;<b>Folliot</b></li><li> Philippe&nbsp;<b>Gomès</b></li><li> Meyer&nbsp;<b>Habib</b></li><li> Francis&nbsp;<b>Hillmeyer</b></li><li> Yves&nbsp;<b>Jégo</b></li><li> Sonia&nbsp;<b>Lagarde</b></li><li> Jean-Christophe&nbsp;<b>Lagarde</b></li><li> Maurice&nbsp;<b>Leroy</b></li><li> Hervé&nbsp;<b>Morin</b></li><li> Bertrand&nbsp;<b>Pancher</b></li><li> Michel&nbsp;<b>Piron</b></li><li> Franck&nbsp;<b>Reynier</b></li><li> Arnaud&nbsp;<b>Richard</b></li><li> François&nbsp;<b>Rochebloine</b></li><li> Maina&nbsp;<b>Sage</b></li><li> Rudy&nbsp;<b>Salles</b></li><li> André&nbsp;<b>Santini</b></li><li> François&nbsp;<b>Sauvadet</b></li><li> Jonas&nbsp;<b>Tahuaitu</b></li><li> Jean-Paul&nbsp;<b>Tuaiva</b></li><li> Francis&nbsp;<b>Vercamer</b></li><li> Philippe&nbsp;<b>Vigier</b></li><li>Michel&nbsp;<b>Zumkeller</b></li>
+                        </ul>
+                    </div>
+                                        </div>
+
+
+
+                    <div class="TTgroupe">
+                    <a class="agroupe" name="Groupe écologiste" id="G3"></a>
+                    <p class="nomgroupe">Groupe écologiste (18 membres)</p>
+                                        <div class="Pour">
+                        <p class="typevote">Pour: <b>16</b></p>
+                        <ul class="deputes">
+                        <li>            Laurence&nbsp;<b>Abeille</b></li><li> Éric&nbsp;<b>Alauzet</b></li><li> Brigitte&nbsp;<b>Allain</b></li><li> Isabelle&nbsp;<b>Attard</b></li><li> Danielle&nbsp;<b>Auroi</b></li><li> Denis&nbsp;<b>Baupin</b></li><li> Michèle&nbsp;<b>Bonneton</b></li><li> Christophe&nbsp;<b>Cavard</b></li><li> Sergio&nbsp;<b>Coronado</b></li><li> Cécile&nbsp;<b>Duflot</b></li><li> François-Michel&nbsp;<b>Lambert</b></li><li> Noël&nbsp;<b>Mamère</b></li><li> Véronique&nbsp;<b>Massonneau</b></li><li> Barbara&nbsp;<b>Pompili</b></li><li> François&nbsp;de&nbsp;<b>Rugy</b></li><li>Eva&nbsp;<b>Sas</b></li>
+                        </ul>
+                    </div>
+                                        </div>
+
+
+
+                    <div class="TTgroupe">
+                    <a class="agroupe" name="Groupe radical, républicain, démocrate et progressiste" id="G4"></a>
+                    <p class="nomgroupe">Groupe radical, républicain, démocrate et progressiste (18 membres)</p>
+                                        <div class="Pour">
+                        <p class="typevote">Pour: <b>18</b></p>
+                        <ul class="deputes">
+                        <li>            Jean-Noël&nbsp;<b>Carpentier</b></li><li> Ary&nbsp;<b>Chalus</b></li><li> Gérard&nbsp;<b>Charasse</b></li><li> Stéphane&nbsp;<b>Claireaux</b></li><li> Jeanine&nbsp;<b>Dubié</b></li><li> Olivier&nbsp;<b>Falorni</b></li><li> Paul&nbsp;<b>Giacobbi</b></li><li> Joël&nbsp;<b>Giraud</b></li><li> Gilda&nbsp;<b>Hobert</b></li><li> Jacques&nbsp;<b>Krabal</b></li><li> Jérôme&nbsp;<b>Lambert</b></li><li> Jean-Pierre&nbsp;<b>Maggi</b></li><li> Jacques&nbsp;<b>Moignard</b></li><li> Dominique&nbsp;<b>Orliac</b></li><li> Thierry&nbsp;<b>Robert</b></li><li> Stéphane&nbsp;<b>Saint-André</b></li><li> Roger-Gérard&nbsp;<b>Schwartzenberg</b></li><li>Alain&nbsp;<b>Tourret</b></li>
+                        </ul>
+                    </div>
+                                        </div>
+
+
+
+                    <div class="TTgroupe">
+                    <a class="agroupe" name="Groupe de la gauche démocrate et républicaine" id="G5"></a>
+                    <p class="nomgroupe">Groupe de la gauche démocrate et républicaine (15 membres)</p>
+                                        <div class="Pour">
+                        <p class="typevote">Pour: <b>15</b></p>
+                        <ul class="deputes">
+                        <li>            François&nbsp;<b>Asensi</b></li><li> Bruno&nbsp;Nestor&nbsp;<b>Azérot</b></li><li> Huguette&nbsp;<b>Bello</b></li><li> Alain&nbsp;<b>Bocquet</b></li><li> Marie-George&nbsp;<b>Buffet</b></li><li> Jean-Jacques&nbsp;<b>Candelier</b></li><li> Patrice&nbsp;<b>Carvalho</b></li><li> Gaby&nbsp;<b>Charroux</b></li><li> André&nbsp;<b>Chassaigne</b></li><li> Marc&nbsp;<b>Dolez</b></li><li> Jacqueline&nbsp;<b>Fraysse</b></li><li> Alfred&nbsp;<b>Marie-Jeanne</b></li><li> Jean-Philippe&nbsp;<b>Nilor</b></li><li> Nicolas&nbsp;<b>Sansu</b></li><li>Gabriel&nbsp;<b>Serville</b></li>
+                        </ul>
+                    </div>
+                                        </div>
+
+
+
+                    <div class="TTgroupe">
+                    <a class="agroupe" name="Non inscrits" id="G6"></a>
+                    <p class="nomgroupe">Non inscrits (11 membres)</p>
+                                        <div class="Pour">
+                        <p class="typevote">Pour: <b>3</b></p>
+                        <ul class="deputes">
+                        <li>            Sylvie&nbsp;<b>Andrieux</b></li><li> Jean-Christophe&nbsp;<b>Fromantin</b></li><li>Philippe&nbsp;<b>Noguès</b></li>
+                        </ul>
+                    </div>
+                                        <div class="Abstention">
+                        <p class="typevote">Abstention: <b>3</b></p>
+                        <ul class="deputes">
+                        <li>            Véronique&nbsp;<b>Besse</b></li><li> Gilbert&nbsp;<b>Collard</b></li><li>Marion&nbsp;<b>Maréchal-Le&nbsp;Pen</b></li>
+                        </ul>
+                    </div>
+                                        </div>
+
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </article>
+        <aside class="to-print">
+            <div class="contenu-secondaire clearfix to-print contenu-secondaire-to-print">
+                <div class="interieur-contenu-secondaire clearfix">
+                <h2 class="sr-only">Contenus annexes</h2>
+                    <div class="bloc-standard plusieurs-element-simple">
+                                                <div class="titre-contenu titre-simple clearfix">
+                            <span>Mises au point</span>
+                        </div>
+                        <div class="corps-contenu clearfix">
+                        <p class="map">(Sous réserve des dispositions de l'article 68, alinéa 4, du Règlement de l'Assemblée nationale)</p>
+                        <p class="itemmap">        M.&nbsp;Yves&nbsp;<b>Goasdoué</b>, M.&nbsp;Patrick&nbsp;<b>Lebreton</b>, M.&nbsp;Frédéric&nbsp;<b>Lefebvre</b>, M.&nbsp;Denys&nbsp;<b>Robiliard</b>, M.&nbsp;Gilles&nbsp;<b>Savary</b> qui étaient présents au moment du scrutin ou qui avaient délégué leur droit de vote ont fait savoir qu'ils avaient voulu <b>"voter pour"</b>.      </p>
+                        <p class="itemmap"></p>
+                        <p class="itemmap"></p>
+                        <p class="itemmap"></p>
+
+
+                        </div>
+                                                <div class="titre-contenu titre-simple clearfix no-print">
+                            <span>Votes des groupes</span>
+                        </div>
+
+                        <div class="corps-contenu clearfix no-print">
+                            <ul id="index-groupe">
+                                                            <li ><a href="#G0"><span class="nom-groupe">Groupe socialiste, républicain et citoyen</span>
+                                <span class="res-groupe">Pour: <b>272</b></span><span class="res-groupe">Non-votants: <b>2</b></span></a>
+                                </li>
+                                                            <li class="sep"><a href="#G1"><span class="nom-groupe">Groupe Les Républicains</span>
+                                <span class="res-groupe">Pour: <b>4</b></span><span class="res-groupe">Contre: <b>1</b></span><span class="res-groupe">Abstention: <b>184</b></span></a>
+                                </li>
+                                                            <li class="sep"><a href="#G2"><span class="nom-groupe">Groupe de l'union des démocrates et indépendants</span>
+                                <span class="res-groupe">Pour: <b>28</b></span></a>
+                                </li>
+                                                            <li class="sep"><a href="#G3"><span class="nom-groupe">Groupe écologiste</span>
+                                <span class="res-groupe">Pour: <b>16</b></span></a>
+                                </li>
+                                                            <li class="sep"><a href="#G4"><span class="nom-groupe">Groupe radical, républicain, démocrate et progressiste</span>
+                                <span class="res-groupe">Pour: <b>18</b></span></a>
+                                </li>
+                                                            <li class="sep"><a href="#G5"><span class="nom-groupe">Groupe de la gauche démocrate et républicaine</span>
+                                <span class="res-groupe">Pour: <b>15</b></span></a>
+                                </li>
+                                                            <li class="sep"><a href="#G6"><span class="nom-groupe">Non inscrits</span>
+                                <span class="res-groupe">Pour: <b>3</b></span><span class="res-groupe">Abstention: <b>3</b></span></a>
+                                </li>
+                                                        </ul>
+                        </div>
+                         <div class="pied-corps-contenu clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</section>
+</div>
+<script type="text/javascript">
+        var s1 =[];
+        var ticks = [];
+        var s1label = [];
+
+        s1[0]=parseFloat(356);
+        s1[1]=parseFloat(1);
+
+                ticks[0]="Pour l'adoption : "+356;
+        ticks[1]="Contre : "+1;
+        s1label[0]='Pour l\'adoption';
+        s1label[1]='Contre';
+
+        // Abstention : affichée que si > 0
+        if (parseFloat(187)>=0)
+        {
+            s1[2]=187;
+            ticks[2]="Abstention : "+ s1[2];
+            s1label[2]="Abstention : " + s1[2];
+        }
+
+
+        // choix des couleurs en fonction du max(pour,contre)
+</script>
+                </div>
+            </div>
+        </div>
+
+
+
+<script type="text/javascript" src="/extension/common/design/an/javascript/superfish-1.5.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/jwplayer-6.12/jwplayer.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/chosen.jquery-0.9.12.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/perfect-scrollbar-0.4.5.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/jquery.dataTables.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/jquery.dataTables.pagination.bstrap.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/ezswidl-pskn/design/ezswidl-pskn/javascript/an-front-loader.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/ezswidl-users/design/standard/javascript/ezswidl-users.userregister.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/ezswidl-users/design/standard/javascript/ezswidl-users.ezhumancaptcha.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/ansearch/design/an/javascript/recherche.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/bootstrap-2.1.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/ezswidl-anobjects/design/an/javascript/bootstrap-accessibility.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/jquery.easing.1.3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/jquery.mousewheel.3.1.6.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/jquery.jscrollpane.2.0.0beta11.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/jquery.bxSlider.4.1.2.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/jquery-ui-1.8.21.custom.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/ezswidl-pskn/design/ezswidl-pskn/javascript/libs/jquery.ui.datepicker-fr.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/ezswidl-pskn/design/ezswidl-pskn/javascript/an-front-main.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/ezswidl-anobjects/design/ezflow/javascript/ezswidl-anobjects.deputes.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/ezswidl-anobjects/design/an/javascript/ezswidl-anobjects.dossiers.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/common.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/common/design/an/javascript/captcha.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/an/design/standard/javascript/jquery.easyListSplitter.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/an/design/standard/javascript/raphael-min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/an/design/standard/javascript/g.raphael.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/an/design/standard/javascript/g.pie.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/extension/an/design/an/javascript/ANScrutin.js" charset="utf-8"></script>
+
+
+
+
+
+    <script>
+        var _gaq = [['_setAccount', 'UA-40085081-1'], ['_trackPageview']];
+        (function(d, t) {
+            var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            g.async = true; g.src = '//www.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s);
+        })(document, 'script');
+    </script>
+
+
+
+<footer>
+    <div id="footer-wrap">
+        <div id="footer-content">
+            <div id="footer-tools">
+                <ul>
+                    <li><a href="#top" class="bouton-retourner-haut">Retour haut de page</a></li>
+                    <li><a href="javascript:window.print();" class="bouton-imprimer">Imprimer</a></li>
+                </ul>
+            </div>
+            <div id="footer-links">
+                <dl id="footer-contacts">
+                    <dt>CONTACTEZ-NOUS</dt>
+                    <dd><a href="http://presidence.assemblee-nationale.fr/">Le Président de l'Assemblée nationale</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/qui/xml/liste_alpha.asp?legislature=14">Les députés</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/faq.asp">Le webmestre</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/faq.asp">Renseignements</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/presse/index.asp">Contact presse</a></dd>
+                </dl>
+                <dl id="footer-navigation">
+                    <dt>NAVIGATION</dt>
+                    <dd><a href="http://www.assemblee-nationale.fr/">Accueil</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/">Connaître l'Assemblée nationale</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/">Organisation et travaux</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/">Les députés</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/">Informations pratiques</a></dd>
+                </dl>
+                <dl id="footer-acces">
+                    <dt>ACCÈS DIRECTS</dt>
+                    <dd><a href="http://www.assemblee-nationale.fr/agendas/index.asp">Agendas</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/14/liste/texte_examine.asp">Textes examinés</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/14/liste/texte_ordre_du_jour.asp">Textes inscrits à l'ordre du jour</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/14/liste/rapport_information.asp">Rapports d'information</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/14/liste/rapport_application_lois.asp">Rapports sur l'application des lois</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/europe/">Union européenne</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/international/index.asp">Relations internationales</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/controle/questions.asp">Questions écrites et orales</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/presse/index.asp">Espace presse et dépêches AFP</a></dd>
+                </dl>
+                <dl id="footer-services">
+                    <dt>SERVICES EN LIGNE</dt>
+                    <dd><a href="http://www.assemblee-nationale.fr/video/">Le portail vidéo</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/rss/">RSS</a></dd>
+                    <dd><a href="http://www.assemblee.mobi/">Version mobile</a></dd>
+                    <dd><a href="http://boutique.assemblee-nationale.fr/vmchk.html">La Boutique</a></dd>
+                    <dd><a href="http://etudesimpact.assemblee-nationale.fr/">Réagir aux études d'impact</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/marches-publics/index.asp">Marchés publics</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/abonnement.asp">S'abonner aux services en ligne</a></dd>
+                </dl>
+                <dl id="footer-liens">
+                    <dt>LIENS</dt>
+                    <dd><a href="http://www.parlementdesenfants.fr/">Le Parlement des enfants</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/14/tribun/xml/liste_sites.asp">Les sites des députés</a></dd>
+                    <dd><a href="http://www.assemblee-nationale.fr/liens.asp">Sites officiels</a></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</footer>
+
+        <div id="toolbar-container">
+    <div id="toolbar">
+        <div class="top-links">
+        <ul>
+            <li><a href="/langues/welcome-to-the-english-website-of-the-french-national-assembly">English</a>&nbsp;</li>
+            <li><a href="/langues/willkommen-auf-der-deutschsprachigen-webseite-der-franzoesischen-nationalversammlung">Deutsch</a>&nbsp;</li>
+            <li><a href="/extuser/login"><i class="fa fa-user"></i> S'authentifier</a></li>
+        </ul>
+    </div>
+            <ul id="toolbar-accessibility">
+            <li><a href="#navigation" accesskey="9">Aller au menu</a></li>
+            <li><a href="#page" accesskey="s">Aller au contenu</a></li>
+            <li><a href="#recherchechampssaisie" accesskey="4">Aller à la recherche</a></li>
+            <li><a href="#" accesskey="0">Politique d’accessibilité</a></li>
+            <li><a href="/index.asp" accesskey="1">Accueil</a></li>
+            <li><a href="/plan.asp" accesskey="3">Plan du site</a></li>
+            <li><a href="/aide.asp" accesskey="6">Aide</a></li>
+            <li><a href="/ecrire.asp" accesskey="7">Contact</a></li>
+        </ul>
+
+        <div id="toolbar-search">
+            <form method="post" action="/recherche/resultats_recherche">
+                <input type="text" name="contenu" value="" placeholder="Recherche..." autocomplete="off" />
+                <input type="submit" value="OK" />
+
+
+           </form>
+        </div>
+    </div>
+</div>
+        <a id="to-top" class="btn-large" href="#top" title="Retour haut de page"><i class="icon-chevron-up icon-white"></i><span class="sr-only">Retour haut de page</span></a>
+
+
+
+        <div id="fb-root"></div>
+<div id="dialog-form-social-mail"></div>
+    </body>
+</html>
