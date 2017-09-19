@@ -117,9 +117,10 @@ class DossierParser(object):
 
     def parse_senat_url(self):
         re_url = re.compile('http://www.senat.fr/dossier-legislatif')
+        re_url_alt = re.compile('http://www.senat.fr/dossierleg/')
 
         return next(
-            filter(lambda url: re_url.match(url),
+            filter(lambda url: re_url.match(url) or re_url_alt.match(url),
                    map(lambda a: a['href'], self.soup.find_all('a'))), None)
 
     def parse_legislature(self):

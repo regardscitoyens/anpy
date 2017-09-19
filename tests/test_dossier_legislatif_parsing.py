@@ -83,6 +83,20 @@ def test_parse_senat_url():
     assert parser.parse_senat_url() == 'http://www.senat.fr/dossier-legislatif/pjl15-325.html'
 
 
+def test_parse_senat_url_alt():
+    html = """
+    <p align="center"><b><font color="#000080">Travaux préparatoires</font></b><br>
+    <div align="center"><a href="#ETAPE257051"> <font face="Arial" size="1">Sénat 1<sup>ère</sup> lecture</font></a> - <a href="#ETAPE257052"> <font face="Arial" size="1">Assemblée nationale 1<sup>ère</sup> lecture</font></a> - <a href="#ETAPE257054"> <font face="Arial" size="1">Commission Mixte Paritaire</font></a> - <a href="#ETAPE257055"> <font face="Arial" size="1">Lecture texte CMP</font></a></div><p>
+    <p align="center"><b><font color="#000099" size="2" face="Arial"><a name="ETAPE257051"></a>Sénat - 1<sup>ère</sup> lecture</b><br><a target="_blank" href="http://www.senat.fr/dossierleg/pjl08-582.html"><i>(Dossier en ligne sur le site du Sénat)</i></a></font></b></p>
+
+    <p><div align="left"><a target="_blank" href="http://www.senat.fr/leg/pjl08-582.html">Projet de loi</a> relatif à l'action extérieure de l'État, n° 582 rectifié, déposé le  22 juillet 2009<br> et renvoyé à la commission des affaires étrangères, de la défense et des forces armées<br>
+    """
+
+    parser = DossierParser('', html)
+
+    assert parser.parse_senat_url() == 'http://www.senat.fr/dossierleg/pjl08-582.html'
+
+
 def test_relevant_parent():
     root = DossierNode()
     step_node = LegislativeStepNode(parent=root)
