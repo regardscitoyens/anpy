@@ -268,6 +268,14 @@ def test_legislative_step_data_extractor():
     }]
 
 
+def test_legislative_step_2eme_lecture():
+    an_first_lecture = BeautifulSoup('<p align="center"><b><font color="#000099" size="2" face="Arial"><a name="ETAPE269073"></a>Assemblée nationale - 2<sup>e</sup> lecture</font></b></p>', 'html5lib')
+    step = LegislativeStepNode()
+    step.add_element(an_first_lecture)
+    step_data = step.extract_data()
+
+    assert step_data['type'] == LegislativeStepType.AN_DEUXIEME_LECTURE
+
 def test_dossier_data_extractor():
     pjl_element = BeautifulSoup('<p><a href="/14/projets/pl3318.asp">Projet de loi</a> pour une République numérique, n° 3318, déposé le 9 décembre 2015 (mis en ligne le 9 décembre 2015 à 18 heures 50)</p>', 'html5lib')
     depot = DepotLoiNode()
