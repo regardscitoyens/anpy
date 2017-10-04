@@ -121,29 +121,29 @@ def test_filtering_elements():
 
 
 def test_etude_impact_matching():
-    etude_impact = BeautifulSoup('<p><a href="/14/projets/pl2302-ei.asp" target="_blank">Etude d\'impact</a></p>')
+    etude_impact = BeautifulSoup('<p><a href="/14/projets/pl2302-ei.asp" target="_blank">Etude d\'impact</a></p>', 'html5lib')
 
     assert EtudeImpactNode.match(etude_impact)
 
 
 def test_avis_ce_matching():
-    avis_element = BeautifulSoup('<p><a href="/14/pdf/projets/pl3318-ace.pdf">Avis du Conseil d\'État</a></p>')
+    avis_element = BeautifulSoup('<p><a href="/14/pdf/projets/pl3318-ace.pdf">Avis du Conseil d\'État</a></p>', 'html5lib')
 
     assert AvisConseilEtatNode.match(avis_element)
 
 
 def test_dicussion_seance_matching():
-    dicussion_element = BeautifulSoup('<p>Discussion en séance publique</p>')
+    dicussion_element = BeautifulSoup('<p>Discussion en séance publique</p>', 'html5lib')
 
     assert DiscussionSeancePubliqueNode.match(dicussion_element)
 
 
 def test_depot_loi_matching():
     depot_element_1 = BeautifulSoup(
-        '<p><a href="/14/projets/pl3318.asp">Projet de loi</a> pour une République numérique, n° 3318, déposé le 9 décembre 2015 (mis en ligne le 9 décembre 2015 à 18 heures 50)</p>')
+        '<p><a href="/14/projets/pl3318.asp">Projet de loi</a> pour une République numérique, n° 3318, déposé le 9 décembre 2015 (mis en ligne le 9 décembre 2015 à 18 heures 50)</p>', 'html5lib')
 
     depot_element_2 = BeautifulSoup(
-        '<p><a href="/14/projets/pl3318.asp">Projet de loi</a> , adopté, par l\'Assemblée nationale après engagement de la procédure accélérée, relatif au renseignement, n° 424, déposé le 5 mai 2015.</p>')
+        '<p><a href="/14/projets/pl3318.asp">Projet de loi</a> , adopté, par l\'Assemblée nationale après engagement de la procédure accélérée, relatif au renseignement, n° 424, déposé le 5 mai 2015.</p>', 'html5lib')
 
     assert DepotLoiNode.match(depot_element_1)
     assert DepotLoiNode.match(depot_element_2)
@@ -151,29 +151,29 @@ def test_depot_loi_matching():
 
 def test_decision_node_matching():
     depot_element = BeautifulSoup(
-        '<p><a href="/14/projets/pl3318.asp">Projet de loi</a> pour une République numérique, n° 3318, déposé le 9 décembre 2015 (mis en ligne le 9 décembre 2015 à 18 heures 50)</p>')
+        '<p><a href="/14/projets/pl3318.asp">Projet de loi</a> pour une République numérique, n° 3318, déposé le 9 décembre 2015 (mis en ligne le 9 décembre 2015 à 18 heures 50)</p>', 'html5lib')
 
     decision_element = BeautifulSoup(
-        '<p>Projet de loi pour une République numérique, adopté en 1ère lecture par l\'Assemblée nationale le 26 janvier 2016 , <a href="/14/ta/ta0663.asp"> TA n° 663 </a></p>')
+        '<p>Projet de loi pour une République numérique, adopté en 1ère lecture par l\'Assemblée nationale le 26 janvier 2016 , <a href="/14/ta/ta0663.asp"> TA n° 663 </a></p>', 'html5lib')
 
     assert not DecisionNode.match(depot_element)
     assert DecisionNode.match(decision_element)
 
 
 def test_legislative_acts_matching():
-    procedure_acceleree = BeautifulSoup('<p>Le Gouvernement a engagé la procédure accélérée sur ce projet.</p>')
+    procedure_acceleree = BeautifulSoup('<p>Le Gouvernement a engagé la procédure accélérée sur ce projet.</p>', 'html5lib')
 
     assert ProcedureAccelereeNode.match(procedure_acceleree)
 
 
 def test_legislative_steps_matching():
-    an_first_lecture = BeautifulSoup('<p><strong>Assemblée nationale - 1ère lecture</strong></p>')
-    senat_first_lecture = BeautifulSoup('<p><strong>Sénat - 1ère lecture</strong></p>')
-    cmp = BeautifulSoup('<p><strong>Commission Mixte Paritaire (Désaccord)</strong></p>')
-    an_new_lecture = BeautifulSoup('<p><strong>Assemblée nationale - Nouvelle lecture</strong></p>')
-    senat_new_lecture = BeautifulSoup('<p><strong>Sénat - Nouvelle lecture</strong></p>')
-    an_final_lecture = BeautifulSoup('<p><strong>Assemblée nationale - Lecture définitive</strong></p>')
-    cc = BeautifulSoup('<p><strong>Conseil Constitutionnel</strong></p>')
+    an_first_lecture = BeautifulSoup('<p><strong>Assemblée nationale - 1ère lecture</strong></p>', 'html5lib')
+    senat_first_lecture = BeautifulSoup('<p><strong>Sénat - 1ère lecture</strong></p>', 'html5lib')
+    cmp = BeautifulSoup('<p><strong>Commission Mixte Paritaire (Désaccord)</strong></p>', 'html5lib')
+    an_new_lecture = BeautifulSoup('<p><strong>Assemblée nationale - Nouvelle lecture</strong></p>', 'html5lib')
+    senat_new_lecture = BeautifulSoup('<p><strong>Sénat - Nouvelle lecture</strong></p>', 'html5lib')
+    an_final_lecture = BeautifulSoup('<p><strong>Assemblée nationale - Lecture définitive</strong></p>', 'html5lib')
+    cc = BeautifulSoup('<p><strong>Conseil Constitutionnel</strong></p>', 'html5lib')
 
     assert LegislativeStepNode.match(an_first_lecture)
     assert LegislativeStepNode.match(senat_first_lecture)
@@ -185,7 +185,7 @@ def test_legislative_steps_matching():
 
 
 def test_etude_impact_data_extractor():
-    etude_element = BeautifulSoup('<p><a href="/14/projets/pl2302-ei.asp" target="_blank">Etude d\'impact</a></p>')
+    etude_element = BeautifulSoup('<p><a href="/14/projets/pl2302-ei.asp" target="_blank">Etude d\'impact</a></p>', 'html5lib')
     act = EtudeImpactNode()
     act.add_element(etude_element)
     act_data = act.extract_data()[0]
@@ -195,7 +195,7 @@ def test_etude_impact_data_extractor():
 
 
 def test_avis_ce_data_extractor():
-    avis_element = BeautifulSoup('<p><a href="/14/pdf/projets/pl3318-ace.pdf" target="_blank">Avis du Conseil d\'État</a></p>')
+    avis_element = BeautifulSoup('<p><a href="/14/pdf/projets/pl3318-ace.pdf" target="_blank">Avis du Conseil d\'État</a></p>', 'html5lib')
     act = AvisConseilEtatNode()
     act.add_element(avis_element)
     act_data = act.extract_data()[0]
@@ -237,7 +237,7 @@ def test_depot_loi_extractor():
 
 def test_decision_node_extractor():
     decision_element = BeautifulSoup(
-        '<p>Projet de loi pour une République numérique, adopté en 1<sup>ère</sup> lecture par l\'Assemblée nationale le 26 janvier 2016, <a href="/14/ta/ta0663.asp"> TA n° 663 </a></p>')
+        '<p>Projet de loi pour une République numérique, adopté en 1<sup>ère</sup> lecture par l\'Assemblée nationale le 26 janvier 2016, <a href="/14/ta/ta0663.asp"> TA n° 663 </a></p>', 'html5lib')
 
     act = DecisionNode()
     act.add_element(decision_element)
@@ -249,11 +249,11 @@ def test_decision_node_extractor():
 
 
 def test_legislative_step_data_extractor():
-    an_first_lecture = BeautifulSoup('<p><strong>Assemblée nationale - 1ère lecture</strong></p>')
+    an_first_lecture = BeautifulSoup('<p><strong>Assemblée nationale - 1ère lecture</strong></p>', 'html5lib')
     step = LegislativeStepNode()
     step.add_element(an_first_lecture)
 
-    etude_impact = BeautifulSoup('<p><a href="/14/projets/pl2302-ei.asp" target="_blank">Etude d\'impact</a></p>')
+    etude_impact = BeautifulSoup('<p><a href="/14/projets/pl2302-ei.asp" target="_blank">Etude d\'impact</a></p>', 'html5lib')
     act = EtudeImpactNode(parent=step)
     act.add_element(etude_impact)
 
@@ -269,17 +269,17 @@ def test_legislative_step_data_extractor():
 
 
 def test_dossier_data_extractor():
-    pjl_element = BeautifulSoup('<p><a href="/14/projets/pl3318.asp">Projet de loi</a> pour une République numérique, n° 3318, déposé le 9 décembre 2015 (mis en ligne le 9 décembre 2015 à 18 heures 50)</p>')
+    pjl_element = BeautifulSoup('<p><a href="/14/projets/pl3318.asp">Projet de loi</a> pour une République numérique, n° 3318, déposé le 9 décembre 2015 (mis en ligne le 9 décembre 2015 à 18 heures 50)</p>', 'html5lib')
     depot = DepotLoiNode()
     depot.add_element(pjl_element)
 
-    an_first_lecture_element = BeautifulSoup('<p><strong>Assemblée nationale - 1ère lecture</strong></p>')
+    an_first_lecture_element = BeautifulSoup('<p><strong>Assemblée nationale - 1ère lecture</strong></p>', 'html5lib')
     step = LegislativeStepNode()
     step.add_element(an_first_lecture_element)
     step.add_child(depot)
 
     dossier = DossierNode()
-    title_element = BeautifulSoup('<p><strong>Questions sociales et santé : modernisation de notre système de santé</strong></p>')
+    title_element = BeautifulSoup('<p><strong>Questions sociales et santé : modernisation de notre système de santé</strong></p>', 'html5lib')
     dossier.add_element(title_element)
 
     dossier.add_child(step)

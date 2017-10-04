@@ -16,6 +16,8 @@ from anpy.utils import extract_datetime
 
 AN_BASE_URL = 'http://www.assemblee-nationale.fr'
 
+class InvalidResponseException(Exception):
+    pass
 
 class Dossier(object):
     def __init__(self, url=None, senat_url=None, title=None,
@@ -29,7 +31,10 @@ class Dossier(object):
 
     @staticmethod
     def download_and_build(url):
-        return DossierParser(url, requests.get(url).content).parse()
+        resp = requests.get(url)
+        if resp.status_code > 200:
+            raise InvalidResponseException('%s: %d' % (url, resp.status_code))
+        return DossierParser(url, resp.content).parse()
 
     def to_dict(self):
         return {
