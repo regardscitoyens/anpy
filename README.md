@@ -31,7 +31,7 @@ ANpy currently provides the following features:
 - Dossier parsing
 - Scrutin parsing
 
-ANpy supports Python 2.7 & 3.5.
+ANpy supports Python 3.5.
 
 ## Install :
 ```bash
