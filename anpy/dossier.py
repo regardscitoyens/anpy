@@ -229,10 +229,10 @@ class DossierNode(BaseNode):
 class LegislativeStepNode(BaseNode):
     steps_re = {
         LegislativeStepType.AN_PREMIERE_LECTURE:
-            re.compile('^assemblée nationale - 1ère lecture',
+            re.compile('^assemblée nationale - 1 ?ère lecture',
                        re.I | re.UNICODE),
         LegislativeStepType.SENAT_PREMIERE_LECTURE:
-            re.compile('^sénat - 1ère lecture',
+            re.compile('^sénat - 1 ?ère lecture',
                        re.I | re.UNICODE),
         LegislativeStepType.AN_DEUXIEME_LECTURE:
             re.compile('^assemblée nationale - 2e lecture',
