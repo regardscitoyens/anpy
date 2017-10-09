@@ -269,7 +269,7 @@ class LegislativeStepNode(BaseNode):
         data = {
             'type': self.extract_type(),
             'acts': [act for child in self.children
-                     for act in child.extract_data()]
+                     for act in (child.extract_data() or [])]
         }
 
         if data['type'] == LegislativeStepType.CMP and self.elements:
@@ -441,6 +441,8 @@ class AvisConseilEtatNode(LegislativeActNode):
     rule = re.compile('^avis du conseil d\'État', re.I | re.UNICODE)
 
     def extract_data(self):
+        if not self.elements[0].a:
+            return
         return [{
             'type': LegislativeActType.AVIS_CONSEIL_ETAT,
             'url': urljoin(AN_BASE_URL, self.elements[0].a['href'])
