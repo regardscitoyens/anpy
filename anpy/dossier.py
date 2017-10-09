@@ -59,6 +59,8 @@ class LegislativeStepType(object):
     SENAT_PREMIERE_LECTURE = 'SENAT_PREMIERE_LECTURE'
     AN_DEUXIEME_LECTURE = 'AN_DEUXIEME_LECTURE'
     SENAT_DEUXIEME_LECTURE = 'SENAT_DEUXIEME_LECTURE'
+    AN_TROISIEME_LECTURE = 'AN_TROISIEME_LECTURE'
+    SENAT_TROISIEME_LECTURE = 'SENAT_TROISIEME_LECTURE'
     CMP = 'CMP'
     CONSEIL_CONSTIT = 'CONSEIL_CONSTITUT'
     AN_NOUVELLE_LECTURE = 'AN_NOUVELLE_LECTURE'
@@ -236,10 +238,16 @@ class LegislativeStepNode(BaseNode):
             re.compile('^sénat - 1 ?ère lecture',
                        re.I | re.UNICODE),
         LegislativeStepType.AN_DEUXIEME_LECTURE:
-            re.compile('^assemblée nationale - 2e lecture',
+            re.compile('^assemblée nationale - 2 ?e lecture',
                        re.I | re.UNICODE),
         LegislativeStepType.SENAT_DEUXIEME_LECTURE:
-            re.compile('^sénat - 2e lecture',
+            re.compile('^sénat - 2 ?e lecture',
+                       re.I | re.UNICODE),
+        LegislativeStepType.AN_TROISIEME_LECTURE:
+            re.compile('^assemblée nationale - 3 ?e lecture',
+                       re.I | re.UNICODE),
+        LegislativeStepType.SENAT_TROISIEME_LECTURE:
+            re.compile('^sénat - 3 ?e lecture',
                        re.I | re.UNICODE),
         LegislativeStepType.AN_NOUVELLE_LECTURE:
             re.compile('^assemblée nationale - nouvelle lecture',
