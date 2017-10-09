@@ -159,8 +159,9 @@ class DossierParser(object):
 
             if new_node_class:
                 parent = current_node.get_relevant_parent(new_node_class)
-                current_node = new_node_class(parent=parent)
-                parent.add_child(current_node)
+                next_current_node = new_node_class(parent=parent)
+                parent.add_child(next_current_node)
+                current_node = next_current_node
 
             current_node.add_element(element)
 
@@ -297,8 +298,10 @@ class LegislativeActNode(BaseNode):
         return cls.rule.match(html.text) if cls.rule else False
 
     def get_relevant_parent(self, node_class):
-        return self.parent if issubclass(node_class, LegislativeActNode)\
-            else self.parent.parent
+        if self.parent.parent:
+            return self.parent if issubclass(node_class, LegislativeActNode)\
+                else self.parent.parent
+        return self.parent
 
     def extract_data(self):
         raise NotImplementedError
