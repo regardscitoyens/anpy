@@ -23,6 +23,11 @@
                     "type": "PROCEDURE_ACCELEREE"
                 },
                 {
+                    "date": "2016-01-15T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.assemblee-nationale.fr/14/rapports/r3399.asp"
+                },
+                {
                     "date": "2016-01-19T00:00:00",
                     "type": "DISCUSSION_SEANCE_PUBLIQUE",
                     "url": "http://www.assemblee-nationale.fr/14/cri/2015-2016/20160103.asp"
@@ -77,6 +82,11 @@
                     "date": "2016-01-26T00:00:00",
                     "type": "DEPOT_INITIATIVE",
                     "url": "http://www.senat.fr/leg/pjl15-325.html"
+                },
+                {
+                    "date": "2016-04-06T00:00:00",
+                    "type": "TEXTE_COMMISSION",
+                    "url": "http://www.senat.fr/leg/pjl15-535.html"
                 },
                 {
                     "type": "DISCUSSION_SEANCE_PUBLIQUE",

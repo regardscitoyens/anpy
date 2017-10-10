@@ -80,6 +80,7 @@ class LegislativeActType(object):
     PROCEDURE_ACCELEREE = 'PROCEDURE_ACCELEREE'
     REUNION_COMMISSION = 'REUNION_COMMISSION'
     DISCUSSION_COMMISSION = 'DISCUSSION_COMMISSION'
+    TEXTE_COMMISSION = 'TEXTE_COMMISSION'
     DEPOT_RAPPORT = 'DEPOT_RAPPORT'
     SAISIE_COM_AVIS = 'SAISIE_COM_AVIS'
     NOMINATION_RAPPORTEURS = 'NOMINATION_RAPPORTEURS'
@@ -101,7 +102,7 @@ class DossierParser(object):
         return Dossier(
             url=self.url,
             title=self.parse_title(),
-            legislature=self.parse_legislature(),
+            legislature=self.parse_legislature(self.url),
             procedure=self.parse_procedure(),
             steps=self.parse_steps(),
             senat_url=self.parse_senat_url())
@@ -134,7 +135,7 @@ class DossierParser(object):
             filter(lambda url: re_url.match(url) or re_url_alt.match(url),
                    map(lambda a: a['href'], self.soup.find_all('a'))), None)
 
-    def parse_legislature(self):
+    def parse_legislature(self, url=None):
         re_legislature = re.compile('/(\d{2})/')
 
         def match_legislature(a):
@@ -143,6 +144,11 @@ class DossierParser(object):
         def get_matched_group(a):
             return match_legislature(a).group(1) \
                 if match_legislature(a) else None
+
+        if url and 'assemblee-nationale' in url:
+            legislature = url.split('.fr/')[1].split('/')[0]
+            if legislature:
+                return legislature
 
         return next(map(get_matched_group,
                         filter(match_legislature, self.soup.find_all('a'))))
@@ -202,6 +208,8 @@ class BaseNode(object):
                        ProcedureAccelereeNode,
                        AvisConseilEtatNode,
                        EtudeImpactNode,
+                       DepotTexteCommissionNode,
+                       RapportNode,
                        DecisionNode]:
             if class_.match(element):
                 return class_
@@ -384,6 +392,64 @@ class DepotLoiNode(LegislativeActNode):
             return ProcedureParlementaire.PJL
         elif self.elements and 'Proposition de loi' in self.elements[0].text:
             return ProcedureParlementaire.PPL
+
+
+class DepotTexteCommissionNode(LegislativeActNode):
+    rule = re.compile('^texte de la commission.+déposée? le',
+                      re.I | re.UNICODE)
+
+    @classmethod
+    def match(cls, html):
+        return cls.rule.match(html.text) and html.a if cls.rule else False
+
+    def extract_data(self):
+        if not self.elements:
+            return
+
+        return [{
+            'type': LegislativeActType.TEXTE_COMMISSION,
+            'url': self.extract_url(),
+            'date': self.extract_date()
+        }]
+
+    def extract_date(self):
+        matched_dates = re.findall(' déposée? le (\d+ \w+ \d{4})',
+                                   self.elements[0].text, re.UNICODE)
+
+        return extract_datetime(matched_dates[0]) if matched_dates else None
+
+    def extract_url(self):
+        return urljoin(AN_BASE_URL, self.elements[0].a['href']) \
+            if self.elements else None
+
+
+class RapportNode(LegislativeActNode):
+    rule = re.compile('^rapport.+déposée? le',
+                      re.I | re.UNICODE)
+
+    @classmethod
+    def match(cls, html):
+        return cls.rule.match(html.text) and html.a if cls.rule else False
+
+    def extract_data(self):
+        if not self.elements:
+            return
+
+        return [{
+            'type': LegislativeActType.DEPOT_RAPPORT,
+            'url': self.extract_url(),
+            'date': self.extract_date()
+        }]
+
+    def extract_date(self):
+        matched_dates = re.findall(' déposée? le (\d+ \w+ \d{4})',
+                                   self.elements[0].text, re.UNICODE)
+
+        return extract_datetime(matched_dates[0]) if matched_dates else None
+
+    def extract_url(self):
+        return urljoin(AN_BASE_URL, self.elements[0].a['href']) \
+            if self.elements else None
 
 
 class DecisionNode(LegislativeActNode):

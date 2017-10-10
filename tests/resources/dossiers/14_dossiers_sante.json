@@ -19,6 +19,21 @@
                     "type": "PROCEDURE_ACCELEREE"
                 },
                 {
+                    "date": "2015-03-20T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.assemblee-nationale.fr/14/rapports/r2673.asp"
+                },
+                {
+                    "date": "2015-02-11T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.assemblee-nationale.fr/14/rap-info/i2581.asp"
+                },
+                {
+                    "date": "2015-02-18T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.assemblee-nationale.fr/14/rap-info/i2592.asp"
+                },
+                {
                     "date": "2015-03-31T00:00:00",
                     "type": "DISCUSSION_SEANCE_PUBLIQUE",
                     "url": "http://www.assemblee-nationale.fr/14/cri/2014-2015/20150194.asp"
@@ -120,6 +135,16 @@
                     "url": "http://www.senat.fr/leg/pjl14-406.html"
                 },
                 {
+                    "date": "2015-07-22T00:00:00",
+                    "type": "TEXTE_COMMISSION",
+                    "url": "http://www.senat.fr/leg/pjl14-654.html"
+                },
+                {
+                    "date": "2015-07-02T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.senat.fr/rap/r14-592/r14-592.html"
+                },
+                {
                     "type": "DISCUSSION_SEANCE_PUBLIQUE",
                     "url": "http://www.senat.fr/seances/s201509/s20150914/st20150914000.html"
                 },
@@ -169,7 +194,13 @@
             "type": "SENAT_PREMIERE_LECTURE"
         },
         {
-            "acts": [],
+            "acts": [
+                {
+                    "date": "2015-10-27T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.assemblee-nationale.fr/14/tribun/fiches_id/608785.asp"
+                }
+            ],
             "status": "DESACCORD",
             "type": "CMP"
         },
@@ -179,6 +210,11 @@
                     "date": "2015-10-07T00:00:00",
                     "type": "DEPOT_INITIATIVE",
                     "url": "http://www.assemblee-nationale.fr/14/projets/pl3103.asp"
+                },
+                {
+                    "date": "2015-11-10T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.assemblee-nationale.fr/14/rapports/r3215.asp"
                 },
                 {
                     "date": "2015-11-24T00:00:00",
@@ -225,6 +261,16 @@
                     "date": "2015-12-02T00:00:00",
                     "type": "DEPOT_INITIATIVE",
                     "url": "http://www.senat.fr/leg/pjl15-209.html"
+                },
+                {
+                    "date": "2015-12-09T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.senat.fr/rap/l15-233/l15-233.html"
+                },
+                {
+                    "date": "2015-12-09T00:00:00",
+                    "type": "TEXTE_COMMISSION",
+                    "url": "http://www.senat.fr/leg/pjl15-234.html"
                 },
                 {
                     "date": "2015-12-14T00:00:00",
