@@ -395,7 +395,7 @@ class DepotLoiNode(LegislativeActNode):
 
 
 class DepotTexteCommissionNode(LegislativeActNode):
-    rule = re.compile('^texte de la commission.+déposée? le',
+    rule = re.compile('^texte de la commission.+(déposée?|mis en ligne) le',
                       re.I | re.UNICODE)
 
     @classmethod
@@ -413,8 +413,9 @@ class DepotTexteCommissionNode(LegislativeActNode):
         }]
 
     def extract_date(self):
-        matched_dates = re.findall(' déposée? le (\d+ \w+ \d{4})',
-                                   self.elements[0].text, re.UNICODE)
+        matched_dates = re.findall(
+            '(?:déposée?|mis en ligne)'' le (\d+ \w+ \d{4})',
+            self.elements[0].text, re.UNICODE)
 
         return extract_datetime(matched_dates[0]) if matched_dates else None
 
