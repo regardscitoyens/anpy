@@ -55,5 +55,5 @@ setup(
         'future'
     ],
 
-    scripts=['bin/anpy-cli.py'],
+    scripts=['bin/anpy-cli'],
 )

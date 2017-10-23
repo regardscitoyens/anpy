@@ -44,33 +44,33 @@ Documentation is available at http://anpy.readthedocs.io/en/latest
 
 
 ## CLI
-A script anpy-cli.py is installed with the package, it provides the following commands :
+A script anpy-cli is installed with the package, it provides the following commands :
 
 * Show an amendement given its url :
 ```bash
-python anpy-cli.py show_amendement http://www.assemblee-nationale.fr/14/amendements/1847/CION-DVP/CD266.asp
+python anpy-cli show_amendement http://www.assemblee-nationale.fr/14/amendements/1847/CION-DVP/CD266.asp
 ```
 
 * Show amendements summaries after a given date :
 ```bash
-python anpy-cli.py show_amendements_summary --start-date 2014-06-01
+python anpy-cli show_amendements_summary --start-date 2014-06-01
 ```
 
 * Print amendements order for a given id_dossier and id_examen :
 ```bash
-python anpy-cli.py show_amendements_order 33299 --id-examen 4073
+python anpy-cli show_amendements_order 33299 --id-examen 4073
 ```
 
 * Show a question
 ```bash
-python anpy-cli.py show_question http://questions.assemblee-nationale.fr/q14/14-73499QE.htm
+python anpy-cli show_question http://questions.assemblee-nationale.fr/q14/14-73499QE.htm
 ```
 
 * Show a dossier
 ```bash
-python anpy-cli.py show_dossier http://www.assemblee-nationale.fr/14/dossiers/sante.asp
+python anpy-cli show_dossier http://www.assemblee-nationale.fr/14/dossiers/sante.asp
 ```
 
 * Show a scrutin
 ```bash
-python anpy-cli.py show_scrutin http://www2.assemblee-nationale.fr/scrutins/detail/(legislature)/14/(num)/1212
+python anpy-cli show_scrutin http://www2.assemblee-nationale.fr/scrutins/detail/(legislature)/14/(num)/1212
