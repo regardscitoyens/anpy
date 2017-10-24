@@ -29,6 +29,7 @@ def clean_url(url):
 def parse(html, url_an=None, verbose=True):
     data = {
         'url_dossier_assemblee': url_an,
+        'urgence': False,
     }
 
     log_error = _log_error
@@ -36,11 +37,6 @@ def parse(html, url_an=None, verbose=True):
         def log_error(x): return None
 
     soup = BeautifulSoup(html, 'lxml')
-
-    meta = {}
-    for meta in soup.select('meta'):
-        if 'name' in meta.attrs:
-            meta[meta.attrs['name']] = meta.attrs['content']
 
     data['steps'] = []
     last_parsed = None
@@ -51,7 +47,12 @@ def parse(html, url_an=None, verbose=True):
     promulgation_step = None
     another_dosleg_inside = None
 
-    url_jo = meta.get('LIEN_LOI_PROMULGUEE')
+    metas = {}
+    for meta in soup.select('meta'):
+        if 'name' in meta.attrs:
+            metas[meta.attrs['name']] = meta.attrs['content']
+
+    url_jo = metas.get('LIEN_LOI_PROMULGUEE')
     if url_jo:
         data['url_jo'] = clean_url(url_jo)
         promulgation_step = {
@@ -206,10 +207,13 @@ def parse(html, url_an=None, verbose=True):
             if not links:
                 log_error('NO GOOD LINK IN LINE: %s' % (line,))
                 continue
+            url_jo = links[-1]
+            if 'url_jo' not in data:
+                data['url_jo'] = url_jo
             promulgation_step = {
                 'institution': 'gouvernement',
                 'stage': 'promulgation',
-                'source_url': clean_url(links[-1]),
+                'source_url': url_jo,
             }
 
         if 'Le Gouvernement a engagé la procédure accélérée' in line:
