@@ -6,6 +6,8 @@ import sys
 import os
 import bs4
 import io
+import glob
+import tqdm
 from urllib.parse import urljoin, urlparse
 import zipfile
 
@@ -208,7 +210,7 @@ def parse_dossier_directory(input_glob, output_dir):
     for file in tqdm.tqdm(files):
         html = open(file).read()
         url = html.split('URL=')[-1].split('-->')[0].strip()
-        filepath = os.path.join(output_dir, normalize_filename(url))
+        filepath = os.path.join(output_dir, normalized_filename(url))
 
         if os.path.exists(filepath):
             continue
@@ -222,6 +224,7 @@ def parse_dossier_directory(input_glob, output_dir):
                 open(full_filepath, 'w').write(json.dumps(dos, indent=4, sort_keys=True, ensure_ascii=False))
         else:
             open(filepath, 'w').write(json.dumps(None, indent=4, sort_keys=True, ensure_ascii=False))
+
 
 if __name__ == '__main__':
     cli()

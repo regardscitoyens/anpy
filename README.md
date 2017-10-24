@@ -48,29 +48,50 @@ A script anpy-cli is installed with the package, it provides the following comma
 
 * Show an amendement given its url :
 ```bash
-python anpy-cli show_amendement http://www.assemblee-nationale.fr/14/amendements/1847/CION-DVP/CD266.asp
+anpy-cli show_amendement http://www.assemblee-nationale.fr/14/amendements/1847/CION-DVP/CD266.asp
 ```
 
 * Show amendements summaries after a given date :
 ```bash
-python anpy-cli show_amendements_summary --start-date 2014-06-01
+anpy-cli show_amendements_summary --start-date 2014-06-01
 ```
 
 * Print amendements order for a given id_dossier and id_examen :
 ```bash
-python anpy-cli show_amendements_order 33299 --id-examen 4073
+anpy-cli show_amendements_order 33299 --id-examen 4073
 ```
 
 * Show a question
 ```bash
-python anpy-cli show_question http://questions.assemblee-nationale.fr/q14/14-73499QE.htm
+anpy-cli show_question http://questions.assemblee-nationale.fr/q14/14-73499QE.htm
 ```
 
 * Show a dossier
 ```bash
-python anpy-cli show_dossier http://www.assemblee-nationale.fr/14/dossiers/sante.asp
+anpy-cli show_dossier http://www.assemblee-nationale.fr/14/dossiers/sante.asp
+```
+
+* Show a dossier formatted like [senapy](https://github.com/regardscitoyens/senapy)
+```bash
+anpy-cli show_dossier_like_senapy http://www.assemblee-nationale.fr/14/dossiers/sante.asp
+```
+
+* Download dossier raw HTML from the AN website
+```bash
+anpy-cli download_recents_dossiers_from_website dossiers_an
+```
+
+* Download dossier raw HTML from the AN open-data file
+```bash
+anpy-cli download_recents_dossiers_from_opendata dossiers_an
+```
+
+* Parse AN raw HTML files to a directory
+```bash
+anpy-cli parse_dossier_directory "dossiers_an/*" parsed_dossiers_an
 ```
 
 * Show a scrutin
 ```bash
-python anpy-cli show_scrutin http://www2.assemblee-nationale.fr/scrutins/detail/(legislature)/14/(num)/1212
+anpy-cli show_scrutin http://www2.assemblee-nationale.fr/scrutins/detail/(legislature)/14/(num)/1212
+```
