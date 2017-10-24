@@ -89,8 +89,8 @@ def parse(html, url_an=None, verbose=True):
             text = parsed()
             last_section = None
             if 'Dossier en ligne sur le site du Sénat' in text:
-                data['url_dossier_senat'] = last_parsed.select(
-                    'a')[-1].attrs['href']
+                data['url_dossier_senat'] = clean_url(last_parsed.select(
+                    'a')[-1].attrs['href']).replace('/dossierleg/', '/dossier-legislatif/')
                 text = text.replace(
                     '(Dossier en ligne sur le site du Sénat)', '')
             if 'Sénat' in text:
