@@ -52,7 +52,8 @@ setup(
         'mistune',
         'dateparser',
         'attrs',
-        'future'
+        'future',
+        'slugify',
     ],
 
     scripts=['bin/anpy-cli'],

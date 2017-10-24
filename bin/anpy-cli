@@ -3,19 +3,43 @@
 
 import json
 import sys
+import os
+import bs4
+import io
+from urllib.parse import urljoin, urlparse
+import zipfile
+
 from pathlib import Path
 
 import attr
 import click
 import requests
+import slugify
 
 from anpy.dossier import Dossier
+from anpy.dossier_like_senapy import parse as parse_dossier_like_senapy
 from anpy.question import parse_question
 from anpy.amendement import Amendement, AmendementSearchService
 from anpy.scrutin import Scrutin
 from anpy.utils import json_dumps
 
 sys.path.append(str(Path(__file__).absolute().parents[1]))
+
+
+def download(url, retry=5):
+    try:
+        return requests.get(url)
+    except requests.exceptions.ConnectionError as e:
+        if retry:
+            time.sleep(1)
+            return download(url, retry-1)
+        raise e
+
+
+def normalized_filename(url):
+    scheme, netloc, path, params, query, fragment = urlparse(url)
+    return slugify.slugify(path.replace('dossiers/', '') \
+        .replace('.asp', ''))
 
 
 @click.group()
@@ -60,8 +84,8 @@ def show_amendement(url):
 @cli.command()
 @click.argument('url')
 def show_question(url):
-    question_html = requests.get(url + '/vue/xml').content
-    parsed_data = parse_question(url, question_html)
+    question_html = download(url + '/vue/xml').content
+    parsed_data = parse_dossier_like_senapy(url, question_html)
     print(json.dumps(parsed_data, indent=4, sort_keys=True,
                      ensure_ascii=False))
 
@@ -76,11 +100,128 @@ def show_dossier(url):
 
 @cli.command()
 @click.argument('url')
+def show_dossier_like_senapy(url):
+    html = download(url).text
+    print(json_dumps(parse_dossier_like_senapy(html, url), indent=4, sort_keys=True,
+                     ensure_ascii=False))
+
+
+@cli.command()
+@click.argument('url')
 def show_scrutin(url):
     scrutin = Scrutin.download_and_build(url)
     print(json_dumps(scrutin.to_dict(), indent=4, sort_keys=True,
                      ensure_ascii=False))
 
+
+@cli.command()
+@click.argument('output_dir')
+def download_recents_dossiers_from_website(output_dir):
+    URLS = [
+        'http://www.assemblee-nationale.fr/15/documents/index-dossier.asp',
+        'http://www.assemblee-nationale.fr/14/documents/index-dossier.asp',
+        'http://www.assemblee-nationale.fr/13/documents/index-dossier.asp',
+
+        'http://www.assemblee-nationale.fr/15/documents/index-conventions.asp',
+        'http://www.assemblee-nationale.fr/14/documents/index-conventions.asp',
+        'http://www.assemblee-nationale.fr/13/documents/index-conventions.asp',
+
+        'http://www.assemblee-nationale.fr/15/documents/index-proposition.asp',
+        'http://www.assemblee-nationale.fr/14/documents/index-proposition.asp',
+        'http://www.assemblee-nationale.fr/13/documents/index-proposition.asp',
+
+        'http://www.assemblee-nationale.fr/15/documents/index-projets.asp',
+        'http://www.assemblee-nationale.fr/14/documents/index-projets.asp',
+        'http://www.assemblee-nationale.fr/13/documents/index-projets.asp',
+
+        'http://www.assemblee-nationale.fr/13/documents/index-depots.asp',
+
+        # TODO: http://www2.assemblee-nationale.fr/documents/liste/%28type%29/propositions-loi
+    ]
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    for index_url in URLS:
+        print('finding doslegs links in', index_url)
+
+        for link in bs4.BeautifulSoup(download(index_url).text, 'lxml').select('a'):
+            url = urljoin('http://www.assemblee-nationale.fr', link.attrs.get('href', ''))
+
+            if '/dossiers/' in url:
+                filepath = os.path.join(output_dir, normalized_filename(url))
+
+                if os.path.exists(filepath):
+                    continue
+
+                print('downloading', url)
+                resp = download(url)
+                if resp.status_code < 300:
+                    if "vous prie d'accepter toutes ses excuses pour le" in resp.text:
+                        print('ERROR IN RESP', resp.status_code)
+                    else:
+                        open(filepath, 'w').write(resp.text + '\n\n<!-- URL=%s -->' % url)
+                else:
+                    print('INVALID RESPONSE:', resp.status_code)
+
+
+@cli.command()
+@click.argument('output_dir')
+def download_recents_dossiers_from_opendata(output_dir):
+    print('downloading Dossiers_Legislatifs_XIV.json...')
+    doslegs_resp = requests.get('http://data.assemblee-nationale.fr/static/openData/repository/LOI/dossiers_legislatifs/Dossiers_Legislatifs_XIV.json.zip')
+    doslegs_zip = zipfile.ZipFile(io.BytesIO(doslegs_resp.content))
+    DATA = json.loads(doslegs_zip.open('Dossiers_Legislatifs_XIV.json').read().decode('utf-8'))
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    for dossier in DATA['export']['dossiersLegislatifs']['dossier']:
+        url = 'http://www.assemblee-nationale.fr/{}/dossiers/{}.asp'.format(
+                dossier['dossierParlementaire']['legislature'], dossier['dossierParlementaire']['titreDossier']['titreChemin'])
+
+        filepath = os.path.join(output_dir, normalized_filename(url))
+
+        if os.path.exists(filepath):
+          continue
+
+        print('downloading', url)
+        resp = download(url)
+        if resp.status_code < 300:
+            if "vous prie d'accepter toutes ses excuses pour le" in resp.text:
+                print('ERROR IN RESP', resp.status_code)
+            else:
+                open(filepath, 'w').write(resp.text + '\n\n<!-- URL=%s -->' % url)
+        else:
+            print('INVALID RESPONSE:', resp.status_code)
+
+
+@cli.command()
+@click.argument('input_glob')
+@click.argument('output_dir')
+def parse_dossier_directory(input_glob, output_dir):
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    files = glob.glob(input_glob)
+    print(len(files), 'files to parse')
+    for file in tqdm.tqdm(files):
+        html = open(file).read()
+        url = html.split('URL=')[-1].split('-->')[0].strip()
+        filepath = os.path.join(output_dir, normalize_filename(url))
+
+        if os.path.exists(filepath):
+            continue
+
+        result = parse_dossier_like_senapy(html, url, verbose=False)
+        if result:
+            for i, dos in enumerate(result):
+                full_filepath = filepath
+                if i != 0:
+                    full_filepath += '_%d' % i
+                open(full_filepath, 'w').write(json.dumps(dos, indent=4, sort_keys=True, ensure_ascii=False))
+        else:
+            open(filepath, 'w').write(json.dumps(None, indent=4, sort_keys=True, ensure_ascii=False))
 
 if __name__ == '__main__':
     cli()
