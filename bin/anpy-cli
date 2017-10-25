@@ -139,17 +139,17 @@ def download_recents_dossiers_from_website(output_dir):
         'http://www.assemblee-nationale.fr/14/documents/index-conventions.asp',
         'http://www.assemblee-nationale.fr/13/documents/index-conventions.asp',
 
-        # 'http://www.assemblee-nationale.fr/15/documents/index-proposition.asp',
-        # 'http://www.assemblee-nationale.fr/14/documents/index-proposition.asp',
+        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/15/(type)/propositions-loi/',
+        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/14/(type)/propositions-loi/',
         'http://www.assemblee-nationale.fr/13/documents/index-proposition.asp',
 
-        # 'http://www.assemblee-nationale.fr/15/documents/index-projets.asp',
-        # 'http://www.assemblee-nationale.fr/14/documents/index-projets.asp', TODO: pagination
+        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/15/(type)/projets-loi/',
+        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/14/(type)/projets-loi/',
         'http://www.assemblee-nationale.fr/13/documents/index-projets.asp',
 
+        'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/15/(type)/depots/',
+        'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/14/(type)/depots/',
         'http://www.assemblee-nationale.fr/13/documents/index-depots.asp',
-
-        # TODO: http://www2.assemblee-nationale.fr/documents/liste/%28type%29/propositions-loi
     ]
 
     if not os.path.exists(output_dir):
@@ -189,7 +189,7 @@ def download_recents_dossiers_from_opendata(output_dir):
         if titreChemin is None:
             print('INVALID titreChemin -', titreChemin)
             continue
-        
+
         url = 'http://www.assemblee-nationale.fr/{}/dossiers/{}.asp'.format(
                 dossier['dossierParlementaire']['legislature'], titreChemin)
 
