@@ -26,7 +26,7 @@ def clean_url(url):
     return url
 
 
-def parse(html, url_an=None, verbose=True):
+def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
     data = {
         'url_dossier_assemblee': url_an,
         'urgence': False,
@@ -47,22 +47,22 @@ def parse(html, url_an=None, verbose=True):
     promulgation_step = None
     another_dosleg_inside = None
 
-    metas = {}
-    for meta in soup.select('meta'):
-        if 'name' in meta.attrs:
-            metas[meta.attrs['name']] = meta.attrs['content']
+    if first_dosleg_in_page:
+        metas = {}
+        for meta in soup.select('meta'):
+            if 'name' in meta.attrs:
+                metas[meta.attrs['name']] = meta.attrs['content']
 
-    url_jo = metas.get('LIEN_LOI_PROMULGUEE')
-    if url_jo:
-        data['url_jo'] = clean_url(url_jo)
-        promulgation_step = {
-            'institution': 'gouvernement',
-            'stage': 'promulgation',
-            'source_url': data['url_jo'],
-        }
+        url_jo = metas.get('LIEN_LOI_PROMULGUEE')
+        if url_jo:
+            data['url_jo'] = clean_url(url_jo)
+            promulgation_step = {
+                'institution': 'gouvernement',
+                'stage': 'promulgation',
+                'source_url': data['url_jo'],
+            }
 
     for i, line in enumerate(html.split('\n')):
-
         def parsed():
             nonlocal last_parsed
             last_parsed = BeautifulSoup(line, 'lxml')
@@ -156,6 +156,7 @@ def parse(html, url_an=None, verbose=True):
                 curr_step = 'hemicycle'
         elif ('/rapports/' in line or '/rap/' in line) and last_section and 'commissions' in last_section:
             if get_last_step().get('step') == 'commission':
+                import pudb;pu.db
                 log_error('DOUBLE COMMISSION LINE: %s' % line)
                 continue
             curr_step = 'commission'
@@ -192,13 +193,16 @@ def parse(html, url_an=None, verbose=True):
                 elif 'senat.fr' in url:
                     real_institution = 'senat'
 
-            data['steps'].append({
+            step = {
                 'institution': real_institution,
                 'stage': curr_stage,
-                'step': curr_step,
                 'source_url': url,
-                # '<text>': text,
-            })
+            }
+
+            if curr_step:
+                step['step'] = curr_step
+
+            data['steps'].append(step)
 
         if 'publiée au Journal Officiel' in line:
             text = parsed()
@@ -216,14 +220,14 @@ def parse(html, url_an=None, verbose=True):
                 'source_url': url_jo,
             }
 
-        if 'Le Gouvernement a engagé la procédure accélérée' in line:
+        if 'Le Gouvernement a engagé la procédure accélérée' in line or  'engagement de la procédure accélérée' in line:
             data['urgence'] = True
 
     if promulgation_step:
         data['steps'].append(promulgation_step)
 
     if another_dosleg_inside:
-        others = parse(another_dosleg_inside, url_an, verbose=verbose)
+        others = parse(another_dosleg_inside, url_an, verbose=verbose, first_dosleg_in_page=False)
         if others:
             return [data] + others
     return [data]
