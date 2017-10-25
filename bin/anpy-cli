@@ -139,12 +139,12 @@ def download_recents_dossiers_from_website(output_dir):
         'http://www.assemblee-nationale.fr/14/documents/index-conventions.asp',
         'http://www.assemblee-nationale.fr/13/documents/index-conventions.asp',
 
-        'http://www.assemblee-nationale.fr/15/documents/index-proposition.asp',
-        'http://www.assemblee-nationale.fr/14/documents/index-proposition.asp',
+        # 'http://www.assemblee-nationale.fr/15/documents/index-proposition.asp',
+        # 'http://www.assemblee-nationale.fr/14/documents/index-proposition.asp',
         'http://www.assemblee-nationale.fr/13/documents/index-proposition.asp',
 
-        'http://www.assemblee-nationale.fr/15/documents/index-projets.asp',
-        'http://www.assemblee-nationale.fr/14/documents/index-projets.asp',
+        # 'http://www.assemblee-nationale.fr/15/documents/index-projets.asp',
+        # 'http://www.assemblee-nationale.fr/14/documents/index-projets.asp', TODO: pagination
         'http://www.assemblee-nationale.fr/13/documents/index-projets.asp',
 
         'http://www.assemblee-nationale.fr/13/documents/index-depots.asp',
@@ -185,8 +185,13 @@ def download_recents_dossiers_from_opendata(output_dir):
         os.makedirs(output_dir)
 
     for dossier in DATA['export']['dossiersLegislatifs']['dossier']:
+        titreChemin = dossier['dossierParlementaire']['titreDossier']['titreChemin']
+        if titreChemin is None:
+            print('INVALID titreChemin -', titreChemin)
+            continue
+        
         url = 'http://www.assemblee-nationale.fr/{}/dossiers/{}.asp'.format(
-                dossier['dossierParlementaire']['legislature'], dossier['dossierParlementaire']['titreDossier']['titreChemin'])
+                dossier['dossierParlementaire']['legislature'], titreChemin)
 
         filepath = os.path.join(output_dir, normalized_filename(url))
 
