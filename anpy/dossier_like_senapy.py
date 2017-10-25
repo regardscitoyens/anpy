@@ -156,7 +156,6 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 curr_step = 'hemicycle'
         elif ('/rapports/' in line or '/rap/' in line) and last_section and 'commissions' in last_section:
             if get_last_step().get('step') == 'commission':
-                import pudb;pu.db
                 log_error('DOUBLE COMMISSION LINE: %s' % line)
                 continue
             curr_step = 'commission'
@@ -220,7 +219,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 'source_url': url_jo,
             }
 
-        if 'Le Gouvernement a engagé la procédure accélérée' in line or  'engagement de la procédure accélérée' in line:
+        if 'Le Gouvernement a engagé la procédure accélérée' in line or 'engagement de la procédure accélérée' in line:
             data['urgence'] = True
 
     if promulgation_step:
