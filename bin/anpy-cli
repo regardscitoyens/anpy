@@ -37,6 +37,17 @@ def download(url, retry=5):
             return download(url, retry-1)
         raise e
 
+def is_valid_dosleg_resp(resp):
+    if resp.status_code < 300:
+        if "vous prie d'accepter toutes ses excuses pour le" in resp.text:
+            print('ERROR IN RESP', resp.status_code)
+        else:
+            return True
+    else:
+        print('INVALID RESPONSE:', resp.status_code)
+    return False
+
+
 
 def normalized_filename(url):
     scheme, netloc, path, params, query, fragment = urlparse(url)
@@ -158,13 +169,8 @@ def download_recents_dossiers_from_website(output_dir):
 
                 print('downloading', url)
                 resp = download(url)
-                if resp.status_code < 300:
-                    if "vous prie d'accepter toutes ses excuses pour le" in resp.text:
-                        print('ERROR IN RESP', resp.status_code)
-                    else:
-                        open(filepath, 'w').write(resp.text + '\n\n<!-- URL=%s -->' % url)
-                else:
-                    print('INVALID RESPONSE:', resp.status_code)
+                if is_valid_dosleg_resp(resp):
+                    open(filepath, 'w').write(resp.text + '\n\n<!-- URL=%s -->' % url)
 
 
 @cli.command()
@@ -189,13 +195,8 @@ def download_recents_dossiers_from_opendata(output_dir):
 
         print('downloading', url)
         resp = download(url)
-        if resp.status_code < 300:
-            if "vous prie d'accepter toutes ses excuses pour le" in resp.text:
-                print('ERROR IN RESP', resp.status_code)
-            else:
-                open(filepath, 'w').write(resp.text + '\n\n<!-- URL=%s -->' % url)
-        else:
-            print('INVALID RESPONSE:', resp.status_code)
+        if is_valid_dosleg_resp(resp):
+            open(filepath, 'w').write(resp.text + '\n\n<!-- URL=%s -->' % url)
 
 
 @cli.command()
@@ -215,9 +216,10 @@ def parse_dossier_directory(input_glob, output_dir):
         if os.path.exists(filepath):
             continue
 
-        result = parse_dossier_like_senapy(html, url, verbose=False)
-        if result:
-            for i, dos in enumerate(result):
+        results = parse_dossier_like_senapy(html, url, verbose=False)
+
+        if results:
+            for i, dos in enumerate(results):
                 full_filepath = filepath
                 if i != 0:
                     full_filepath += '_%d' % i
