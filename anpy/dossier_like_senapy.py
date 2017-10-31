@@ -19,10 +19,20 @@ def clean_url(url):
         url_jo_params = parse_qs(query)
         if 'cidTexte' in url_jo_params:
             query = 'cidTexte=' + url_jo_params['cidTexte'][0]
-        return urlunparse((scheme, netloc, path, '', query, fragment))
+        res = urlunparse((scheme, netloc, path, '', query, fragment))
+        res = res.replace('http://legifrance.gouv.fr', 'https://www.legifrance.gouv.fr')
+        res = res.replace('/jo_pdf.do?id=', '/affichTexte.do?cidTexte=')
+        return res.replace('/./affichTexte.do', '/affichTexte.do')
     # url like 'pjl09-518.htmlhttp://www.assemblee-nationale.fr/13/ta/ta0518.asp'
     if url.find('http://') > 0:
         url = 'http://' + url.split('http://')[1]
+    # url like http://www.senat.fr/dossier-legislatif/www.conseil-constitutionnel.fr/decision/2012/2012646dc.htm
+    if 'www.conseil-' in url:
+        url = 'http://www.conseil-' + url.split('www.conseil-')[1]
+    if 'senat.fr' in url:
+        url = url.replace('/dossierleg/', '/dossier-legislatif/')
+        url = url.replace('http://', 'https://')
+    url = url.replace('http://webdim/', 'http://www.assemblee-nationale.fr/')
     return url
 
 
