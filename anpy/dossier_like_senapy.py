@@ -34,7 +34,7 @@ def clean_url(url):
         url = url.replace('/dossierleg/', '/dossier-legislatif/')
         url = url.replace('http://', 'https://')
     url = url.replace('http://webdim/', 'http://www.assemblee-nationale.fr/')
-    return url
+    return url.strip()
 
 
 def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
@@ -177,7 +177,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             text = parsed()
             links = [a.attrs.get('href') for a in last_parsed.select('a')]
             links = [
-                href for href in links if href and 'fiches_id' not in href and '/senateur/' not in href]
+                href for href in links if href and 'fiches_id' not in href and '/senateur/' not in href and 'javascript:' not in href]
             if not links:
                 log_error('NO LINK IN LINE: %s' % (line,))
                 continue
