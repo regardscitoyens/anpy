@@ -29,6 +29,7 @@ def clean_url(url):
     # url like http://www.senat.fr/dossier-legislatif/www.conseil-constitutionnel.fr/decision/2012/2012646dc.htm
     if 'www.conseil-' in url:
         url = 'http://www.conseil-' + url.split('www.conseil-')[1]
+        url = url.replace('//', '/')
     if 'senat.fr' in url:
         url = url.replace('/dossierleg/', '/dossier-legislatif/')
         url = url.replace('http://', 'https://')
