@@ -20,7 +20,8 @@ def clean_url(url):
         if 'cidTexte' in url_jo_params:
             query = 'cidTexte=' + url_jo_params['cidTexte'][0]
         res = urlunparse((scheme, netloc, path, '', query, fragment))
-        res = res.replace('http://legifrance.gouv.fr', 'https://www.legifrance.gouv.fr')
+        res = res.replace('://legifrance.gouv.fr', '://www.legifrance.gouv.fr')
+        res = res.replace('http://', 'https://')
         res = res.replace('/jo_pdf.do?id=', '/affichTexte.do?cidTexte=')
         return res.replace('/./affichTexte.do', '/affichTexte.do')
     # url like 'pjl09-518.htmlhttp://www.assemblee-nationale.fr/13/ta/ta0518.asp'
