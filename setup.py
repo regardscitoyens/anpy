@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import re
 from setuptools import setup
 from os import path
@@ -16,6 +17,8 @@ if not version:
 
 with open(path.join(here, 'README.md'), encoding='utf-8') as readme:
     LONG_DESC = readme.read()
+
+os.system('pip install git+https://github.com/RegardsCitoyens/lawfactory_utils.git@master')
 
 setup(
     name='anpy',
