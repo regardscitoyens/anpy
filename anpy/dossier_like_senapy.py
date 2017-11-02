@@ -194,7 +194,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
 
         if 'publiée au Journal Officiel' in line:
             text = parsed()
-            links = [a.attrs['href'] for a in last_parsed.select(
+            links = [clean_url(a.attrs['href']) for a in last_parsed.select(
                 'a') if 'legifrance' in a.attrs.get('href', '')]
             if not links:
                 log_error('NO GOOD LINK IN LINE: %s' % (line,))
