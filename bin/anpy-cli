@@ -137,7 +137,8 @@ def show_scrutin(url):
 
 @cli.command()
 @click.argument('output_dir')
-def download_recents_dossiers_from_website(output_dir):
+@click.option('--disable-cache', is_flag=True)
+def download_recents_dossiers_from_website(output_dir, disable_cache):
     URLS = [
         'http://www.assemblee-nationale.fr/15/documents/index-dossier.asp',
         'http://www.assemblee-nationale.fr/14/documents/index-dossier.asp',
@@ -172,7 +173,7 @@ def download_recents_dossiers_from_website(output_dir):
             if '/dossiers/' in url:
                 filepath = os.path.join(output_dir, normalized_filename(url))
 
-                if os.path.exists(filepath):
+                if not disable_cache and os.path.exists(filepath):
                     continue
 
                 print('downloading', url)
@@ -183,7 +184,8 @@ def download_recents_dossiers_from_website(output_dir):
 
 @cli.command()
 @click.argument('output_dir')
-def download_recents_dossiers_from_opendata(output_dir):
+@click.option('--disable-cache', is_flag=True)
+def download_recents_dossiers_from_opendata(output_dir, disable_cache):
     print('downloading Dossiers_Legislatifs_XIV.json...')
     doslegs_resp = requests.get('http://data.assemblee-nationale.fr/static/openData/repository/LOI/dossiers_legislatifs/Dossiers_Legislatifs_XIV.json.zip')
     doslegs_zip = zipfile.ZipFile(io.BytesIO(doslegs_resp.content))
@@ -203,7 +205,7 @@ def download_recents_dossiers_from_opendata(output_dir):
 
         filepath = os.path.join(output_dir, normalized_filename(url))
 
-        if os.path.exists(filepath):
+        if not disable_cache and os.path.exists(filepath):
           continue
 
         print('downloading', url)
