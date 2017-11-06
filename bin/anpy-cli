@@ -114,7 +114,15 @@ def show_dossier(url):
 @cli.command()
 @click.argument('url')
 def show_dossier_like_senapy(url):
-    html = download(url).text
+    if os.path.exists(url):
+        try:
+            html = open(url).read()
+        except UnicodeDecodeError:
+            html = open(url, encoding='iso-8859-1').read()
+        url = html.split('-- URL=')[-1].split('-->')[0].strip()
+    else:
+        html = download(url)
+
     print(json_dumps(parse_dossier_like_senapy(html, url), indent=4, sort_keys=True,
                      ensure_ascii=False))
 

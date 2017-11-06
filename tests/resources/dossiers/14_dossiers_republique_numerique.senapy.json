@@ -1,0 +1,58 @@
+[
+    {
+        "long_title": "Economie : pour une République numérique",
+        "steps": [
+            {
+                "institution": "assemblee",
+                "source_url": "http://www.assemblee-nationale.fr/14/projets/pl3318.asp",
+                "stage": "1ère lecture",
+                "step": "depot"
+            },
+            {
+                "institution": "assemblee",
+                "source_url": "http://www.assemblee-nationale.fr/14/ta-commission/r3399-a0.asp",
+                "stage": "1ère lecture",
+                "step": "commission"
+            },
+            {
+                "institution": "assemblee",
+                "source_url": "http://www.assemblee-nationale.fr/14/ta/ta0663.asp",
+                "stage": "1ère lecture",
+                "step": "hemicycle"
+            },
+            {
+                "institution": "senat",
+                "source_url": "https://www.senat.fr/leg/pjl15-325.html",
+                "stage": "1ère lecture",
+                "step": "depot"
+            },
+            {
+                "institution": "senat",
+                "source_url": "https://www.senat.fr/leg/pjl15-535.html",
+                "stage": "1ère lecture",
+                "step": "commission"
+            },
+            {
+                "institution": "senat",
+                "source_url": "https://www.senat.fr/leg/tas15-131.html",
+                "stage": "1ère lecture",
+                "step": "hemicycle"
+            },
+            {
+                "institution": "CMP",
+                "source_url": "http://www.assemblee-nationale.fr/14/ta-commission/r3902-a0.asp",
+                "stage": "CMP",
+                "step": "commission"
+            },
+            {
+                "institution": "assemblee",
+                "source_url": "http://www.assemblee-nationale.fr/14/ta/ta0802.asp",
+                "stage": "CMP",
+                "step": "hemicycle"
+            }
+        ],
+        "urgence": true,
+        "url_dossier_assemblee": "http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp",
+        "url_dossier_senat": "https://www.senat.fr/dossier-legislatif/pjl15-325.html"
+    }
+]

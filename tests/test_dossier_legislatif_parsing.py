@@ -24,6 +24,8 @@ from anpy.dossier import (
     DecisionStatus)
 from anpy.utils import json_dumps, json_loads
 
+from anpy.dossier_like_senapy import parse as parse_like_senapy
+
 
 def test_html_clean():
     bad_html = '<div> first part <br><br> second part'
@@ -313,6 +315,11 @@ def test_pjl_sante_parsing():
         codecs.open('tests/resources/dossiers/14_dossiers_sante.json', encoding='utf-8').read())
     assert dossier_data == expected_data
 
+    dossier_data = parse_like_senapy(html, url)
+    expected_data = json_loads(
+        codecs.open('tests/resources/dossiers/14_dossiers_sante.senapy.json', encoding='utf-8').read())
+    assert dossier_data == expected_data
+
 
 def test_pjl_num_parsing():
     url = 'http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp'
@@ -323,6 +330,9 @@ def test_pjl_num_parsing():
         codecs.open('tests/resources/dossiers/14_dossiers_republique_numerique.json', encoding='utf-8').read())
     assert dossier_data == expected_data
 
-
+    dossier_data = parse_like_senapy(html, url)
+    expected_data = json_loads(
+        codecs.open('tests/resources/dossiers/14_dossiers_republique_numerique.senapy.json', encoding='utf-8').read())
+    assert dossier_data == expected_data
 
 
