@@ -115,6 +115,10 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             log_error('PROPOSITION DE RESOLUTION EUROPEENE')
             return None
 
+        if '<div align="center"><font color="#000099"><b>En savoir plus</b>' in line:
+            # end of dosleg
+            break
+
         curr_step = None
         # conseil. consti. has no step but we should get the link
         no_step_but_good_link = False

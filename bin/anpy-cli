@@ -217,7 +217,8 @@ def download_recents_dossiers_from_opendata(output_dir, disable_cache):
 @cli.command()
 @click.argument('input_glob')
 @click.argument('output_dir')
-def parse_dossier_directory(input_glob, output_dir):
+@click.option('--disable-cache', is_flag=True)
+def parse_dossier_directory(input_glob, output_dir, disable_cache):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -228,7 +229,7 @@ def parse_dossier_directory(input_glob, output_dir):
         url = html.split('URL=')[-1].split('-->')[0].strip()
         filepath = os.path.join(output_dir, normalized_filename(url))
 
-        if os.path.exists(filepath):
+        if not disable_cache and os.path.exists(filepath):
             continue
 
         results = parse_dossier_like_senapy(html, url, verbose=False)
