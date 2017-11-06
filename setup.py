@@ -57,6 +57,7 @@ setup(
         'attrs',
         'future',
         'slugify',
+        'lxml',
     ],
 
     scripts=['bin/anpy-cli'],
