@@ -30,7 +30,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
     data['steps'] = []
     last_parsed = None
     curr_institution = 'assemblee'
-    curr_stage = None
+    curr_stage = '1ère lecture'
     last_section = None  # Travaux des commissions/Discussion en séance publique
     travaux_prep_already = False
     promulgation_step = None
