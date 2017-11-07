@@ -138,6 +138,8 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
         elif '/ta/' in line or '/tas' in line:
             if get_last_step().get('stage') != curr_stage:
                 curr_step = 'depot'
+                if curr_stage == 'CMP':
+                    curr_step = 'commission'
             else:
                 curr_step = 'hemicycle'
         elif ('/rapports/' in line or '/rap/' in line) and last_section and 'commissions' in last_section:
@@ -146,7 +148,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 continue
             curr_step = 'commission'
 
-             # no commission for l. définitive
+            # no commission for l. définitive
             if curr_stage == 'l. définitive' and curr_step == 'commission':
                 curr_step = 'hemicycle'
         elif 'www.conseil-constitutionnel.fr/decision/' in line:
@@ -157,7 +159,6 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             # if same step previously, replace or not the url
             if get_last_step().get('step') == curr_step:
                 log_error('DOUBLE STEP: %s' % line)
-                
                 # remove last step since we prefer text links instead of reports links
                 # TODO: add report link as bonus_url
                 last_url = get_last_step().get('source_url')
