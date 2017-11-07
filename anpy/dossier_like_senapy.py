@@ -129,19 +129,12 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             if curr_stage == 'CMP':
                 continue
         elif ">Texte de la commission" in line or '/ta-commission/' in line:
-            if get_last_step().get('step') == 'commission':
-                log_error('DOUBLE COMMISSION LINE: %s' % line)
-                # remove last step since we prefer text links instead of reports links
-                # TODO: add report link as bonus_url
-                last_url = get_last_step().get('source_url')
-                if ('/rapports/' in last_url or '/rap/' in last_url):
-                    data['steps'] = data['steps'][:-1]
-                # looks like the last url was already a text, let's assume it's a multi-depot
-                else:
-                    # TODO: re-order multi depot
-                    curr_step = 'depot'
-                    pass
             curr_step = 'commission'
+
+            # no commission for l. définitive
+            if curr_stage == 'l. définitive' and curr_step == 'commission':
+                curr_step = 'hemicycle'
+
         elif '/ta/' in line or '/tas' in line:
             if get_last_step().get('stage') != curr_stage:
                 curr_step = 'depot'
@@ -152,10 +145,29 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 log_error('DOUBLE COMMISSION LINE: %s' % line)
                 continue
             curr_step = 'commission'
+
+             # no commission for l. définitive
+            if curr_stage == 'l. définitive' and curr_step == 'commission':
+                curr_step = 'hemicycle'
         elif 'www.conseil-constitutionnel.fr/decision/' in line:
             no_step_but_good_link = True
 
         if curr_step or no_step_but_good_link:
+
+            # if same step previously, replace or not the url
+            if get_last_step().get('step') == curr_step:
+                log_error('DOUBLE STEP: %s' % line)
+                
+                # remove last step since we prefer text links instead of reports links
+                # TODO: add report link as bonus_url
+                last_url = get_last_step().get('source_url')
+                if ('/rapports/' in last_url or '/rap/' in last_url):
+                    data['steps'] = data['steps'][:-1]
+                # looks like the last url was already a text, let's assume it's a multi-depot
+                else:
+                    # TODO: re-order multi depot
+                    curr_step = 'depot'
+
             text = parsed()
             links = [a.attrs.get('href') for a in last_parsed.select('a')]
             links = [
