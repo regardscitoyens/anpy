@@ -124,7 +124,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
         no_step_but_good_link = False
         if 'Rapport portant également sur les propositions' in line:
             continue
-        elif '>Projet de loi' in line or '>Proposition de loi' in line or '>Proposition de résolution' in line:
+        elif '>projet de loi' in line.lower() or '>Proposition de loi' in line or '>Proposition de résolution' in line:
             curr_step = 'depot'
             if curr_stage == 'CMP':
                 continue
@@ -135,7 +135,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             if curr_stage == 'l. définitive' and curr_step == 'commission':
                 curr_step = 'hemicycle'
 
-        elif '/ta/' in line or '/tas' in line:
+        elif '/ta/' in line or '/leg/tas' in line:
             if get_last_step().get('stage') != curr_stage:
                 curr_step = 'depot'
                 if curr_stage == 'CMP':
@@ -155,7 +155,6 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             no_step_but_good_link = True
 
         if curr_step or no_step_but_good_link:
-
             # if same step previously, replace or not the url
             if get_last_step().get('step') == curr_step:
                 log_error('DOUBLE STEP: %s' % line)
@@ -248,3 +247,10 @@ if __name__ == '__main__':
         url = html.split('-- URL=')[-1].split('-->')[0].strip()
         data = parse(html, url)
     print(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True))
+
+
+"""
+Cas non-gérés:
+- renvois en commision: http://www.assemblee-nationale.fr/14/dossiers/interdiction_prescription_acquisitive_voies_rurales.asp
+
+"""
