@@ -10,6 +10,7 @@ import glob
 import tqdm
 from urllib.parse import urljoin, urlparse
 import zipfile
+import time
 
 from pathlib import Path
 
