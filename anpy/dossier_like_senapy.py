@@ -27,6 +27,13 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
 
     soup = BeautifulSoup(html, 'lxml')
 
+    data['assemblee_id'] = data['url_dossier_assemblee'].split('/')[-1].replace('.asp', '')
+    legislature = data['url_dossier_assemblee'].split('.fr/')[1].split('/')[0]
+    try:
+        data['assemblee_legislature'] = int(legislature)
+    except ValueError:  # strange link (old dosleg)
+        log_error('NO LEGISLATURE IN AN LINK: ' + data['url_dossier_assemblee'])
+
     data['steps'] = []
     last_parsed = None
     curr_institution = 'assemblee'
@@ -115,6 +122,10 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             log_error('PROPOSITION DE RESOLUTION EUROPEENE')
             return None
 
+        if '>Accès aux Travaux préparatoires' in line:
+            parsed()
+            data['previous_works'] = clean_url(urljoin(url_an, last_parsed.find('a').attrs['href']))
+
         if '<div align="center"><font color="#000099"><b>En savoir plus</b>' in line:
             # end of dosleg
             break
@@ -161,12 +172,14 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 # remove last step since we prefer text links instead of reports links
                 # TODO: add report link as bonus_url
                 last_url = get_last_step().get('source_url')
-                if ('/rapports/' in last_url or '/rap/' in last_url):
+                if not last_url or ('/rapports/' in last_url or '/rap/' in last_url):
                     data['steps'] = data['steps'][:-1]
                 # looks like the last url was already a text, let's assume it's a multi-depot
                 else:
+                    # multi-depot if not CMP
                     # TODO: re-order multi depot
-                    curr_step = 'depot'
+                    if curr_institution == 'senat' and curr_stage != 'CMP':
+                        curr_step = 'depot'
 
             text = parsed()
             links = [a.attrs.get('href') for a in last_parsed.select('a')]
@@ -252,5 +265,6 @@ if __name__ == '__main__':
 """
 Cas non-gérés:
 - renvois en commision: http://www.assemblee-nationale.fr/14/dossiers/interdiction_prescription_acquisitive_voies_rurales.asp
-
+- senat ppl manquant: http://www.assemblee-nationale.fr/13/dossiers/comite_poids_mesures.asp
+- windows-1252 encoding: http://www.assemblee-nationale.fr/15/dossiers/responsabilite_financiere_dirigeants_benevoles_associations.asp
 """
