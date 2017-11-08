@@ -1,5 +1,7 @@
 [
     {
+        "assemblee_id": "sante",
+        "assemblee_legislature": 14,
         "long_title": "Questions sociales et santé : modernisation de notre système de santé",
         "steps": [
             {
