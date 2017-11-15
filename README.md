@@ -76,19 +76,14 @@ anpy-cli show_dossier http://www.assemblee-nationale.fr/14/dossiers/sante.asp
 anpy-cli show_dossier_like_senapy http://www.assemblee-nationale.fr/14/dossiers/sante.asp
 ```
 
-* Download dossier raw HTML from the AN website
+* Find all the dossier urls
 ```bash
-anpy-cli download_recents_dossiers_from_website dossiers_an
+anpy-cli doslegs_url
 ```
 
-* Download dossier raw HTML from the AN open-data file
+* Parse many dossiers like senapy
 ```bash
-anpy-cli download_recents_dossiers_from_opendata dossiers_an
-```
-
-* Parse AN raw HTML files to a directory
-```bash
-anpy-cli parse_dossier_directory "dossiers_an/*" parsed_dossiers_an
+cat urls | anpy-cli parse_many_doslegs output_dir
 ```
 
 * Show a scrutin
