@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import re
-from builtins import map, filter, str
 from operator import itemgetter
 
 import mistune

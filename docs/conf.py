@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # ANpy documentation build configuration file, created by
 # sphinx-quickstart on Sat Sep 10 14:45:09 2016.

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import codecs
 
 from anpy.question import parse_question
