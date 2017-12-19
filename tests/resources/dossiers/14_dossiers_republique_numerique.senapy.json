@@ -40,12 +40,14 @@
                 "step": "commission"
             },
             {
+                "date": "2016-05-03",
                 "institution": "senat",
                 "source_url": "https://www.senat.fr/leg/tas15-131.html",
                 "stage": "1ère lecture",
                 "step": "hemicycle"
             },
             {
+                "date": "2016-07-11",
                 "institution": "CMP",
                 "source_url": "http://www.assemblee-nationale.fr/14/ta-commission/r3902-a0.asp",
                 "stage": "CMP",

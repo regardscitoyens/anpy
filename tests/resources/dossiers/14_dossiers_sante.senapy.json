@@ -40,6 +40,7 @@
                 "step": "commission"
             },
             {
+                "date": "2015-10-06",
                 "institution": "senat",
                 "source_url": "https://www.senat.fr/leg/tas15-003.html",
                 "stage": "1ère lecture",
@@ -67,6 +68,7 @@
                 "step": "commission"
             },
             {
+                "date": "2015-12-01",
                 "institution": "assemblee",
                 "source_url": "http://www.assemblee-nationale.fr/14/ta/ta0618.asp",
                 "stage": "nouv. lect.",
@@ -93,6 +95,7 @@
                 "step": "hemicycle"
             },
             {
+                "date": "2015-12-01",
                 "institution": "assemblee",
                 "source_url": "http://www.assemblee-nationale.fr/14/ta/ta0618.asp",
                 "stage": "l. définitive",

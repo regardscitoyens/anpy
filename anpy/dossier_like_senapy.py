@@ -229,9 +229,14 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
 
             # try to detect a date
             for test_line in (line, html_lines[i-1]):
-                date_match = re.search(r'(déposé le|adopté .*? le)\s*(\d\d? \w\w\w\w+ \d\d\d\d)', test_line, re.I)
+                test_line = test_line.replace('1<sup>er</sup>', '1')
+                date_match = re.search(r'(déposée? le|adoptée? .*? le|modifiée? .*?)\s*(\d\d? \w\w\w+ \d\d\d\d)', test_line, re.I)
                 if date_match:
                     step['date'] = format_date(date_match.group(2))
+                else:
+                    date_match = re.search(r'(mis en ligne le)\s*(\d\d? \w\w\w+ \d\d\d\d)', test_line, re.I)
+                    if date_match:
+                        step['date'] = format_date(date_match.group(2))
             data['steps'].append(step)
 
         if 'publiée au Journal Officiel' in line:
