@@ -5,30 +5,35 @@
         "long_title": "Questions sociales et santé : modernisation de notre système de santé",
         "steps": [
             {
+                "date": "2014-10-15",
                 "institution": "assemblee",
                 "source_url": "http://www.assemblee-nationale.fr/14/projets/pl2302.asp",
                 "stage": "1ère lecture",
                 "step": "depot"
             },
             {
+                "date": "2015-03-20",
                 "institution": "assemblee",
                 "source_url": "http://www.assemblee-nationale.fr/14/ta-commission/r2673-a0.asp",
                 "stage": "1ère lecture",
                 "step": "commission"
             },
             {
+                "date": "2015-04-14",
                 "institution": "assemblee",
                 "source_url": "http://www.assemblee-nationale.fr/14/ta/ta0505.asp",
                 "stage": "1ère lecture",
                 "step": "hemicycle"
             },
             {
+                "date": "2015-04-15",
                 "institution": "senat",
                 "source_url": "https://www.senat.fr/leg/pjl14-406.html",
                 "stage": "1ère lecture",
                 "step": "depot"
             },
             {
+                "date": "2015-07-22",
                 "institution": "senat",
                 "source_url": "https://www.senat.fr/leg/pjl14-654.html",
                 "stage": "1ère lecture",
@@ -41,18 +46,21 @@
                 "step": "hemicycle"
             },
             {
+                "date": "2015-10-27",
                 "institution": "CMP",
                 "source_url": "http://www.assemblee-nationale.fr/14/rapports/r3167.asp",
                 "stage": "CMP",
                 "step": "commission"
             },
             {
+                "date": "2015-10-07",
                 "institution": "assemblee",
                 "source_url": "http://www.assemblee-nationale.fr/14/projets/pl3103.asp",
                 "stage": "nouv. lect.",
                 "step": "depot"
             },
             {
+                "date": "2015-11-10",
                 "institution": "assemblee",
                 "source_url": "http://www.assemblee-nationale.fr/14/ta-commission/r3215-a0.asp",
                 "stage": "nouv. lect.",
@@ -65,12 +73,14 @@
                 "step": "hemicycle"
             },
             {
+                "date": "2015-12-02",
                 "institution": "senat",
                 "source_url": "https://www.senat.fr/leg/pjl15-209.html",
                 "stage": "nouv. lect.",
                 "step": "depot"
             },
             {
+                "date": "2015-12-09",
                 "institution": "senat",
                 "source_url": "https://www.senat.fr/leg/pjl15-234.html",
                 "stage": "nouv. lect.",
@@ -89,6 +99,7 @@
                 "step": "depot"
             },
             {
+                "date": "2015-12-17",
                 "institution": "assemblee",
                 "source_url": "http://www.assemblee-nationale.fr/14/ta/ta0650.asp",
                 "stage": "l. définitive",

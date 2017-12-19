@@ -3,12 +3,19 @@
 
 import json
 import sys
+import re
 from urllib.parse import urljoin
 
 import requests
+import dateparser
 from bs4 import BeautifulSoup
 
 from lawfactory_utils.urls import clean_url
+
+
+def format_date(date):
+    parsed = dateparser.parse(date, languages=['fr'])
+    return parsed.strftime("%Y-%m-%d")
 
 
 def _log_error(error):
@@ -58,7 +65,8 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 'source_url': data['url_jo'],
             }
 
-    for i, line in enumerate(html.split('\n')):
+    html_lines = html.split('\n')
+    for i, line in enumerate(html_lines):
         def parsed():
             nonlocal last_parsed
             last_parsed = BeautifulSoup(line, 'lxml')
@@ -219,6 +227,11 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             if curr_step:
                 step['step'] = curr_step
 
+            # try to detect a date
+            for test_line in (line, html_lines[i-1]):
+                date_match = re.search(r'(déposé le|adopté .*? le)\s*(\d\d? \w\w\w\w+ \d\d\d\d)', test_line, re.I)
+                if date_match:
+                    step['date'] = format_date(date_match.group(2))
             data['steps'].append(step)
 
         if 'publiée au Journal Officiel' in line:
