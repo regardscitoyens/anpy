@@ -58,7 +58,7 @@ setup(
         'future',
         'slugify',
         'lxml',
-	'dateparser',
+        'dateparser',
     ],
 
     scripts=['bin/anpy-cli'],
