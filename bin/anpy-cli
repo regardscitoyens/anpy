@@ -97,7 +97,7 @@ def show_amendement(url):
 @click.argument('url')
 def show_question(url):
     question_html = download(url + '/vue/xml').content
-    parsed_data = parse_dossier_like_senapy(url, question_html)
+    parsed_data = parse_question(url, question_html)
     print(json.dumps(parsed_data, indent=4, sort_keys=True,
                      ensure_ascii=False))
 
