@@ -21,7 +21,6 @@ def format_date(date):
 def _log_error(error):
     print('## ERROR ###', error, file=sys.stderr)
 
-
 def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
     data = {
         'url_dossier_assemblee': clean_url(url_an),
@@ -204,8 +203,12 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 else:
                     urls_others.append(href)
 
+            cmp_commission_other_url = None
             if len(urls_others) > 0:
                 url = urls_others[0]
+                # CMP commission should produce two texts, one for each institution
+                if curr_step == 'commission' and curr_stage == 'CMP':
+                    cmp_commission_other_url = clean_url(urljoin(url_an, urls_others[1]))
             else:
                 url = urls_raps[0]
 
@@ -226,6 +229,9 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
 
             if curr_step:
                 step['step'] = curr_step
+
+            if cmp_commission_other_url:
+                step['cmp_commission_other_url'] = cmp_commission_other_url
 
             # try to detect a date
             for test_line in (line, html_lines[i-1]):

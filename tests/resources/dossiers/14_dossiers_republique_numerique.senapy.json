@@ -47,6 +47,7 @@
                 "step": "hemicycle"
             },
             {
+                "cmp_commission_other_url": "https://www.senat.fr/leg/pjl15-744.html",
                 "date": "2016-07-11",
                 "institution": "CMP",
                 "source_url": "http://www.assemblee-nationale.fr/14/ta-commission/r3902-a0.asp",
