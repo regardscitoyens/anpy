@@ -21,6 +21,7 @@ def format_date(date):
 def _log_error(error):
     print('## ERROR ###', error, file=sys.stderr)
 
+
 def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
     data = {
         'url_dossier_assemblee': clean_url(url_an),
