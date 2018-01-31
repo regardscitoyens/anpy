@@ -49,6 +49,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
     travaux_prep_already = False
     promulgation_step = None
     another_dosleg_inside = None
+    predicted_next_step = None # For unfinished projects, we try to catch the next step
 
     if first_dosleg_in_page:
         metas = {}
@@ -245,6 +246,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                     if date_match:
                         step['date'] = format_date(date_match.group(2))
             data['steps'].append(step)
+            predicted_next_step = None
 
         if 'publiée au Journal Officiel' in line:
             text = parsed()
@@ -265,8 +267,28 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
         if 'Le Gouvernement a engagé la procédure accélérée' in line or 'engagement de la procédure accélérée' in line:
             data['urgence'] = True
 
+        # Next step prediction via small clues
+        # TODO: this could be done via last_section (we parse two times the same thing)
+        if '>Discussion en séance publique<' in line:
+            predicted_next_step = {
+                'institution': curr_institution,
+                'stage': curr_stage,
+                'step': 'hemicycle',
+            }
+        elif '>Travaux des commissions<' in line:
+            # TODO: this fails for CMP hemicycle senat
+            predicted_next_step = {
+                'institution': curr_institution,
+                'stage': curr_stage,
+                'step': 'commission',
+            }
+
     if promulgation_step:
         data['steps'].append(promulgation_step)
+
+    # add predicted next step for unfinished projects
+    if 'url_jo' not in data and not promulgation_step and predicted_next_step:
+        data['steps'].append(predicted_next_step)
 
     if another_dosleg_inside:
         others = parse(another_dosleg_inside, url_an, verbose=verbose, first_dosleg_in_page=False)
