@@ -4,11 +4,11 @@ python:
     - 3.5
 
 install:
-    - pip install pytest flake8 pep8
+    - pip install pytest flake8 pycodestyle
     - pip install -U setuptools>=18.5
     - pip install -e .
 
 script:
-    - pep8 --exclude=tests,docs .
+    - pycodestyle --exclude=tests,docs .
     - flake8 --exclude=tests,docs .
     - py.test

@@ -49,7 +49,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
     travaux_prep_already = False
     promulgation_step = None
     another_dosleg_inside = None
-    predicted_next_step = None # For unfinished projects, we try to catch the next step
+    predicted_next_step = None  # For unfinished projects, we try to catch the next step
 
     if first_dosleg_in_page:
         metas = {}
@@ -269,7 +269,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
 
         # Next step prediction via small clues
         # TODO: this could be done via last_section (we parse two times the same thing)
-        # TODO: this fails for CMP hemicycle senat  
+        # TODO: this fails for CMP hemicycle senat
         if curr_stage != 'CMP':
             if '>Discussion en séance publique<' in line:
                 predicted_next_step = {
