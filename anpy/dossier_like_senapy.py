@@ -269,19 +269,20 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
 
         # Next step prediction via small clues
         # TODO: this could be done via last_section (we parse two times the same thing)
-        if '>Discussion en séance publique<' in line:
-            predicted_next_step = {
-                'institution': curr_institution,
-                'stage': curr_stage,
-                'step': 'hemicycle',
-            }
-        elif '>Travaux des commissions<' in line:
-            # TODO: this fails for CMP hemicycle senat
-            predicted_next_step = {
-                'institution': curr_institution,
-                'stage': curr_stage,
-                'step': 'commission',
-            }
+        # TODO: this fails for CMP hemicycle senat  
+        if curr_stage != 'CMP':
+            if '>Discussion en séance publique<' in line:
+                predicted_next_step = {
+                    'institution': curr_institution,
+                    'stage': curr_stage,
+                    'step': 'hemicycle',
+                }
+            elif '>Travaux des commissions<' in line:
+                predicted_next_step = {
+                    'institution': curr_institution,
+                    'stage': curr_stage,
+                    'step': 'commission',
+                }
 
     if promulgation_step:
         data['steps'].append(promulgation_step)
