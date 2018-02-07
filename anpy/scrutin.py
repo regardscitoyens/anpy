@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import re
-from builtins import filter, str
 
 import requests
 from bs4 import BeautifulSoup
