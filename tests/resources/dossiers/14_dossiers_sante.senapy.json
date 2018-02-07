@@ -2,6 +2,7 @@
     {
         "assemblee_id": "sante",
         "assemblee_legislature": 14,
+        "beginning": "2014-10-15",
         "long_title": "Questions sociales et santé : modernisation de notre système de santé",
         "steps": [
             {
@@ -89,6 +90,7 @@
                 "step": "commission"
             },
             {
+                "date": "2015-12-14",
                 "institution": "senat",
                 "source_url": "https://www.senat.fr/leg/tas15-054.html",
                 "stage": "nouv. lect.",

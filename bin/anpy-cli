@@ -120,7 +120,9 @@ def show_dossier_like_senapy(url):
             html = open(url, encoding='iso-8859-1').read()
         url = html.split('-- URL=')[-1].split('-->')[0].strip()
     else:
-        html = download(url).text
+        resp = download(url)
+        resp.encoding = 'Windows-1252'
+        html = resp.text
 
     print(json_dumps(parse_dossier_like_senapy(html, url), indent=4, sort_keys=True,
                      ensure_ascii=False))
