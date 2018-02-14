@@ -209,7 +209,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             if len(urls_others) > 0:
                 url = urls_others[0]
                 # CMP commission should produce two texts, one for each institution
-                if curr_step == 'commission' and curr_stage == 'CMP':
+                if curr_step == 'commission' and curr_stage == 'CMP' and len(urls_others) > 1:
                     cmp_commission_other_url = clean_url(urljoin(url_an, urls_others[1]))
             else:
                 url = urls_raps[0]
