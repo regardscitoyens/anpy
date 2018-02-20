@@ -21,6 +21,9 @@ def format_date(date):
 def _log_error(error):
     print('## ERROR ###', error, file=sys.stderr)
 
+def _log_warning(error):
+    print('## WARNING ###', error, file=sys.stderr)
+
 
 def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
     data = {
@@ -29,8 +32,10 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
     }
 
     log_error = _log_error
+    log_warning = _log_warning
     if not verbose:
         def log_error(x): return None
+        def log_warning(x): return None
 
     soup = BeautifulSoup(html, 'lxml')
 
@@ -84,7 +89,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             last_section = parsed()
         if '<p align="center"><b><font color="#000080">Travaux préparatoires</font></b><br>' in line:
             if travaux_prep_already:
-                log_error('FOUND ANOTHER DOSLEG INSIDE THE DOSLEG')
+                _log_warning('FOUND ANOTHER DOSLEG INSIDE THE DOSLEG')
                 another_dosleg_inside = '\n'.join(html.split('\n')[i:])
                 break
             travaux_prep_already = True
@@ -124,11 +129,11 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 curr_stage = text.split('-')[-1].strip().lower()
 
             if curr_stage == "création de la commission d'enquête":
-                log_error('COMMISSION D\'ENQUETE')
+                log_warning('COMMISSION D\'ENQUETE')
                 return None
 
         if '>Proposition de résolution européenne<' in line:
-            log_error('PROPOSITION DE RESOLUTION EUROPEENE')
+            log_warning('PROPOSITION DE RESOLUTION EUROPEENE')
             return None
 
         if '>Accès aux Travaux préparatoires' in line:
@@ -164,7 +169,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 curr_step = 'hemicycle'
         elif ('/rapports/' in line or '/rap/' in line) and last_section and 'commissions' in last_section:
             if get_last_step().get('step') == 'commission':
-                log_error('DOUBLE COMMISSION LINE: %s' % line)
+                # log_warning('DOUBLE COMMISSION LINE: %s' % line)
                 continue
             curr_step = 'commission'
 
@@ -177,7 +182,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
         if curr_step or no_step_but_good_link:
             # if same step previously, replace or not the url
             if get_last_step().get('step') == curr_step:
-                log_error('DOUBLE STEP: %s' % line)
+                # log_warning('DOUBLE STEP: %s' % line)
                 # remove last step since we prefer text links instead of reports links
                 # TODO: add report link as bonus_url
                 last_url = get_last_step().get('source_url')
