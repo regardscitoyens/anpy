@@ -83,6 +83,9 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 return data['steps'][-1]
             return {}
 
+        if '<COMMENTAIRE>' in line:
+            continue
+
         if '<font face="ARIAL" size="3" color="#000080">' in line:
             data['long_title'] = parsed()
         if '<br><b><font color="#000099">Travaux des commissions</font></b><br>' in line:
