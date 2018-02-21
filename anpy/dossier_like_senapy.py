@@ -21,6 +21,7 @@ def format_date(date):
 def _log_error(error):
     print('## ERROR ###', error, file=sys.stderr)
 
+
 def _log_warning(error):
     print('## WARNING ###', error, file=sys.stderr)
 
@@ -35,6 +36,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
     log_warning = _log_warning
     if not verbose:
         def log_error(x): return None
+
         def log_warning(x): return None
 
     soup = BeautifulSoup(html, 'lxml')
