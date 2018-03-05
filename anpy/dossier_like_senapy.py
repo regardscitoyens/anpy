@@ -85,7 +85,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                 return data['steps'][-1]
             return {}
 
-        if '<COMMENTAIRE>' in line:
+        if '<COMMENTAIRE>' in line or '<table border="1"' in line:
             continue
 
         if '<font face="ARIAL" size="3" color="#000080">' in line:
