@@ -57,7 +57,7 @@ setup(
         'attrs',
         'future',
         'slugify',
-        'lxml',
+        'lxml==4.1.1',
         'dateparser',
     ],
 
