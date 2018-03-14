@@ -49,7 +49,6 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
         log_error('NO LEGISLATURE IN AN LINK: ' + data['url_dossier_assemblee'])
 
     data['steps'] = []
-    last_parsed = None
     curr_institution = 'assemblee'
     curr_stage = '1ère lecture'
     last_section = None  # Travaux des commissions/Discussion en séance publique
@@ -75,10 +74,11 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
 
     html_lines = html.split('\n')
     for i, line in enumerate(html_lines):
-        def parsed():
-            nonlocal last_parsed
-            last_parsed = BeautifulSoup(line, 'lxml')
-            return last_parsed.text.strip()
+        def parse_line():
+            return BeautifulSoup(line, 'lxml')
+
+        def line_text():
+            return parse_line().text.strip()
 
         def get_last_step():
             if len(data['steps']) > 0:
@@ -89,9 +89,9 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             continue
 
         if '<font face="ARIAL" size="3" color="#000080">' in line:
-            data['long_title'] = parsed()
+            data['long_title'] = line_text()
         if '<br><b><font color="#000099">Travaux des commissions</font></b><br>' in line:
-            last_section = parsed()
+            last_section = line_text()
         if '<p align="center"><b><font color="#000080">Travaux préparatoires</font></b><br>' in line:
             if travaux_prep_already:
                 _log_warning('FOUND ANOTHER DOSLEG INSIDE THE DOSLEG')
@@ -101,10 +101,10 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
 
         # Senat 1ère lecture, CMP, ...
         if '<font color="#000099" size="2" face="Arial">' in line:
-            text = parsed()
+            text = line_text()
             last_section = None
             if 'Dossier en ligne sur le site du Sénat' in text:
-                data['url_dossier_senat'] = clean_url(last_parsed.select(
+                data['url_dossier_senat'] = clean_url(parse_line().select(
                     'a')[-1].attrs['href']).replace('/dossierleg/', '/dossier-legislatif/')
                 text = text.replace(
                     '(Dossier en ligne sur le site du Sénat)', '')
@@ -142,8 +142,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             return None
 
         if '>Accès aux Travaux préparatoires' in line:
-            parsed()
-            data['previous_works'] = clean_url(urljoin(url_an, last_parsed.find('a').attrs['href']))
+            data['previous_works'] = clean_url(urljoin(url_an, parse_line().find('a').attrs['href']))
 
         curr_step = None
         # conseil. consti. has no step but we should get the link
@@ -196,8 +195,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
                     if curr_institution == 'senat' and curr_stage != 'CMP':
                         curr_step = 'depot'
 
-            text = parsed()
-            links = [a.attrs.get('href') for a in last_parsed.select('a')]
+            links = [a.attrs.get('href') for a in parse_line().select('a')]
             links = [
                 href for href in links if href and 'fiches_id' not in href and '/senateur/' not in href and 'javascript:' not in href]
             if not links:
@@ -257,8 +255,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             predicted_next_step = None
 
         if 'publiée au Journal Officiel' in line:
-            text = parsed()
-            links = [clean_url(a.attrs['href']) for a in last_parsed.select('a') if 'legifrance' in a.attrs.get('href', '')]
+            links = [clean_url(a.attrs['href']) for a in parse_line().select('a') if 'legifrance' in a.attrs.get('href', '')]
             if not links:
                 log_error('NO GOOD LINK IN LINE: %s' % (line,))
                 continue
