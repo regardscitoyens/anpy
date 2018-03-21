@@ -149,7 +149,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
         no_step_but_good_link = False
         if 'Rapport portant également sur les propositions' in line:
             continue
-        elif '">projet de loi' in line.lower() or '>Proposition de loi' in line or '>Proposition de résolution' in line:
+        elif re.search(r'<a[^>]* href=[^>]*>(projet de loi|proposition de loi|proposition de résolution)', line, re.I):
             curr_step = 'depot'
             if curr_stage == 'CMP':
                 continue
