@@ -184,7 +184,7 @@ def doslegs_urls(in_discussion):
 
         files = (
             ('Dossiers_Legislatifs_XV.json', 'http://data.assemblee-nationale.fr/static/openData/repository/15/loi/dossiers_legislatifs/Dossiers_Legislatifs_XV.json.zip'),
-            ('Dossiers_Legislatifs_XIV.json', 'http://data.assemblee-nationale.fr/static/openData/repository/LOI/dossiers_legislatifs/Dossiers_Legislatifs_XIV.json.zip'),
+            ('Dossiers_Legislatifs_XIV.json', 'http://data.assemblee-nationale.fr/static/openData/repository/14/loi/dossiers_legislatifs/Dossiers_Legislatifs_XIV.json.zip'),
         )
         for file, file_url in files:
             _log('     * parsing', file_url, '...')
