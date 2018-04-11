@@ -18,7 +18,8 @@ if not version:
 with open(path.join(here, 'README.md'), encoding='utf-8') as readme:
     LONG_DESC = readme.read()
 
-os.system('pip install --upgrade git+https://github.com/RegardsCitoyens/lawfactory_utils.git@master')
+with open(path.join(here, 'requirements.txt')) as f:
+    requirements = f.read().splitlines()
 
 setup(
     name='anpy',
@@ -44,22 +45,7 @@ setup(
 
     packages=['anpy'],
 
-    install_requires=[
-        'pathlib',
-        'click',
-        'requests',
-        'beautifulsoup4',
-        'xmltodict',
-        'html5lib',
-        'html2text',
-        'mistune',
-        'dateparser',
-        'attrs',
-        'future',
-        'slugify',
-        'lxml==4.1.1',
-        'dateparser',
-    ],
+    install_requires=requirements,
 
     scripts=['bin/anpy-cli'],
 )
