@@ -331,7 +331,7 @@ class ProcedureAccelereeNode(LegislativeActNode):
         if not self.elements:
             return
 
-        matched_dates = re.findall(r' le (\d+\s?\w* \\w+ \d{4})',
+        matched_dates = re.findall(r' le (\d+\s?\w* \w+ \d{4})',
                                    self.elements[0].text,
                                    re.I | re.UNICODE)
 
@@ -466,7 +466,7 @@ class DecisionNode(LegislativeActNode):
         elif 'rejeté' in self.elements[0].text:
             status = DecisionStatus.REJETE
 
-        matched_dates = re.findall(r' le (\d+\s?\w* \\w+ \d{4})',
+        matched_dates = re.findall(r' le (\d+\s?\w* \w+ \d{4})',
                                    self.elements[0].text,
                                    re.I | re.UNICODE)
 
