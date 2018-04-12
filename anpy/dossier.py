@@ -136,7 +136,7 @@ class DossierParser(object):
                    map(lambda a: a['href'], self.soup.find_all('a'))), None)
 
     def parse_legislature(self, url=None):
-        re_legislature = re.compile('/(\d{2})/')
+        re_legislature = re.compile(r'/(\d{2})/')
 
         def match_legislature(a):
             return re_legislature.match(a['href'])
@@ -270,7 +270,7 @@ class LegislativeStepNode(BaseNode):
             re.compile('^conseil constitutionnel',
                        re.I | re.UNICODE),
         LegislativeStepType.CMP:
-            re.compile('^commission mixte paritaire \((accord|désaccord)?\)$',
+            re.compile(r'^commission mixte paritaire \((accord|désaccord)?\)$',
                        re.I | re.UNICODE)
     }
 
@@ -331,7 +331,7 @@ class ProcedureAccelereeNode(LegislativeActNode):
         if not self.elements:
             return
 
-        matched_dates = re.findall(' le (\d+\s?\w* \\w+ \d{4})',
+        matched_dates = re.findall(r' le (\d+\s?\w* \\w+ \d{4})',
                                    self.elements[0].text,
                                    re.I | re.UNICODE)
 
@@ -343,7 +343,7 @@ class ProcedureAccelereeNode(LegislativeActNode):
 
 
 class EtudeImpactNode(LegislativeActNode):
-    rule = re.compile('^etude d\'impact', re.I | re.UNICODE)
+    rule = re.compile(r'^etude d\'impact', re.I | re.UNICODE)
 
     def extract_data(self):
         return [{
@@ -371,7 +371,7 @@ class DepotLoiNode(LegislativeActNode):
         }]
 
     def extract_date(self):
-        matched_dates = re.findall(' déposée? le (\d+ \w+ \d{4})',
+        matched_dates = re.findall(r' déposée? le (\d+ \w+ \d{4})',
                                    self.elements[0].text, re.UNICODE)
 
         return extract_datetime(matched_dates[0]) if matched_dates else None
@@ -382,7 +382,7 @@ class DepotLoiNode(LegislativeActNode):
 
     def extract_legislature(self):
         link = self.elements[0].a
-        matched = re.match('/(\d{2})/', link['href'])
+        matched = re.match(r'/(\d{2})/', link['href'])
 
         if matched:
             return matched.group(1)
@@ -414,7 +414,7 @@ class DepotTexteCommissionNode(LegislativeActNode):
 
     def extract_date(self):
         matched_dates = re.findall(
-            '(?:déposée?|mis en ligne)'' le (\d+ \w+ \d{4})',
+            r'(?:déposée?|mis en ligne) le (\d+ \w+ \d{4})',
             self.elements[0].text, re.UNICODE)
 
         return extract_datetime(matched_dates[0]) if matched_dates else None
@@ -443,7 +443,7 @@ class RapportNode(LegislativeActNode):
         }]
 
     def extract_date(self):
-        matched_dates = re.findall(' déposée? le (\d+ \w+ \d{4})',
+        matched_dates = re.findall(r' déposée? le (\d+ \w+ \d{4})',
                                    self.elements[0].text, re.UNICODE)
 
         return extract_datetime(matched_dates[0]) if matched_dates else None
@@ -466,7 +466,7 @@ class DecisionNode(LegislativeActNode):
         elif 'rejeté' in self.elements[0].text:
             status = DecisionStatus.REJETE
 
-        matched_dates = re.findall(' le (\d+\s?\w* \\w+ \d{4})',
+        matched_dates = re.findall(r' le (\d+\s?\w* \\w+ \d{4})',
                                    self.elements[0].text,
                                    re.I | re.UNICODE)
 
@@ -513,7 +513,7 @@ class DiscussionSeancePubliqueNode(LegislativeActNode):
 
 
 class AvisConseilEtatNode(LegislativeActNode):
-    rule = re.compile('^avis du conseil d\'État', re.I | re.UNICODE)
+    rule = re.compile(r'^avis du conseil d\'État', re.I | re.UNICODE)
 
     def extract_data(self):
         if not self.elements[0].a:

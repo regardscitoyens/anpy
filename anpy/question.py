@@ -26,7 +26,7 @@ def parse_question_search_result(url, html_content):
         all_tds = tr.find_all('td')
         url = all_tds[0].a['href']
         legislature, numero, question_type = re.search(
-            '(\d+)-(\d+)(QE|QOSD)\.htm', url).groups()
+            r'(\d+)-(\d+)(QE|QOSD)\.htm', url).groups()
         dates = all_tds[2].find_all('strong')
         results.append(QuestionSummary(**{
             'url': url,

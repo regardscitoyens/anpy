@@ -36,7 +36,7 @@ def parse_amendements_summary(url, json_response):
     for row in json_response['data_table']:
         values = row.split('|')
         amd = AmendementSummary(**dict(zip(fields, values)))
-        amd.legislature = re.search('www.assemblee-nationale.fr/(\d+)/',
+        amd.legislature = re.search(r'www.assemblee-nationale.fr/(\d+)/',
                                     amd.url_amend).groups()[0]
         amendements.append(amd)
 

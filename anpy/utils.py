@@ -25,7 +25,7 @@ class JSONEncoder(json.JSONEncoder):
 
 
 class JSONDecoder(json.JSONDecoder):
-    DATETIME_PATTERN = re.compile("\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}")
+    DATETIME_PATTERN = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}")
 
     def __init__(self, *args, **kwargs):
         super(JSONDecoder, self).__init__(
