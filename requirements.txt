@@ -6,11 +6,10 @@ xmltodict==0.11.0
 html5lib==1.0.1
 html2text==2018.1.9
 mistune==0.8.3
-dateparser==0.6.0
+dateparser==0.7.0
 attrs==17.4.0
 future==0.16.0
 slugify==0.0.1
 lxml==4.1.1
-dateparser==0.6.0
 
 lawfactory_utils
