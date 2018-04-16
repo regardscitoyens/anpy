@@ -1,6 +1,7 @@
 # ANpy: Scrape painlessly Assemblée Nationale website
 [![PyPI version](https://badge.fury.io/py/anpy.svg)](https://badge.fury.io/py/anpy)
 [![Build Status](https://travis-ci.org/regardscitoyens/anpy.svg)](https://travis-ci.org/regardscitoyens/anpy)
+[![Coverage Status](https://coveralls.io/repos/github/regardscitoyens/anpy/badge.svg?branch=master)](https://coveralls.io/github/regardscitoyens/anpy?branch=master)
 
 ANpy is a python library for easily scraping data from http://assemblee-nationale.fr website
 

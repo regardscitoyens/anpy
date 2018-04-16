@@ -4,11 +4,11 @@ python:
     - 3.5
 
 install:
-    - pip install pytest flake8 #pycodestyle (already a dependency of flake8 and latest is incompatible)
-    - pip install -U setuptools>=18.5
+    - pip install -U -r test_requirements.txt
     - pip install -e .
 
 script:
     - pycodestyle --exclude=tests,docs .
     - flake8 --exclude=tests,docs .
-    - py.test
+    - py.test --cov=anpy
+after_script: coveralls
