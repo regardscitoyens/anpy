@@ -10,7 +10,7 @@ import requests
 import dateparser
 from bs4 import BeautifulSoup
 
-from lawfactory_utils.urls import clean_url
+from lawfactory_utils.urls import clean_url, download
 
 
 def format_date(date):
@@ -24,6 +24,19 @@ def _log_error(error):
 
 def _log_warning(error):
     print('## WARNING ###', error, file=sys.stderr)
+
+
+def find_senat_url(data):
+    if not data['steps']:
+        return
+    senat_text_url = [step['source_url'] for step in data['steps'] if step.get('source_url') and 'senat.fr' in step.get('source_url')]
+    for url in senat_text_url:
+        html = download(url).text
+        soup = BeautifulSoup(html, 'lxml')
+        for a in soup.select('#primary a'):
+            href = urljoin(url, a.attrs.get('href', ''))
+            if 'dossier-legislatif/' in href or 'dossierleg/' in href:
+                return clean_url(href)
 
 
 def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
@@ -105,7 +118,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
             last_section = None
             if 'Dossier en ligne sur le site du Sénat' in text:
                 data['url_dossier_senat'] = clean_url(parse_line().select(
-                    'a')[-1].attrs['href']).replace('/dossierleg/', '/dossier-legislatif/')
+                    'a')[-1].attrs['href'])
                 text = text.replace(
                     '(Dossier en ligne sur le site du Sénat)', '')
             if 'Sénat' in text:
@@ -294,6 +307,11 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
     # add predicted next step for unfinished projects
     if 'url_jo' not in data and not promulgation_step and predicted_next_step:
         data['steps'].append(predicted_next_step)
+
+    if 'url_dossier_senat' not in data or 'dossier-legislatif' not in data['url_dossier_senat']:
+        senat_url = find_senat_url(data)
+        if senat_url:
+            data['url_dossier_senat'] = senat_url
 
     if another_dosleg_inside:
         others = parse(another_dosleg_inside, url_an, verbose=verbose, first_dosleg_in_page=False)
