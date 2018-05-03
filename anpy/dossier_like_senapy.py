@@ -18,14 +18,6 @@ def format_date(date):
     return parsed.strftime("%Y-%m-%d")
 
 
-def _log_error(error):
-    print('## ERROR ###', error, file=sys.stderr)
-
-
-def _log_warning(error):
-    print('## WARNING ###', error, file=sys.stderr)
-
-
 def find_senat_url(data):
     if not data['steps']:
         return
@@ -39,14 +31,20 @@ def find_senat_url(data):
                 return clean_url(href)
 
 
-def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True):
+def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sys.stderr):
     data = {
         'url_dossier_assemblee': clean_url(url_an),
         'urgence': False,
     }
 
-    log_error = _log_error
-    log_warning = _log_warning
+    def log_error(error):
+        print('## ERROR ###', error, file=logfile)
+
+
+    def log_warning(error):
+        print('## WARNING ###', error, file=logfile)
+
+
     if not verbose:
         def log_error(x): return None
 
