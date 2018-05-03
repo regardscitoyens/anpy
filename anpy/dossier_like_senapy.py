@@ -105,7 +105,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sy
             last_section = line_text()
         if '<p align="center"><b><font color="#000080">Travaux préparatoires</font></b><br>' in line:
             if travaux_prep_already:
-                _log_warning('FOUND ANOTHER DOSLEG INSIDE THE DOSLEG')
+                log_warning('FOUND ANOTHER DOSLEG INSIDE THE DOSLEG')
                 another_dosleg_inside = '\n'.join(html.split('\n')[i:])
                 break
             travaux_prep_already = True
