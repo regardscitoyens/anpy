@@ -323,7 +323,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sy
                     'step': 'commission',
                 }
 
-    if promulgation_step and data['steps'][-1].get('stage') == 'promulgation':
+    if promulgation_step:
         data['steps'].append(promulgation_step)
 
     # add predicted next step for unfinished projects
