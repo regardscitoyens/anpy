@@ -55,7 +55,13 @@ def merge_previous_works_an(older_dos, dos):
     return dos
 
 
-def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sys.stderr, parse_previous_works=True, parse_next_works=True):
+def parse(html, url_an=None, verbose=True, logfile=sys.stderr, nth_dos_in_page=0, parse_previous_works=True, parse_next_works=True):
+    """
+    Parse an AN dosleg like http://www.assemblee-nationale.fr/13/dossiers/accord_Montenegro_mobilite_jeunes.asp
+
+    nth_dos_in_page, parse_previous_works and parse_next_works are for internal logic
+    """
+
     data = {
         'url_dossier_assemblee': clean_url(url_an),
         'urgence': False,
@@ -92,7 +98,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sy
     another_dosleg_inside = None
     predicted_next_step = None  # For unfinished projects, we try to catch the next step
 
-    if first_dosleg_in_page:
+    if nth_dos_in_page == 0:
         metas = {}
         for meta in soup.select('meta'):
             if 'name' in meta.attrs:
@@ -339,9 +345,10 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sy
     if 'previous_works' in data and parse_previous_works:
         log_warning('MERGING WITH PREVIOUS WORKS', data['previous_works'])
         resp = download_an(data['previous_works'])
-        prev_data = parse(resp.text, data['previous_works'], verbose=verbose, parse_next_works=False)
+        prev_data = parse(resp.text, data['previous_works'], verbose=verbose, nth_dos_in_page=nth_dos_in_page, parse_next_works=False)
         if prev_data:
-            data = merge_previous_works_an(prev_data[0], data)
+            prev_data = prev_data[nth_dos_in_page] if len(prev_data) > 1 else prev_data[0]
+            data = merge_previous_works_an(prev_data, data)
         else:
             log_warning('INVALID PREVIOUS WORKS', data['previous_works'])
 
@@ -349,13 +356,14 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sy
     if 'assemblee_legislature' in data and parse_next_works:
         resp = download_an(url_an.replace('/%d/' % data['assemblee_legislature'], '/%d/' % (data['assemblee_legislature'] + 1)))
         if resp.status_code == 200:
-            recent_data = parse(resp.text, resp.url, verbose=verbose, parse_previous_works=False)
+            recent_data = parse(resp.text, resp.url, verbose=verbose, nth_dos_in_page=nth_dos_in_page, parse_previous_works=False)
             if recent_data:
                 log_warning('FOUND MORE RECENT WORKS', resp.url)
-                data = merge_previous_works_an(data, recent_data[0])
+                recent_data = recent_data[nth_dos_in_page] if len(recent_data) > 1 else recent_data[0]
+                data = merge_previous_works_an(data, recent_data)
 
     if another_dosleg_inside:
-        others = parse(another_dosleg_inside, url_an, verbose=verbose, first_dosleg_in_page=False)
+        others = parse(another_dosleg_inside, url_an, verbose=verbose, nth_dos_in_page=nth_dos_in_page+1)
         if others:
             return [data] + others
     return [data]
