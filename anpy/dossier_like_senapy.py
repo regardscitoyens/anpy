@@ -39,12 +39,12 @@ def download_an(url):
 
 def merge_previous_works_an(older_dos, dos):
     # remove promulgation step
-    if older_dos['steps'] and older_dos['steps'][-1].get('stage') == 'promulgation':
+    if older_dos['steps'][-1].get('stage') == 'promulgation':
         older_dos['steps'] = older_dos['steps'][:-1]
 
-    if dos['steps'] and older_dos['steps'] and older_dos['steps'][-1]['source_url'] == dos['steps'][0]['source_url']:
+    if older_dos['steps'] and older_dos['steps'][-1]['source_url'] == dos['steps'][0]['source_url']:
         dos['steps'] = older_dos['steps'][:-1] + dos['steps']
-    elif dos['steps'] and len(older_dos['steps']) > 1 and older_dos['steps'][-2]['source_url'] == dos['steps'][0]['source_url']:
+    elif len(older_dos['steps']) > 1 and older_dos['steps'][-2]['source_url'] == dos['steps'][0]['source_url']:
         dos['steps'] = older_dos['steps'][:-2] + dos['steps']
     else:
         dos['steps'] = older_dos['steps'] + dos['steps']
@@ -55,7 +55,7 @@ def merge_previous_works_an(older_dos, dos):
     return dos
 
 
-def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sys.stderr, parse_previous_works=True):
+def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sys.stderr, parse_previous_works=True, parse_next_works=True):
     data = {
         'url_dossier_assemblee': clean_url(url_an),
         'urgence': False,
@@ -323,7 +323,7 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sy
                     'step': 'commission',
                 }
 
-    if promulgation_step:
+    if promulgation_step and data['steps'][-1].get('stage') == 'promulgation':
         data['steps'].append(promulgation_step)
 
     # add predicted next step for unfinished projects
@@ -339,14 +339,14 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sy
     if 'previous_works' in data and parse_previous_works:
         log_warning('MERGING WITH PREVIOUS WORKS', data['previous_works'])
         resp = download_an(data['previous_works'])
-        prev_data = parse(resp.text, data['previous_works'], verbose=verbose)
+        prev_data = parse(resp.text, data['previous_works'], verbose=verbose, parse_next_works=False)
         if prev_data:
             data = merge_previous_works_an(prev_data[0], data)
         else:
             log_warning('INVALID PREVIOUS WORKS', data['previous_works'])
 
     # is this part of a dosleg previous works ?
-    if 'assemblee_legislature' in data:
+    if 'assemblee_legislature' in data and parse_next_works:
         resp = download_an(url_an.replace('/%d/' % data['assemblee_legislature'], '/%d/' % (data['assemblee_legislature'] + 1)))
         if resp.status_code == 200:
             recent_data = parse(resp.text, resp.url, verbose=verbose, parse_previous_works=False)
