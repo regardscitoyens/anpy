@@ -31,24 +31,48 @@ def find_senat_url(data):
                 return clean_url(href)
 
 
-def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sys.stderr):
+def download_an(url):
+    resp = download(url)
+    resp.encoding = 'Windows-1252'
+    return resp
+
+
+def merge_previous_works_an(older_dos, dos):
+    # remove promulgation step
+    if older_dos['steps'] and older_dos['steps'][-1].get('stage') == 'promulgation':
+        older_dos['steps'] = older_dos['steps'][:-1]
+
+    if dos['steps'] and older_dos['steps'] and older_dos['steps'][-1]['source_url'] == dos['steps'][0]['source_url']:
+        dos['steps'] = older_dos['steps'][:-1] + dos['steps']
+    elif dos['steps'] and len(older_dos['steps']) > 1 and older_dos['steps'][-2]['source_url'] == dos['steps'][0]['source_url']:
+        dos['steps'] = older_dos['steps'][:-2] + dos['steps']
+    else:
+        dos['steps'] = older_dos['steps'] + dos['steps']
+
+    if 'url_dossier_senat' in older_dos and 'url_dossier_senat' not in dos:
+        dos['url_dossier_senat'] = older_dos['url_dossier_senat']
+
+    return dos
+
+
+def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sys.stderr, parse_previous_works=True):
     data = {
         'url_dossier_assemblee': clean_url(url_an),
         'urgence': False,
     }
 
-    def _log_error(error):
+    def _log_error(*error):
         print('## ERROR ###', error, file=logfile)
 
-    def _log_warning(error):
+    def _log_warning(*error):
         print('## WARNING ###', error, file=logfile)
 
     log_error = _log_error
     log_warning = _log_warning
     if not verbose:
-        def log_error(x): return None
+        def log_error(*x): return None
 
-        def log_warning(x): return None
+        def log_warning(*x): return None
 
     soup = BeautifulSoup(html, 'lxml')
 
@@ -310,6 +334,25 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sy
         senat_url = find_senat_url(data)
         if senat_url:
             data['url_dossier_senat'] = senat_url
+
+    # append previous works if there are some
+    if 'previous_works' in data and parse_previous_works:
+        log_warning('MERGING WITH PREVIOUS WORKS', data['previous_works'])
+        resp = download_an(data['previous_works'])
+        prev_data = parse(resp.text, data['previous_works'], verbose=verbose)
+        if prev_data:
+            data = merge_previous_works_an(prev_data[0], data)
+        else:
+            log_warning('INVALID PREVIOUS WORKS', data['previous_works'])
+
+    # is this part of a dosleg previous works ?
+    if 'assemblee_legislature' in data:
+        resp = download_an(url_an.replace('/%d/' % data['assemblee_legislature'], '/%d/' % (data['assemblee_legislature'] + 1)))
+        if resp.status_code == 200:
+            recent_data = parse(resp.text, resp.url, verbose=verbose, parse_previous_works=False)
+            if recent_data:
+                log_warning('FOUND MORE RECENT WORKS', resp.url)
+                data = merge_previous_works_an(data, recent_data[0])
 
     if another_dosleg_inside:
         others = parse(another_dosleg_inside, url_an, verbose=verbose, first_dosleg_in_page=False)

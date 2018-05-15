@@ -6,17 +6,13 @@ import sys
 import os
 import bs4
 import io
-import glob
-import tqdm
 from urllib.parse import urljoin, urlparse
 import zipfile
-import time
 
 from pathlib import Path
 
 import attr
 import click
-import requests
 import slugify
 
 from anpy.dossier import Dossier
