@@ -62,10 +62,10 @@ def parse(html, url_an=None, verbose=True, first_dosleg_in_page=True, logfile=sy
     }
 
     def _log_error(*error):
-        print('## ERROR ###', error, file=logfile)
+        print('## ERROR ###', *error, file=logfile)
 
     def _log_warning(*error):
-        print('## WARNING ###', error, file=logfile)
+        print('## WARNING ###', *error, file=logfile)
 
     log_error = _log_error
     log_warning = _log_warning
