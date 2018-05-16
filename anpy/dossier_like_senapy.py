@@ -42,10 +42,10 @@ def merge_previous_works_an(older_dos, dos):
     if older_dos['steps'][-1].get('stage') == 'promulgation':
         older_dos['steps'] = older_dos['steps'][:-1]
 
-    if older_dos['steps'] and older_dos['steps'][-1]['source_url'] == dos['steps'][0]['source_url']:
-        dos['steps'] = older_dos['steps'][:-1] + dos['steps']
-    elif len(older_dos['steps']) > 1 and older_dos['steps'][-2]['source_url'] == dos['steps'][0]['source_url']:
-        dos['steps'] = older_dos['steps'][:-2] + dos['steps']
+    for i in range(len(older_dos['steps'])):
+        if older_dos['steps'][-i].get('source_url') == dos['steps'][0].get('source_url'):
+            dos['steps'] = older_dos['steps'][:-i] + dos['steps']
+            break
     else:
         dos['steps'] = older_dos['steps'] + dos['steps']
 
