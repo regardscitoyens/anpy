@@ -82,12 +82,13 @@ def parse(html, url_an=None, verbose=True, logfile=sys.stderr, nth_dos_in_page=0
 
     soup = BeautifulSoup(html, 'lxml')
 
-    data['assemblee_id'] = data['url_dossier_assemblee'].split('/')[-1].replace('.asp', '')
     legislature = data['url_dossier_assemblee'].split('.fr/')[1].split('/')[0]
+    data['assemblee_slug'] = data['url_dossier_assemblee'].split('/')[-1].replace('.asp', '')
     try:
         data['assemblee_legislature'] = int(legislature)
     except ValueError:  # strange link (old dosleg)
         log_error('NO LEGISLATURE IN AN LINK: ' + data['url_dossier_assemblee'])
+    data['assemblee_id'] = '%d-%s' % (data.get('assemblee_legislature', ''), data['assemblee_slug'])
 
     data['steps'] = []
     curr_institution = 'assemblee'

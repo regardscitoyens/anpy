@@ -1,7 +1,8 @@
 [
     {
-        "assemblee_id": "sante",
+        "assemblee_id": "14-sante",
         "assemblee_legislature": 14,
+        "assemblee_slug": "sante",
         "beginning": "2014-10-15",
         "long_title": "Questions sociales et santé : modernisation de notre système de santé",
         "steps": [

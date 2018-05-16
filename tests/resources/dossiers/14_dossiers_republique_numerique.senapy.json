@@ -1,7 +1,8 @@
 [
     {
-        "assemblee_id": "republique_numerique",
+        "assemblee_id": "14-republique_numerique",
         "assemblee_legislature": 14,
+        "assemblee_slug": "republique_numerique",
         "beginning": "2015-12-09",
         "long_title": "Economie : pour une République numérique",
         "steps": [
