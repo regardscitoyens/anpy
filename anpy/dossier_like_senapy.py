@@ -383,16 +383,19 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
 
 def parse(url_an, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
     legislature = get_legislature(url_an)
+    url = url_an
     if legislature > 14 and '/dyn/' not in url_an:
-        url_an = url_an.replace('.fr', '.fr/dyn').replace('.asp', '')
+        url = url_an.replace('.fr', '.fr/dyn').replace('.asp', '')
 
-    if '/dyn/' in url_an:
-        parsed = opendata_parse(url_an, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
+    if '/dyn/' in url:
+        parsed = opendata_parse(url, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
         if parsed:
             return [parsed]
-        # fallack to old doslegs
-        url_an = url_an.replace('.fr/dyn', '.fr').replace('/dossiers/', '/dossiers/old_') + '.asp'
-    resp = download_an(url_an)
+        # fallack to old doslegs archived by us
+        url = url.replace('.fr/dyn', '.fr') + '.asp'
+        url = 'https://raw.githubusercontent.com/regardscitoyens/archive-AN-doslegs/master/archive/' + url.split('.fr/')[1]
+        resp = download_an(url)
+    resp = download_an(url)
     return historic_doslegs_parse(resp.text, url_an, verbose=verbose, logfile=logfile)
 
 
