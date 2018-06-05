@@ -99,6 +99,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
     promulgation_step = None
     another_dosleg_inside = None
     predicted_next_step = None  # For unfinished projects, we try to catch the next step
+    previous_works = None
 
     if nth_dos_in_page == 0:
         metas = {}
@@ -185,9 +186,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
             return None
 
         if '>Accès aux Travaux préparatoires' in line:
-            data['previous_works'] = clean_url(urljoin(url_an, parse_line().find('a').attrs['href']))
-            if data['assemblee_legislature'] == 15:
-                data['previous_works'] = data['previous_works'].replace('/old_', '/')
+            previous_works = clean_url(urljoin(url_an, parse_line().find('a').attrs['href']))
 
         curr_step = None
         # conseil. consti. has no step but we should get the link
@@ -346,18 +345,18 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
             data['url_dossier_senat'] = senat_url
 
     # append previous works if there are some
-    if 'previous_works' in data and parse_previous_works:
-        log_warning('MERGING WITH PREVIOUS WORKS', data['previous_works'])
-        resp = download_an(data['previous_works'])
+    if previous_works and parse_previous_works:
+        log_warning('MERGING WITH PREVIOUS WORKS', previous_works)
+        resp = download_an(previous_works)
         prev_data = historic_doslegs_parse(
-            resp.text, data['previous_works'],
+            resp.text, previous_works,
             logfile=logfile, verbose=verbose,
             nth_dos_in_page=nth_dos_in_page, parse_next_works=False)
         if prev_data:
             prev_data = prev_data[nth_dos_in_page] if len(prev_data) > 1 else prev_data[0]
             data = merge_previous_works_an(prev_data, data)
         else:
-            log_warning('INVALID PREVIOUS WORKS', data['previous_works'])
+            log_warning('INVALID PREVIOUS WORKS', previous_works)
 
     # is this part of a dosleg previous works ?
     next_legislature = data['assemblee_legislature'] + 1 if 'assemblee_legislature' in data else 9999
@@ -391,10 +390,14 @@ def parse(url_an, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
         parsed = opendata_parse(url, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
         if parsed:
             return [parsed]
-        # fallack to old doslegs archived by us
+        # fallack to old doslegs
         url = url.replace('.fr/dyn', '.fr') + '.asp'
+
+        # old version of doslegs are not the same as before so we need to use the archive
+        # ex: the non-organic text is missing here
+        #     http://www.assemblee-nationale.fr/15/dossiers/old_retablissement_confiance_action_publique.asp
         url = 'https://raw.githubusercontent.com/regardscitoyens/archive-AN-doslegs/master/archive/' + url.split('.fr/')[1]
-        resp = download_an(url)
+
     resp = download_an(url)
     return historic_doslegs_parse(resp.text, url_an, verbose=verbose, logfile=logfile)
 
