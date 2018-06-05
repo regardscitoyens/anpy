@@ -186,6 +186,8 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
 
         if '>Accès aux Travaux préparatoires' in line:
             data['previous_works'] = clean_url(urljoin(url_an, parse_line().find('a').attrs['href']))
+            if data['assemblee_legislature'] == 15:
+                data['previous_works'] = data['previous_works'].replace('/old_', '/')
 
         curr_step = None
         # conseil. consti. has no step but we should get the link
@@ -388,10 +390,10 @@ def parse(url_an, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
         parsed = opendata_parse(url_an, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
         if parsed:
             return [parsed]
-        return
-    else:
-        resp = download_an(url_an)
-        return historic_doslegs_parse(resp.text, url_an, verbose=verbose, logfile=logfile)
+        # fallack to old doslegs
+        url_an = url_an.replace('.fr/dyn', '.fr').replace('/dossiers/', '/dossiers/old_') + '.asp'
+    resp = download_an(url_an)
+    return historic_doslegs_parse(resp.text, url_an, verbose=verbose, logfile=logfile)
 
 
 """
