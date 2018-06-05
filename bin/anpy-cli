@@ -5,9 +5,7 @@ import json
 import sys
 import os
 import bs4
-import io
 from urllib.parse import urljoin, urlparse
-import zipfile
 
 from pathlib import Path
 
@@ -17,12 +15,13 @@ import slugify
 
 from anpy.dossier import Dossier
 from anpy.dossier_like_senapy import parse as parse_dossier_like_senapy
+from anpy.dossier_from_opendata import download_open_data_doslegs
 from anpy.question import parse_question
 from anpy.amendement import Amendement, AmendementSearchService
 from anpy.scrutin import Scrutin
 from anpy.utils import json_dumps
 
-from lawfactory_utils.urls import download, enable_requests_cache
+from lawfactory_utils.urls import download
 
 
 sys.path.append(str(Path(__file__).absolute().parents[1]))
@@ -108,18 +107,7 @@ def show_dossier(url):
 @cli.command()
 @click.argument('url')
 def show_dossier_like_senapy(url):
-    if os.path.exists(url):
-        try:
-            html = open(url).read()
-        except UnicodeDecodeError:
-            html = open(url, encoding='iso-8859-1').read()
-        url = html.split('-- URL=')[-1].split('-->')[0].strip()
-    else:
-        resp = download(url)
-        resp.encoding = 'Windows-1252'
-        html = resp.text
-
-    print(json_dumps(parse_dossier_like_senapy(html, url), indent=4, sort_keys=True,
+    print(json_dumps(parse_dossier_like_senapy(url), indent=4, sort_keys=True,
                      ensure_ascii=False))
 
 
@@ -178,16 +166,9 @@ def doslegs_urls(in_discussion):
     if not in_discussion:
         _log('## Finding doslegs urls in Open Data...')
 
-        files = (
-            ('Dossiers_Legislatifs_XV.json', 'http://data.assemblee-nationale.fr/static/openData/repository/15/loi/dossiers_legislatifs/Dossiers_Legislatifs_XV.json.zip'),
-            ('Dossiers_Legislatifs_XIV.json', 'http://data.assemblee-nationale.fr/static/openData/repository/14/loi/dossiers_legislatifs/Dossiers_Legislatifs_XIV.json.zip'),
-        )
-        for file, file_url in files:
-            _log('     * parsing', file_url, '...')
-            doslegs_resp = download(file_url)
-            doslegs_zip = zipfile.ZipFile(io.BytesIO(doslegs_resp.content))
-            DATA = json.loads(doslegs_zip.open(file).read().decode('utf-8'))
-
+        legislatures = [14, 15]
+        for legislature in legislatures:
+            DATA = download_open_data_doslegs(legislature)
             for dossier in DATA['export']['dossiersLegislatifs']['dossier']:
                 titreChemin = dossier['dossierParlementaire']['titreDossier']['titreChemin']
                 if not titreChemin:
@@ -203,38 +184,6 @@ def doslegs_urls(in_discussion):
 
     for url in urls_website | urls_opendata:
         print(url)
-
-
-@cli.command()
-@click.argument('output_dir')
-@click.option('--overwrite', is_flag=True)
-@click.option('--disable-cache', is_flag=True)
-def parse_many_doslegs(output_dir, overwrite, disable_cache):
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    if not disable_cache:
-        enable_requests_cache()
-
-    for url in sys.stdin:
-        url = url.strip()
-        filepath = os.path.join(output_dir, dossier_id(url))
-        if not overwrite and os.path.exists(filepath):
-            continue
-
-        print(' -- ', url)
-        resp = download(url)
-        if is_valid_dosleg_resp(resp):
-            results = parse_dossier_like_senapy(resp.text, url, verbose=False)
-
-            if results:
-                for i, dos in enumerate(results):
-                    full_filepath = filepath
-                    if i != 0:
-                        full_filepath += '_%d' % i
-                    open(full_filepath, 'w').write(json.dumps(dos, indent=4, sort_keys=True, ensure_ascii=False))
-            else:
-                open(filepath, 'w').write(json.dumps(None, indent=4, sort_keys=True, ensure_ascii=False))
 
 
 if __name__ == '__main__':

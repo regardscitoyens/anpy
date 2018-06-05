@@ -1,16 +1,17 @@
 # re-write of the dosleg parser to have
 # the same output as senapy
 
-import json
 import sys
 import re
 from urllib.parse import urljoin
 
-import requests
 import dateparser
 from bs4 import BeautifulSoup
 
 from lawfactory_utils.urls import clean_url, download
+
+from anpy.dossier_from_opendata import parse as opendata_parse
+from anpy.dossier import get_legislature
 
 
 def format_date(date):
@@ -55,7 +56,7 @@ def merge_previous_works_an(older_dos, dos):
     return dos
 
 
-def parse(html, url_an=None, verbose=True, logfile=sys.stderr, nth_dos_in_page=0, parse_previous_works=True, parse_next_works=True):
+def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, nth_dos_in_page=0, parse_previous_works=True, parse_next_works=True):
     """
     Parse an AN dosleg like http://www.assemblee-nationale.fr/13/dossiers/accord_Montenegro_mobilite_jeunes.asp
 
@@ -346,7 +347,10 @@ def parse(html, url_an=None, verbose=True, logfile=sys.stderr, nth_dos_in_page=0
     if 'previous_works' in data and parse_previous_works:
         log_warning('MERGING WITH PREVIOUS WORKS', data['previous_works'])
         resp = download_an(data['previous_works'])
-        prev_data = parse(resp.text, data['previous_works'], verbose=verbose, nth_dos_in_page=nth_dos_in_page, parse_next_works=False)
+        prev_data = historic_doslegs_parse(
+            resp.text, data['previous_works'],
+            logfile=logfile, verbose=verbose,
+            nth_dos_in_page=nth_dos_in_page, parse_next_works=False)
         if prev_data:
             prev_data = prev_data[nth_dos_in_page] if len(prev_data) > 1 else prev_data[0]
             data = merge_previous_works_an(prev_data, data)
@@ -354,37 +358,44 @@ def parse(html, url_an=None, verbose=True, logfile=sys.stderr, nth_dos_in_page=0
             log_warning('INVALID PREVIOUS WORKS', data['previous_works'])
 
     # is this part of a dosleg previous works ?
-    if 'assemblee_legislature' in data and parse_next_works:
+    next_legislature = data['assemblee_legislature'] + 1 if 'assemblee_legislature' in data else 9999
+    if parse_next_works and next_legislature < 15:
+        #  TODO: parse 15th legislature from open data if it exists
         resp = download_an(url_an.replace('/%d/' % data['assemblee_legislature'], '/%d/' % (data['assemblee_legislature'] + 1)))
         if resp.status_code == 200:
-            recent_data = parse(resp.text, resp.url, verbose=verbose, nth_dos_in_page=nth_dos_in_page, parse_previous_works=False)
+            recent_data = historic_doslegs_parse(
+                resp.text, resp.url,
+                logfile=logfile, verbose=verbose,
+                nth_dos_in_page=nth_dos_in_page, parse_previous_works=False)
             if recent_data:
                 log_warning('FOUND MORE RECENT WORKS', resp.url)
                 recent_data = recent_data[nth_dos_in_page] if len(recent_data) > 1 else recent_data[0]
                 data = merge_previous_works_an(data, recent_data)
 
     if another_dosleg_inside:
-        others = parse(another_dosleg_inside, url_an, verbose=verbose, nth_dos_in_page=nth_dos_in_page+1)
+        others = historic_doslegs_parse(another_dosleg_inside, url_an, logfile=logfile, verbose=verbose, nth_dos_in_page=nth_dos_in_page+1)
         if others:
             return [data] + others
     return [data]
 
 
-if __name__ == '__main__':
-    url = sys.argv[1]
-    if url.startswith('http'):
-        html = requests.get(url).text
-        data = parse(html, url)
+def parse(url_an, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
+    legislature = get_legislature(url_an)
+    if legislature > 14 and '/dyn/' not in url_an:
+        url_an = url_an.replace('.fr', '.fr/dyn').replace('.asp', '')
+
+    if '/dyn/' in url_an:
+        parsed = opendata_parse(url_an, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
+        if parsed:
+            return [parsed]
+        return
     else:
-        html = open(url).read()
-        url = html.split('-- URL=')[-1].split('-->')[0].strip()
-        data = parse(html, url)
-    print(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True))
+        resp = download_an(url_an)
+        return historic_doslegs_parse(resp.text, url_an, verbose=verbose, logfile=logfile)
 
 
 """
-Cas non-gérés:
+Cas non-gérés (anciens dossiers):
 - renvois en commision: http://www.assemblee-nationale.fr/14/dossiers/interdiction_prescription_acquisitive_voies_rurales.asp
 - senat ppl manquant: http://www.assemblee-nationale.fr/13/dossiers/comite_poids_mesures.asp
-- windows-1252 encoding: http://www.assemblee-nationale.fr/15/dossiers/responsabilite_financiere_dirigeants_benevoles_associations.asp
 """

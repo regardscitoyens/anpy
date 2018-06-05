@@ -24,7 +24,7 @@ from anpy.dossier import (
     DecisionStatus)
 from anpy.utils import json_dumps, json_loads
 
-from anpy.dossier_like_senapy import parse as parse_like_senapy
+from anpy.dossier_like_senapy import historic_doslegs_parse as parse_like_senapy
 
 
 def test_html_clean():

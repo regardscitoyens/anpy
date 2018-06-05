@@ -17,6 +17,11 @@ from anpy.utils import extract_datetime
 AN_BASE_URL = 'http://www.assemblee-nationale.fr'
 
 
+def get_legislature(url_an):
+    legislature_match = re.search(r"\.fr/(dyn/)?(\d+)/", url_an)
+    return int(legislature_match.group(2))
+
+
 class InvalidResponseException(Exception):
     pass
 
