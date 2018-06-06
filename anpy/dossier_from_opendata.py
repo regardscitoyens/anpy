@@ -114,7 +114,11 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                 if sous_etape["@xsi:type"] in ("EtudeImpact_Type", "DepotAvisConseilEtat_Type"):
                     continue
 
-                step = {"date": sous_etape.get("dateActe").split("T")[0]}
+                step = {}
+
+                date = sous_etape.get("dateActe")
+                if date:
+                    step["date"] = date.split("T")[0]
 
                 if sous_etape["@xsi:type"] == "ProcedureAccelere_Type":
                     data["urgence"] = True
