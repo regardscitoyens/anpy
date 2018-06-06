@@ -8,6 +8,7 @@ import sys
 import json
 import zipfile
 import io
+import re
 
 from lawfactory_utils.urls import download, enable_requests_cache, clean_url
 import lawfactory_utils.urls
@@ -64,6 +65,150 @@ def download_open_data_doslegs(legislature):
     DATA = json.loads(doslegs_zip.open(file).read().decode("utf-8"))
 
     return DATA
+
+
+def an_text_url(identifiant, code):
+    """
+    Port of the PHP function used by the National Assembly:
+
+    public function urlOpaque($identifiant, $codeType = NULL)
+    {
+        $datas = array(
+            'PRJL' => array('repertoire' => 'projets', 'prefixe' => 'pl', 'suffixe' => ''),
+            'PION' => array('repertoire' => 'propositions', 'prefixe' => 'pion', 'suffixe' => ''),
+            'PNRECOMENQ' => array('repertoire' => 'propositions', 'prefixe' => 'pion', 'suffixe' => ''),
+            'PNREAPPART341' => array('repertoire' => 'propositions', 'prefixe' => 'pion', 'suffixe' => ''),
+            'PNREMODREGLTAN' => array('repertoire' => 'propositions', 'prefixe' => 'pion', 'suffixe' => ''),
+            'AVCE' => array('repertoire' => 'projets', 'prefixe' => 'pl', 'suffixe' => '-ace'),
+            'ETDI' => array('repertoire' => 'projets', 'prefixe' => 'pl', 'suffixe' => '-ei'),
+            'ACIN' => array('repertoire' => 'projets', 'prefixe' => 'pl', 'suffixe' => '-ai'),
+            'LETT' => array('repertoire' => 'projets', 'prefixe' => 'pl', 'suffixe' => '-l'),
+            'PNRETVXINSTITEUROP' => array('repertoire' => 'europe/resolutions', 'prefixe' => 'ppe', 'suffixe' => ''),
+            'PNRE' => array('repertoire' => 'europe/resolutions', 'prefixe' => 'ppe', 'suffixe' => ''),
+            'RION' => array('repertoire' => '', 'prefixe' => '', 'suffixe' => ''),
+            'TCOM' => array('repertoire' => 'ta-commission', 'prefixe' => 'r', 'suffixe' => '-a0'),
+            'TCOMMODREGLTAN' => array('repertoire' => 'ta-commission', 'prefixe' => 'r', 'suffixe' => '-a0'),
+            'TCOMTVXINSTITEUROP' => array('repertoire' => 'ta-commission', 'prefixe' => 'r', 'suffixe' => '-a0'),
+            'TCOMCOMENQ' => array('repertoire' => 'ta-commission', 'prefixe' => 'r', 'suffixe' => '-a0'),
+            'TADO' => array('repertoire' => 'ta', 'prefixe' => 'ta', 'suffixe' => ''),
+        );
+        preg_match('/(.{4})([ANS]*)(R[0-9])([LS]*)([0-9]*)([BTACP]*)(.*)/', $identifiant, $matches);
+        $leg = $matches[5];
+        $typeTa = $matches[6];
+        $num = $matches[7];
+        switch ($typeTa) {
+            case 'BTC':
+                $type = 'TCOM';
+                break;
+            case 'BTA':
+                $type = 'TADO';
+                break;
+            default:
+                $type = $codeType;
+        }
+        $host = "http://www.assemblee-nationale.fr/";
+        return $host . $leg . "/" . $datas[$type]['repertoire'] . "/" . $datas[$type]['prefixe'] . $num . $datas[$type]['suffixe'] . ".pdf";
+    }
+    """
+    datas = {
+        'PRJL': {
+            'repertoire': 'projets',
+            'prefixe': 'pl',
+            'suffixe': '',
+        },
+        'PION': {
+            'repertoire': 'propositions',
+            'prefixe': 'pion',
+            'suffixe': '',
+        },
+        'PNRECOMENQ': {
+            'repertoire': 'propositions',
+            'prefixe': 'pion',
+            'suffixe': '',
+        },
+        'PNREAPPART341': {
+            'repertoire': 'propositions',
+            'prefixe': 'pion',
+            'suffixe': '',
+        },
+        'PNREMODREGLTAN': {
+            'repertoire': 'propositions',
+            'prefixe': 'pion',
+            'suffixe': '',
+        },
+        'AVCE': {
+            'repertoire': 'projets',
+            'prefixe': 'pl',
+            'suffixe': '-ace',
+        },
+        'ETDI': {
+            'repertoire': 'projets',
+            'prefixe': 'pl',
+            'suffixe': '-ei',
+        },
+        'ACIN': {
+            'repertoire': 'projets',
+            'prefixe': 'pl',
+            'suffixe': '-ai',
+        },
+        'LETT': {
+            'repertoire': 'projets',
+            'prefixe': 'pl',
+            'suffixe': '-l',
+        },
+        'PNRETVXINSTITEUROP': {
+            'repertoire': 'europe/resolutions',
+            'prefixe': 'ppe',
+            'suffixe': '',
+        },
+        'PNRE': {
+            'repertoire': 'europe/resolutions',
+            'prefixe': 'ppe',
+            'suffixe': '',
+        },
+        'RION': {
+            'repertoire': '',
+            'prefixe': '',
+            'suffixe': '',
+        },
+        'TCOM': {
+            'repertoire': 'ta-commission',
+            'prefixe': 'r',
+            'suffixe': '-a0',
+        },
+        'TCOMMODREGLTAN': {
+            'repertoire': 'ta-commission',
+            'prefixe': 'r',
+            'suffixe': '-a0',
+        },
+        'TCOMTVXINSTITEUROP': {
+            'repertoire': 'ta-commission',
+            'prefixe': 'r',
+            'suffixe': '-a0',
+        },
+        'TCOMCOMENQ': {
+            'repertoire': 'ta-commission',
+            'prefixe': 'r',
+            'suffixe': '-a0',
+        },
+        'TADO': {
+            'repertoire': 'ta',
+            'prefixe': 'ta',
+            'suffixe': '',
+        }
+    }
+    match = re.match(r'(.{4})([ANS]*)(R[0-9])([LS]*)([0-9]*)([BTACP]*)(.*)', identifiant)
+    leg = match.group(5)
+    typeTa = match.group(6)
+    num = match.group(7)
+    if typeTa == 'BTC':
+        type = 'TCOM'
+    elif typeTa == 'BTA':
+        type = 'TADO'
+    else:
+        type = code
+    host = "http://www.assemblee-nationale.fr/"
+    return host + leg + "/" + datas[type]['repertoire'] + "/" + datas[type]['prefixe'] + num + datas[type]['suffixe'] + ".asp"
 
 
 def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
@@ -145,7 +290,7 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                 if "texteAdopte" in sous_etape or "texteAssocie" in sous_etape:
                     code = sous_etape.get("codeActe")
 
-                    if "AVIS-RAPPORT" in code:
+                    if "AVIS-RAPPORT" in code or code == 'CMP-DEPOT':
                         continue
 
                     if code.startswith("AN"):
@@ -157,7 +302,7 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                         step["step"] = "depot"
                     elif "-COM" in code:
                         step["step"] = "commission"
-                    elif "-DEBATS-DEC" in code:
+                    elif "-DEBATS-DEC" in code or "DEBATS-AN-DEC" in code or "DEBATS-SN-DEC" in code:
                         step["step"] = "hemicycle"
 
                     if "1-" in code:
@@ -172,11 +317,13 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                         step["stage"] = "l. définitive"
                     elif "CMP-" in code:
                         step["stage"] = "CMP"
-                        if "RAPPORT-AN" in code:
-                            step["institution"] = "CMP"  # TODO: still CMP commission left
-                        elif "RAPPORT-SN" in code:
+                        if "-AN" in code:
+                            step["institution"] = "CMP"
+                        elif "-SN" in code:
                             step["institution"] = "senat"
-                            continue  #  TODO: add link to CMP commission step
+                            if "RAPPORT-SN" in code:
+                                # ignore the cmp_commission_other_url for now
+                                continue
                         else:
                             step["institution"] = "CMP"
 
@@ -199,49 +346,14 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                             _log("  - ERROR missing text", id_text)
 
                         url = None
-                        if step.get("institution") == "assemblee":
-                            text_no = id_text[-4:]
+                        if step.get("institution") == "assemblee" or "-AN" in code:
+                            doc_code = None
+                            if doc:
+                                doc_code = doc['classification']['type']['code']
+                            url = an_text_url(id_text, doc_code)
+                            if url:
+                                step['source_url'] = url
 
-                            if step.get("step") == "commission":
-                                if step.get("stage") == "CMP":
-                                    url = "http://www.assemblee-nationale.fr/{}/rapport/{}.asp"
-                                else:
-                                    url = "http://www.assemblee-nationale.fr/{}/ta-commission/r{}-a0.asp"
-                            elif step.get("step") == "depot":
-                                if data["proposal_type"] == "PJL":
-                                    url = "http://www.assemblee-nationale.fr/{}/projets/pl{}.asp"
-                                else:
-                                    url = "http://www.assemblee-nationale.fr/{}/propositions/pion{}.asp"
-                            elif step.get("step") == "hemicycle":
-                                url = "http://www.assemblee-nationale.fr/{}/ta/ta{}.asp"
-
-                        """
-                        if step.get("institution") == "senat":
-                            # TODO guess "legislature" because it's missing
-                            text_no = id_text[-3:]
-
-                            ppl_or_pjl = data["proposal_type"].lower()
-
-                            if step.get("step") == "commission":
-                                url = "https://www.senat.fr/leg/%s{}-{}.html" % ppl_or_pjl
-                            elif step.get("step") == "depot":
-                                url = "https://www.senat.fr/leg/%s{}-{}.html" % ppl_or_pjl
-                            elif step.get("step") == "hemicycle":
-                                url = "https://www.senat.fr/leg/tas{}-{}.html"
-                        """
-
-                        if url:
-                            legislature = doc.get("legislature", data["assemblee_legislature"])
-                            url = url.format(legislature, text_no)
-                            step["source_url"] = url
-
-                        """
-                        if not url or not test_status(url):
-                            _log("  - INVALID text url -", url, step)
-                            _log()
-                        """
-
-                        #  TODO: url CMP + other url
                     data["steps"].append(step)
 
                 else:
