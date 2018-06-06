@@ -182,11 +182,10 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
 
                     # step['xsi-type'] = sous_etape.get('@xsi:type')
                     # step['code'] = sous_etape.get('codeActe')
-                    step["id_step_opendata"] = sous_etape["uid"]
+                    step["id_opendata"] = sous_etape["uid"]
 
                     id_text = sous_etape.get("texteAdopte", sous_etape["texteAssocie"])
                     if id_text:
-                        step["id_text_opendata"] = id_text
                         if "proposal_type" not in data:
                             if id_text.startswith("PRJL"):
                                 data["proposal_type"] = "PJL"
