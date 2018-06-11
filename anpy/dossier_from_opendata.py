@@ -327,6 +327,14 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                         else:
                             step["institution"] = "CMP"
 
+                    # there is no multiple depot in the National Assembly
+                    # simply the senate re-submitting the same text
+                    if data['steps']:
+                        last_step = data['steps'][-1]
+                        if last_step['institution'] == 'assemblee' and last_step.get('step') == step.get('step') == 'depot':
+                            # ignore the multi-depot
+                            data['steps'] = data['steps'][:-1]
+
                     # step['xsi-type'] = sous_etape.get('@xsi:type')
                     # step['code'] = sous_etape.get('codeActe')
                     step["id_opendata"] = sous_etape["uid"]
