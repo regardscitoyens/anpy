@@ -95,26 +95,12 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
     curr_institution = 'assemblee'
     curr_stage = '1ère lecture'
     last_section = None  # Travaux des commissions/Discussion en séance publique
+    last_step_index = 0
     travaux_prep_already = False
-    promulgation_step = None
     another_dosleg_inside = None
     predicted_next_step = None  # For unfinished projects, we try to catch the next step
     previous_works = None
-
-    if nth_dos_in_page == 0:
-        metas = {}
-        for meta in soup.select('meta'):
-            if 'name' in meta.attrs:
-                metas[meta.attrs['name']] = meta.attrs['content']
-
-        url_jo = metas.get('LIEN_LOI_PROMULGUEE')
-        if url_jo:
-            data['url_jo'] = clean_url(url_jo)
-            promulgation_step = {
-                'institution': 'gouvernement',
-                'stage': 'promulgation',
-                'source_url': data['url_jo'],
-            }
+    url_jo = None
 
     html_lines = html.split('\n')
     for i, line in enumerate(html_lines):
@@ -138,10 +124,16 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
             last_section = line_text()
         if '<p align="center"><b><font color="#000080">Travaux préparatoires</font></b><br>' in line:
             if travaux_prep_already:
-                log_warning('FOUND ANOTHER DOSLEG INSIDE THE DOSLEG')
-                another_dosleg_inside = '\n'.join(html.split('\n')[i:])
-                break
-            travaux_prep_already = True
+                if parse_next_works and not nth_dos_in_page:
+                    log_warning('FOUND ANOTHER DOSLEG INSIDE THE DOSLEG')
+                    another_dosleg_inside = '\n'.join(html.split('\n')[last_step_index + 1:])
+                if not nth_dos_in_page:
+                    break
+                travaux_prep_already = False
+            else:
+                travaux_prep_already = True
+        if not parse_next_works and travaux_prep_already and nth_dos_in_page:
+            continue
 
         # Senat 1ère lecture, CMP, ...
         if '<font color="#000099" size="2" face="Arial">' in line:
@@ -185,7 +177,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
             log_warning('PROPOSITION DE RESOLUTION EUROPEENE')
             return None
 
-        if '>Accès aux Travaux préparatoires' in line:
+        if '>Accès aux Travaux préparatoires' in line and not previous_works:
             previous_works = clean_url(urljoin(url_an, parse_line().find('a').attrs['href']))
 
         curr_step = None
@@ -297,20 +289,14 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
                     data['beginning'] = step['date']
             data['steps'].append(step)
             predicted_next_step = None
+            last_step_index = i
 
-        if 'publiée au Journal Officiel' in line:
+        if 'publiée au Journal Officiel' in line and not url_jo:
             links = [clean_url(a.attrs['href']) for a in parse_line().select('a') if 'legifrance' in a.attrs.get('href', '')]
             if not links:
                 log_error('NO GOOD LINK IN LINE: %s' % (line,))
                 continue
             url_jo = links[-1]
-            if 'url_jo' not in data:
-                data['url_jo'] = url_jo
-            promulgation_step = {
-                'institution': 'gouvernement',
-                'stage': 'promulgation',
-                'source_url': url_jo,
-            }
 
         if 'Le Gouvernement a engagé la procédure accélérée' in line or 'engagement de la procédure accélérée' in line:
             data['urgence'] = True
@@ -332,11 +318,22 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
                     'step': 'commission',
                 }
 
-    if promulgation_step:
-        data['steps'].append(promulgation_step)
+    if not url_jo:
+        metas = {}
+        for meta in soup.select('meta'):
+            if 'name' in meta.attrs:
+                metas[meta.attrs['name']] = meta.attrs['content']
+        url_jo = metas.get('LIEN_LOI_PROMULGUEE')
 
+    if url_jo:
+        data['url_jo'] = clean_url(url_jo)
+        data['steps'].append({
+            'institution': 'gouvernement',
+            'stage': 'promulgation',
+            'source_url': data['url_jo'],
+        })
     # add predicted next step for unfinished projects
-    if 'url_jo' not in data and not promulgation_step and predicted_next_step:
+    elif predicted_next_step:
         data['steps'].append(predicted_next_step)
 
     if 'url_dossier_senat' not in data or 'dossier-legislatif' not in data['url_dossier_senat']:
@@ -346,7 +343,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
 
     # append previous works if there are some
     if previous_works and parse_previous_works:
-        log_warning('MERGING WITH PREVIOUS WORKS', previous_works)
+        log_warning('MERGING %s WITH PREVIOUS WORKS %s', (url_an, previous_works))
         resp = download_an(previous_works)
         prev_data = historic_doslegs_parse(
             resp.text, previous_works,

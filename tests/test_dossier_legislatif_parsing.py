@@ -306,33 +306,23 @@ def test_dossier_data_extractor():
     }]
 
 
-def test_pjl_sante_parsing():
-    url = 'http://www.assemblee-nationale.fr/14/dossiers/sante.asp'
-    html = codecs.open('tests/resources/dossiers/14_dossiers_sante.html', encoding='iso-8859-1').read()
-    dossier = DossierParser(url, html).parse()
-    dossier_data = json_loads(json_dumps(dossier.to_dict()))
-    expected_data = json_loads(
-        codecs.open('tests/resources/dossiers/14_dossiers_sante.json', encoding='utf-8').read())
-    assert dossier_data == expected_data
+def test_dossiers():
+    for url in [
+        'http://www.assemblee-nationale.fr/14/dossiers/sante.asp',
+        'http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp',
+        'http://www.assemblee-nationale.fr/14/dossiers/art11_Constitution_pl.asp'
+    ]:
+        filename = "_".join(url.replace('.asp', '').split('/')[3:6])
+        html = codecs.open('tests/resources/dossiers/%s.html' % filename, encoding='iso-8859-1').read()
+        dossier = DossierParser(url, html).parse()
+        dossier_data = json_loads(json_dumps(dossier.to_dict()))
+        expected_data = json_loads(
+            codecs.open('tests/resources/dossiers/%s.json' % filename, encoding='utf-8').read())
+        assert dossier_data == expected_data
 
-    dossier_data = parse_like_senapy(html, url)
-    expected_data = json_loads(
-        codecs.open('tests/resources/dossiers/14_dossiers_sante.senapy.json', encoding='utf-8').read())
-    assert dossier_data == expected_data
-
-
-def test_pjl_num_parsing():
-    url = 'http://www.assemblee-nationale.fr/14/dossiers/republique_numerique.asp'
-    html = codecs.open('tests/resources/dossiers/14_dossiers_republique_numerique.html', encoding='iso-8859-1').read()
-    dossier = DossierParser(url, html).parse()
-    dossier_data = json_loads(json_dumps(dossier.to_dict()))
-    expected_data = json_loads(
-        codecs.open('tests/resources/dossiers/14_dossiers_republique_numerique.json', encoding='utf-8').read())
-    assert dossier_data == expected_data
-
-    dossier_data = parse_like_senapy(html, url)
-    expected_data = json_loads(
-        codecs.open('tests/resources/dossiers/14_dossiers_republique_numerique.senapy.json', encoding='utf-8').read())
-    assert dossier_data == expected_data
+        dossier_data = parse_like_senapy(html, url)
+        expected_data = json_loads(
+            codecs.open('tests/resources/dossiers/%s.senapy.json' % filename, encoding='utf-8').read())
+        assert dossier_data == expected_data
 
 

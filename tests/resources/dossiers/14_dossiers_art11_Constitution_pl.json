@@ -1,0 +1,255 @@
+{
+    "legislature": "14",
+    "procedure": "PJL",
+    "senat_url": "http://www.senat.fr/dossier-legislatif/pjl11-242.html",
+    "steps": [
+        {
+            "acts": [
+                {
+                    "date": "2013-02-20T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.senat.fr/rap/l12-373/l12-373.html"
+                },
+                {
+                    "date": "2013-02-20T00:00:00",
+                    "type": "TEXTE_COMMISSION",
+                    "url": "http://www.senat.fr/leg/pjl12-374.html"
+                },
+                {
+                    "date": "2013-02-28T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201302/s20130228/st20130228000.html"
+                },
+                {
+                    "date": "2013-02-28T00:00:00",
+                    "status": "MODIFIE",
+                    "type": "DECISION",
+                    "url": "http://www.senat.fr/leg/tas12-103.html"
+                }
+            ],
+            "type": "SENAT_PREMIERE_LECTURE"
+        },
+        {
+            "acts": [
+                {
+                    "date": "2013-02-28T00:00:00",
+                    "type": "DEPOT_INITIATIVE",
+                    "url": "http://www.assemblee-nationale.fr/14/projets/pl0770.asp"
+                },
+                {
+                    "date": "2013-04-17T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.assemblee-nationale.fr/14/rapports/r0940.asp"
+                },
+                {
+                    "date": "2013-04-17T00:00:00",
+                    "type": "TEXTE_COMMISSION",
+                    "url": "http://www.assemblee-nationale.fr/14/ta-commission/r0940-a0.asp"
+                },
+                {
+                    "date": "2013-04-25T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2012-2013/20130230.asp"
+                },
+                {
+                    "date": "2013-04-25T00:00:00",
+                    "status": "ADOPTE",
+                    "type": "DECISION",
+                    "url": "http://www.assemblee-nationale.fr/14/ta/ta0125.asp"
+                }
+            ],
+            "type": "AN_DEUXIEME_LECTURE"
+        },
+        {
+            "acts": [
+                {
+                    "date": "2013-04-25T00:00:00",
+                    "type": "DEPOT_INITIATIVE",
+                    "url": "http://www.senat.fr/leg/pjl12-551.html"
+                },
+                {
+                    "date": "2013-06-05T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.senat.fr/rap/l12-632/l12-632.html"
+                },
+                {
+                    "date": "2013-06-05T00:00:00",
+                    "type": "TEXTE_COMMISSION",
+                    "url": "http://www.senat.fr/leg/pjl12-633.html"
+                },
+                {
+                    "date": "2013-06-12T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201306/s20130612/st20130612000.html"
+                },
+                {
+                    "date": "2013-06-12T00:00:00",
+                    "status": "MODIFIE",
+                    "type": "DECISION",
+                    "url": "http://www.senat.fr/leg/tas12-166.html"
+                }
+            ],
+            "type": "SENAT_DEUXIEME_LECTURE"
+        },
+        {
+            "acts": [
+                {
+                    "date": "2013-06-13T00:00:00",
+                    "type": "DEPOT_INITIATIVE",
+                    "url": "http://www.assemblee-nationale.fr/14/projets/pl1158.asp"
+                },
+                {
+                    "date": "2013-11-19T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2013-2014/20140071.asp"
+                },
+                {
+                    "date": "2013-11-19T00:00:00",
+                    "status": "ADOPTE",
+                    "type": "DECISION",
+                    "url": "http://www.assemblee-nationale.fr/14/ta/ta0240.asp"
+                },
+                {
+                    "date": "2013-11-21T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201311/s20131121/st20131121000.html"
+                },
+                {
+                    "date": "2013-11-21T00:00:00",
+                    "status": "ADOPTE",
+                    "type": "DECISION",
+                    "url": "http://www.senat.fr/leg/tas13-036.html"
+                }
+            ],
+            "status": "ACCORD",
+            "type": "CMP"
+        },
+        {
+            "acts": [],
+            "type": "CONSEIL_CONSTITUT"
+        },
+        {
+            "acts": [
+                {
+                    "date": "2013-02-20T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.senat.fr/rap/l12-373/l12-373.html"
+                },
+                {
+                    "date": "2013-02-20T00:00:00",
+                    "type": "TEXTE_COMMISSION",
+                    "url": "http://www.senat.fr/leg/pjl12-375.html"
+                },
+                {
+                    "date": "2013-02-28T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201302/s20130228/st20130228000.html"
+                },
+                {
+                    "date": "2013-02-28T00:00:00",
+                    "status": "MODIFIE",
+                    "type": "DECISION",
+                    "url": "http://www.senat.fr/leg/tas12-104.html"
+                }
+            ],
+            "type": "SENAT_PREMIERE_LECTURE"
+        },
+        {
+            "acts": [
+                {
+                    "date": "2013-02-28T00:00:00",
+                    "type": "DEPOT_INITIATIVE",
+                    "url": "http://www.assemblee-nationale.fr/14/projets/pl0771.asp"
+                },
+                {
+                    "date": "2013-04-17T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.assemblee-nationale.fr/14/rapports/r0939.asp"
+                },
+                {
+                    "date": "2013-04-17T00:00:00",
+                    "type": "TEXTE_COMMISSION",
+                    "url": "http://www.assemblee-nationale.fr/14/ta-commission/r0939-a0.asp"
+                },
+                {
+                    "date": "2013-04-25T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2012-2013/20130230.asp"
+                },
+                {
+                    "date": "2013-04-25T00:00:00",
+                    "status": "ADOPTE",
+                    "type": "DECISION",
+                    "url": "http://www.assemblee-nationale.fr/14/ta/ta0126.asp"
+                }
+            ],
+            "type": "AN_DEUXIEME_LECTURE"
+        },
+        {
+            "acts": [
+                {
+                    "date": "2013-04-25T00:00:00",
+                    "type": "DEPOT_INITIATIVE",
+                    "url": "http://www.senat.fr/leg/pjl12-552.html"
+                },
+                {
+                    "date": "2013-06-05T00:00:00",
+                    "type": "DEPOT_RAPPORT",
+                    "url": "http://www.senat.fr/rap/l12-632/l12-632.html"
+                },
+                {
+                    "date": "2013-06-05T00:00:00",
+                    "type": "TEXTE_COMMISSION",
+                    "url": "http://www.senat.fr/leg/pjl12-634.html"
+                },
+                {
+                    "date": "2013-06-12T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201306/s20130612/st20130612000.html"
+                },
+                {
+                    "date": "2013-06-12T00:00:00",
+                    "status": "MODIFIE",
+                    "type": "DECISION",
+                    "url": "http://www.senat.fr/leg/tas12-167.html"
+                }
+            ],
+            "type": "SENAT_DEUXIEME_LECTURE"
+        },
+        {
+            "acts": [
+                {
+                    "date": "2013-06-13T00:00:00",
+                    "type": "DEPOT_INITIATIVE",
+                    "url": "http://www.assemblee-nationale.fr/14/projets/pl1159.asp"
+                },
+                {
+                    "date": "2013-11-19T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.assemblee-nationale.fr/14/cri/2013-2014/20140071.asp"
+                },
+                {
+                    "date": "2013-11-19T00:00:00",
+                    "status": "ADOPTE",
+                    "type": "DECISION",
+                    "url": "http://www.assemblee-nationale.fr/14/ta/ta0241.asp"
+                },
+                {
+                    "date": "2013-11-21T00:00:00",
+                    "type": "DISCUSSION_SEANCE_PUBLIQUE",
+                    "url": "http://www.senat.fr/seances/s201311/s20131121/st20131121000.html"
+                },
+                {
+                    "date": "2013-11-21T00:00:00",
+                    "status": "ADOPTE",
+                    "type": "DECISION",
+                    "url": "http://www.senat.fr/leg/tas13-037.html"
+                }
+            ],
+            "status": "ACCORD",
+            "type": "CMP"
+        }
+    ],
+    "title": "Pouvoirs publics : article 11 de la Constitution (référendum d'initiative partagée)",
+    "url": "http://www.assemblee-nationale.fr/14/dossiers/art11_Constitution_pl.asp"
+}
