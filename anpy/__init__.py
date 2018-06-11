@@ -11,7 +11,7 @@
 import logging
 
 __title__ = 'anpy'
-__version__ = '0.1.10'
+__version__ = '0.1.11'
 __author__ = 'Regards Citoyens'
 __license__ = 'MIT'
 
