@@ -195,6 +195,12 @@ def an_text_url(identifiant, code):
             'repertoire': 'ta',
             'prefixe': 'ta',
             'suffixe': '',
+        },
+        # NOT IN NATIONAL ASSEMBLY PHP CODE
+        'RAPP': {
+            'repertoire': 'rapports',
+            'prefixe': 'r',
+            'suffixe': '',
         }
     }
     match = re.match(r'(.{4})([ANS]*)(R[0-9])([LS]*)([0-9]*)([BTACP]*)(.*)', identifiant)
