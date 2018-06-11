@@ -192,10 +192,6 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
         elif ">Texte de la commission" in line or '/ta-commission/' in line:
             curr_step = 'commission'
 
-            # no commission for l. définitive
-            if curr_stage == 'l. définitive' and curr_step == 'commission':
-                curr_step = 'hemicycle'
-
         elif '/ta/' in line or '/leg/tas' in line:
             if get_last_step().get('stage') != curr_stage:
                 curr_step = 'depot'
@@ -209,9 +205,6 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
                 continue
             curr_step = 'commission'
 
-            # no commission for l. définitive
-            if curr_stage == 'l. définitive' and curr_step == 'commission':
-                curr_step = 'hemicycle'
         elif 'www.conseil-constitutionnel.fr/decision/' in line:
             no_step_but_good_link = True
 
