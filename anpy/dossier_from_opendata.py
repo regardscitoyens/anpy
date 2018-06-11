@@ -332,14 +332,14 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                     if data['steps']:
                         last_step = data['steps'][-1]
                         if last_step['institution'] == 'assemblee' and last_step.get('step') == step.get('step') == 'depot':
-                            # ignore the multi-depot
+                            # ignore the depot we already have (since the new one is the same)
                             data['steps'] = data['steps'][:-1]
 
                     # step['xsi-type'] = sous_etape.get('@xsi:type')
                     # step['code'] = sous_etape.get('codeActe')
                     step["id_opendata"] = sous_etape["uid"]
 
-                    id_text = sous_etape.get("texteAdopte", sous_etape["texteAssocie"])
+                    id_text = sous_etape.get("texteAdopte") or sous_etape.get("texteAssocie")
                     if id_text:
                         if "proposal_type" not in data:
                             if id_text.startswith("PRJL"):
