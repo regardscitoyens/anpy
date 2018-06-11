@@ -343,7 +343,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
 
     # append previous works if there are some
     if previous_works and parse_previous_works:
-        log_warning('MERGING %s WITH PREVIOUS WORKS %s', (url_an, previous_works))
+        log_warning('MERGING %s WITH PREVIOUS WORKS %s' % (url_an, previous_works))
         resp = download_an(previous_works)
         prev_data = historic_doslegs_parse(
             resp.text, previous_works,
