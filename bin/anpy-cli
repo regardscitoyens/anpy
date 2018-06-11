@@ -124,6 +124,7 @@ def show_scrutin(url):
 def doslegs_urls(in_discussion):
     _log('## Finding doslegs urls in assemblee-nationale.fr...(since 13th legislature)')
     urls_website = set()
+
     INDEX_URLS = [
         'http://www.assemblee-nationale.fr/15/documents/index-dossier.asp',
         'http://www.assemblee-nationale.fr/14/documents/index-dossier.asp',
@@ -135,20 +136,25 @@ def doslegs_urls(in_discussion):
         'http://www.assemblee-nationale.fr/14/documents/index-conventions.asp',
         'http://www.assemblee-nationale.fr/13/documents/index-conventions.asp',
 
-        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/15/(type)/propositions-loi/',
-        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/14/(type)/propositions-loi/',
         'http://www.assemblee-nationale.fr/13/documents/index-proposition.asp',
 
-        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/15/(type)/projets-loi/',
-        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/14/(type)/projets-loi/',
         'http://www.assemblee-nationale.fr/13/documents/index-projets.asp',
 
-        'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/15/(type)/depots/',
-        'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/14/(type)/depots/',
         'http://www.assemblee-nationale.fr/13/documents/index-depots.asp',
     ]
+
+    PAGINATED_INDEX_URLS = [
+        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/15/(type)/propositions-loi/',
+        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/14/(type)/propositions-loi/',
+        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/15/(type)/projets-loi/',
+        # 'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/0/(limit)/100000/(legis)/14/(type)/projets-loi/',
+        'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/%d/(limit)/%d/(legis)/15/(type)/depots/',
+        'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/%d/(limit)/%d/(legis)/14/(type)/depots/'
+    ]
+
     if in_discussion:
         INDEX_URLS = ['http://www.assemblee-nationale.fr/15/liste/texte_ordre_du_jour.asp']
+        PAGINATED_INDEX_URLS = []
 
     for index_url in INDEX_URLS:
         _log('     * scanning', index_url, '...')
@@ -158,6 +164,24 @@ def doslegs_urls(in_discussion):
 
             if '/dossiers/' in url:
                 urls_website.add(url)
+
+    page_size = 1000
+    for paginated_index_url in PAGINATED_INDEX_URLS:
+        page = 0
+        while True:
+            continue_pagination = False
+            paginated_url = paginated_index_url % (page*page_size, page_size)
+
+            _log('     * scanning', paginated_url, '...')
+
+            for link in bs4.BeautifulSoup(download(paginated_url).text, 'lxml').select('a'):
+                url = urljoin('http://www.assemblee-nationale.fr', link.attrs.get('href', ''))
+                if '/dossiers/' in url:
+                    urls_website.add(url)
+                    continue_pagination = True
+            if not continue_pagination:
+                break
+            page += 1
 
     _log('  => found', len(urls_website), 'doslegs')
     _log()
