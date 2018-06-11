@@ -350,6 +350,8 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                             doc_code = None
                             if doc:
                                 doc_code = doc['classification']['type']['code']
+                                if doc_code == 'ACIN':
+                                    continue
                             url = an_text_url(id_text, doc_code)
                             if url:
                                 step['source_url'] = url
