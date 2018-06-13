@@ -11,7 +11,6 @@ import io
 import re
 
 from lawfactory_utils.urls import download, enable_requests_cache, clean_url
-import lawfactory_utils.urls
 
 from anpy.dossier import get_legislature
 
