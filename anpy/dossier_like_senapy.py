@@ -371,10 +371,11 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
 
 
 def parse(url_an, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
+    url = url_an.split('#')[0]
+
     legislature = get_legislature(url_an)
-    url = url_an
-    if legislature > 14 and '/dyn/' not in url_an:
-        url = url_an.replace('.fr', '.fr/dyn').replace('.asp', '')
+    if legislature > 14 and '/dyn/' not in url:
+        url = url.replace('.fr', '.fr/dyn').replace('.asp', '')
 
     if '/dyn/' in url:
         parsed = opendata_parse(url, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
@@ -387,7 +388,6 @@ def parse(url_an, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
         # ex: the non-organic text is missing here
         #     http://www.assemblee-nationale.fr/15/dossiers/old_retablissement_confiance_action_publique.asp
         url = 'https://raw.githubusercontent.com/regardscitoyens/archive-AN-doslegs/master/archive/' + url.split('.fr/')[1]
-
     resp = download_an(url)
     return historic_doslegs_parse(resp.text, url_an, verbose=verbose, logfile=logfile)
 
