@@ -53,14 +53,8 @@ def download_open_data_doslegs(legislature):
             "http://data.assemblee-nationale.fr/static/openData/repository/14/loi/dossiers_legislatifs/Dossiers_Legislatifs_XIV.json.zip",
         ),
     }
-    #  TODO: remove this hack when we are able to cache the zip files
     file, file_url = files[legislature]
-
-    CACHE_ENABLED = lawfactory_utils.urls.CACHE_ENABLED
-    lawfactory_utils.urls.CACHE_ENABLED = False
     doslegs_resp = download(file_url)
-    lawfactory_utils.urls.CACHE_ENABLED = CACHE_ENABLED
-
     doslegs_zip = zipfile.ZipFile(io.BytesIO(doslegs_resp.content))
     DATA = json.loads(doslegs_zip.open(file).read().decode("utf-8"))
 
