@@ -381,7 +381,7 @@ def parse(url_an, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
         if parsed:
             return [parsed]
         # fallack to old doslegs
-        url = url.replace('.fr/dyn', '.fr') + '.asp'
+        url_an = url.replace('.fr/dyn', '.fr') + '.asp'
 
         # old version of doslegs are not the same as before so we need to use the archive
         # ex: the non-organic text is missing here
