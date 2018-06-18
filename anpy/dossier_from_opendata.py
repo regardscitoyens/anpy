@@ -10,9 +10,7 @@ import zipfile
 import io
 import re
 
-from lawfactory_utils.urls import download, enable_requests_cache, clean_url
-
-from anpy.dossier import get_legislature
+from lawfactory_utils.urls import download, enable_requests_cache, clean_url, parse_national_assembly_url
 
 
 def yield_leafs(etape, path=None):
@@ -222,11 +220,11 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
             nonlocal logfile
             print(*args, file=logfile)
 
-    legislature = get_legislature(url)
+    legislature, _ = parse_national_assembly_url(url)
     if legislature and legislature in cached_opendata_an:
         dossiers_json = cached_opendata_an[legislature]
     else:
-        dossiers_json = download_open_data_doslegs(get_legislature(url))
+        dossiers_json = download_open_data_doslegs(legislature)
 
     docs = {doc["uid"]: doc for doc in dossiers_json["export"]["textesLegislatifs"]["document"]}
 

@@ -8,10 +8,9 @@ from urllib.parse import urljoin
 import dateparser
 from bs4 import BeautifulSoup
 
-from lawfactory_utils.urls import clean_url, download
+from lawfactory_utils.urls import clean_url, download, parse_national_assembly_url
 
 from anpy.dossier_from_opendata import parse as opendata_parse
-from anpy.dossier import get_legislature
 
 
 def format_date(date):
@@ -373,7 +372,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
 def parse(url_an, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
     url = url_an.split('#')[0]
 
-    legislature = get_legislature(url_an)
+    legislature, _ = parse_national_assembly_url(url_an)
     if legislature > 14 and '/dyn/' not in url:
         url = url.replace('.fr', '.fr/dyn').replace('.asp', '')
 
