@@ -385,7 +385,7 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
         if parsed:
             return [parsed]
 
-        # fallack to old doslegs
+        # fallback to old doslegs
         display_url = OLD_URL_TEMPLATE.format(legislature=legislature, slug=slug)
         # old version of doslegs are not the same as before so we need to use the archive
         # ex: the non-organic text is missing here
