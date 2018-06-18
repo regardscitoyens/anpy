@@ -373,11 +373,11 @@ NEW_URL_TEMPLATE = "http://www.assemblee-nationale.fr/dyn/{legislature}/dossiers
 OLD_URL_TEMPLATE = "http://www.assemblee-nationale.fr/{legislature}/dossiers/{slug}.asp"
 
 
-def parse(url_an, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
-    display_url = url_an
+def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
+    display_url = download_url = url
 
-    legislature, slug = parse_national_assembly_url(url_an)
-    if legislature > 14 and '/dyn/' not in url:
+    legislature, slug = parse_national_assembly_url(download_url)
+    if legislature > 14 and '/dyn/' not in display_url:
         download_url = display_url = NEW_URL_TEMPLATE.format(legislature=legislature, slug=slug)
 
     if '/dyn/' in download_url:
