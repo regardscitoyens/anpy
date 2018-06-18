@@ -88,7 +88,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
         data['assemblee_legislature'] = legislature
     else:  # strange link (old dosleg)
         log_error('NO LEGISLATURE IN AN LINK: ' + data['url_dossier_assemblee'])
-    data['assemblee_id'] = '%d-%s' % (data.get('assemblee_legislature', ''), data['assemblee_slug'])
+    data['assemblee_id'] = '%s-%s' % (data.get('assemblee_legislature', ''), data['assemblee_slug'])
 
     data['steps'] = []
     curr_institution = 'assemblee'
