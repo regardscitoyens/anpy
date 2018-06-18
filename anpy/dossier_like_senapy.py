@@ -369,26 +369,31 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
     return [data]
 
 
+NEW_URL_TEMPLATE = "http://www.assemblee-nationale.fr/dyn/{legislature}/dossiers/{slug}"
+OLD_URL_TEMPLATE = "http://www.assemblee-nationale.fr/{legislature}/dossiers/{slug}.asp"
+
+
 def parse(url_an, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
-    url = url_an.split('#')[0]
+    display_url = url_an
 
-    legislature, _ = parse_national_assembly_url(url_an)
+    legislature, slug = parse_national_assembly_url(url_an)
     if legislature > 14 and '/dyn/' not in url:
-        url = url.replace('.fr', '.fr/dyn').replace('.asp', '')
+        download_url = display_url = NEW_URL_TEMPLATE.format(legislature=legislature, slug=slug)
 
-    if '/dyn/' in url:
-        parsed = opendata_parse(url, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
+    if '/dyn/' in download_url:
+        parsed = opendata_parse(download_url, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
         if parsed:
             return [parsed]
-        # fallack to old doslegs
-        url_an = url.replace('.fr/dyn', '.fr') + '.asp'
 
+        # fallack to old doslegs
+        display_url = OLD_URL_TEMPLATE.format(legislature=legislature, slug=slug)
         # old version of doslegs are not the same as before so we need to use the archive
         # ex: the non-organic text is missing here
         #     http://www.assemblee-nationale.fr/15/dossiers/old_retablissement_confiance_action_publique.asp
-        url = 'https://raw.githubusercontent.com/regardscitoyens/archive-AN-doslegs/master/archive/' + url.split('.fr/')[1]
-    resp = download_an(url)
-    return historic_doslegs_parse(resp.text, url_an, verbose=verbose, logfile=logfile)
+        download_url = 'https://raw.githubusercontent.com/regardscitoyens/archive-AN-doslegs/master/archive/' + display_url.split('.fr/')[1]
+
+    resp = download_an(download_url)
+    return historic_doslegs_parse(resp.text, display_url, verbose=verbose, logfile=logfile)
 
 
 """
