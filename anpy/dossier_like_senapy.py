@@ -393,7 +393,13 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
         download_url = 'https://raw.githubusercontent.com/regardscitoyens/archive-AN-doslegs/master/archive/' + display_url.split('.fr/')[1]
 
     resp = download_an(download_url)
-    return historic_doslegs_parse(resp.text, display_url, verbose=verbose, logfile=logfile)
+    result = historic_doslegs_parse(resp.text, display_url, verbose=verbose, logfile=logfile)
+
+    # force new url for new doslegs
+    if legislature > 14 and len(result) == 1:
+        result[0]['url_dossier_assemblee'] = NEW_URL_TEMPLATE.format(legislature=legislature, slug=slug)
+
+    return result
 
 
 """
