@@ -8,7 +8,7 @@ from urllib.parse import urljoin
 import dateparser
 from bs4 import BeautifulSoup
 
-from lawfactory_utils.urls import clean_url, download, parse_national_assembly_url
+from lawfactory_utils.urls import clean_url, download, parse_national_assembly_url, AN_OLD_URL_TEMPLATE
 
 from anpy.dossier_from_opendata import parse as opendata_parse
 
@@ -369,37 +369,26 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
     return [data]
 
 
-NEW_URL_TEMPLATE = "http://www.assemblee-nationale.fr/dyn/{legislature}/dossiers/{slug}"
-OLD_URL_TEMPLATE = "http://www.assemblee-nationale.fr/{legislature}/dossiers/{slug}.asp"
-
-
 def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
-    display_url = download_url = url
+    url = clean_url(url)
 
-    legislature, slug = parse_national_assembly_url(download_url)
-    if legislature > 14 and '/dyn/' not in display_url:
-        download_url = display_url = NEW_URL_TEMPLATE.format(legislature=legislature, slug=slug)
-
-    if '/dyn/' in download_url:
-        parsed = opendata_parse(download_url, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
+    if '/dyn/' in url:
+        parsed = opendata_parse(url, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
         if parsed:
             return [parsed]
 
         # fallback to old doslegs
-        display_url = OLD_URL_TEMPLATE.format(legislature=legislature, slug=slug)
+        legislature, slug = parse_national_assembly_url(url)
+        display_url = AN_OLD_URL_TEMPLATE.format(legislature=legislature, slug=slug)
         # old version of doslegs are not the same as before so we need to use the archive
         # ex: the non-organic text is missing here
         #     http://www.assemblee-nationale.fr/15/dossiers/old_retablissement_confiance_action_publique.asp
         download_url = 'https://raw.githubusercontent.com/regardscitoyens/archive-AN-doslegs/master/archive/' + display_url.split('.fr/')[1]
-
-    resp = download_an(download_url)
-    result = historic_doslegs_parse(resp.text, display_url, verbose=verbose, logfile=logfile)
-
-    # force new url for new doslegs
-    if legislature > 14 and len(result) == 1:
-        result[0]['url_dossier_assemblee'] = NEW_URL_TEMPLATE.format(legislature=legislature, slug=slug)
-
-    return result
+        resp = download_an(download_url)
+        return historic_doslegs_parse(resp.text, display_url, verbose=verbose, logfile=logfile)
+    else:
+        resp = download_an(url)
+        return historic_doslegs_parse(resp.text, url, verbose=verbose, logfile=logfile)
 
 
 """
