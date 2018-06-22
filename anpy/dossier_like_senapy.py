@@ -207,6 +207,10 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
         elif 'www.conseil-constitutionnel.fr/decision/' in line:
             no_step_but_good_link = True
 
+        # no commissions for l. définitive
+        if curr_stage == 'l. définitive' and curr_step == 'commission':
+            continue
+
         if curr_step or no_step_but_good_link:
             # if same step previously, replace or not the url
             if get_last_step().get('step') == curr_step:

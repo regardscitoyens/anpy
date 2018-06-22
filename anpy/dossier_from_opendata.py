@@ -312,6 +312,8 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                         step["stage"] = "nouv. lect."
                     elif "ANLDEF-" in code:
                         step["stage"] = "l. définitive"
+                        if step["step"] == "commission":
+                            continue
                     elif "CMP-" in code:
                         step["stage"] = "CMP"
                         if "-AN" in code:
