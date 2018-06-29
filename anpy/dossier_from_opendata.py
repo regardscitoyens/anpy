@@ -235,7 +235,7 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
 
         # find the right dosleg even if it's an old url
         url_common_part = "{}/dossiers/{}".format(dossier["legislature"], titreChemin)
-        if url.endswith(url_common_part):
+        if not url.endswith(url_common_part):
             continue
         url = "http://www.assemblee-nationale.fr/dyn/{}".format(url_common_part)
 
