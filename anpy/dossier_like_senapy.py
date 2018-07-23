@@ -33,6 +33,16 @@ def find_senat_url(data):
 
 def download_an(url):
     resp = download(url)
+
+    if '/dyn/' in resp.url:
+        # fallback to backed-up doslegs when the redirect is forced
+        legislature, slug = parse_national_assembly_url(url)
+        display_url = AN_OLD_URL_TEMPLATE.format(legislature=legislature, slug=slug)
+        download_url = 'https://raw.githubusercontent.com/regardscitoyens/archive-AN-doslegs/master/archive/' \
+            + display_url.split('.fr/')[1]
+        resp = download(download_url)
+        resp.url = display_url
+
     resp.encoding = 'Windows-1252'
     return resp
 
@@ -381,19 +391,8 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
         if parsed:
             return [parsed]
 
-        # fallback to old doslegs
-        legislature, slug = parse_national_assembly_url(url)
-        display_url = AN_OLD_URL_TEMPLATE.format(legislature=legislature, slug=slug)
-        # old version of doslegs are not the same as before so we need to use the archive
-        # ex: the non-organic text is missing here
-        #     http://www.assemblee-nationale.fr/15/dossiers/old_retablissement_confiance_action_publique.asp
-        download_url = 'https://raw.githubusercontent.com/regardscitoyens/archive-AN-doslegs/master/archive/' + display_url.split('.fr/')[1]
-        resp = download_an(download_url)
-        return historic_doslegs_parse(resp.text, display_url, verbose=verbose, logfile=logfile)
-    else:
-        resp = download_an(url)
-        return historic_doslegs_parse(resp.text, url, verbose=verbose, logfile=logfile)
-
+    resp = download_an(url)
+    return historic_doslegs_parse(resp.text, url, verbose=verbose, logfile=logfile)
 
 """
 Cas non-gérés (anciens dossiers):
