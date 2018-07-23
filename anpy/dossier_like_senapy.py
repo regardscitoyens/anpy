@@ -49,7 +49,7 @@ def download_historic_dosleg(url):
 
 def merge_previous_works_an(older_dos, dos):
     # remove promulgation step
-    if older_dos['steps'][-1].get('stage') == 'promulgation':
+    if older_dos['steps'] and older_dos['steps'][-1].get('stage') == 'promulgation':
         older_dos['steps'] = older_dos['steps'][:-1]
 
     for i in range(len(older_dos['steps'])):
