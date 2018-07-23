@@ -394,6 +394,7 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
     resp = download_an(url)
     return historic_doslegs_parse(resp.text, url, verbose=verbose, logfile=logfile)
 
+
 """
 Cas non-gérés (anciens dossiers):
 - renvois en commision: http://www.assemblee-nationale.fr/14/dossiers/interdiction_prescription_acquisitive_voies_rurales.asp
