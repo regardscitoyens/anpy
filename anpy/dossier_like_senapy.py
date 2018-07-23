@@ -31,7 +31,7 @@ def find_senat_url(data):
                 return clean_url(href)
 
 
-def download_an(url):
+def download_historic_dosleg(url):
     resp = download(url)
 
     if '/dyn/' in resp.url:
@@ -350,7 +350,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
     # append previous works if there are some
     if previous_works and parse_previous_works:
         log_warning('MERGING %s WITH PREVIOUS WORKS %s' % (url_an, previous_works))
-        resp = download_an(previous_works)
+        resp = download_historic_dosleg(previous_works)
         prev_data = historic_doslegs_parse(
             resp.text, previous_works,
             logfile=logfile, verbose=verbose,
@@ -365,7 +365,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
     next_legislature = data['assemblee_legislature'] + 1 if 'assemblee_legislature' in data else 9999
     if parse_next_works and next_legislature < 15:
         #  TODO: parse 15th legislature from open data if it exists
-        resp = download_an(url_an.replace('/%d/' % data['assemblee_legislature'], '/%d/' % (data['assemblee_legislature'] + 1)))
+        resp = download_historic_dosleg(url_an.replace('/%d/' % data['assemblee_legislature'], '/%d/' % (data['assemblee_legislature'] + 1)))
         if resp.status_code == 200:
             recent_data = historic_doslegs_parse(
                 resp.text, resp.url,
@@ -391,8 +391,8 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
         if parsed:
             return [parsed]
 
-    resp = download_an(url)
-    return historic_doslegs_parse(resp.text, url, verbose=verbose, logfile=logfile)
+    resp = download_historic_dosleg(url)
+    return historic_doslegs_parse(resp.text, resp.url, verbose=verbose, logfile=logfile)
 
 
 """
