@@ -153,8 +153,8 @@ def an_text_url(identifiant, code):
             'suffixe': '',
         },
         'PNRE': {
-            'repertoire': 'europe/resolutions',
-            'prefixe': 'ppe',
+            'repertoire': 'propositions',
+            'prefixe': 'pion',
             'suffixe': '',
         },
         'RION': {
@@ -325,6 +325,8 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                                 continue
                         else:
                             step["institution"] = "CMP"
+                    elif "ANLUNI-" in code:
+                        step["stage"] = "l. unique"
 
                     # there is no multiple depot in the National Assembly
                     # simply the senate re-submitting the same text
