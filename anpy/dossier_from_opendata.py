@@ -192,6 +192,11 @@ def an_text_url(identifiant, code):
             'repertoire': 'rapports',
             'prefixe': 'r',
             'suffixe': '',
+        },
+        'RINF': {
+            'repertoire': 'rapports',
+            'prefixe': 'r',
+            'suffixe': '',
         }
     }
     match = re.match(r'(.{4})([ANS]*)(R[0-9])([LS]*)([0-9]*)([BTACP]*)(.*)', identifiant)
