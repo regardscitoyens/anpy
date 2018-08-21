@@ -106,7 +106,7 @@ def show_dossier(url):
 
 @cli.command()
 @click.argument('url')
-def show_dossier_like_senapy(url):
+def parse(url):
     print(json_dumps(parse_dossier_like_senapy(url), indent=4, sort_keys=True,
                      ensure_ascii=False))
 
