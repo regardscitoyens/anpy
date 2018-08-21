@@ -114,6 +114,12 @@ Features:
 - Returns an array of law projects since a page can contains many law projects (ex: organic + non-organic)
 
 
+You can also parse many of them by giving a list of urls:
+
+```bash
+anpy-cli doslegs_urls | anpy-cli parse_many an_doslegs/
+```
+
 #### Show a law project (with a format is similar to the AN Open Data)
 
 *This parser is still a work-in-progress*

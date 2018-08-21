@@ -21,7 +21,7 @@ from anpy.amendement import Amendement, AmendementSearchService
 from anpy.scrutin import Scrutin
 from anpy.utils import json_dumps
 
-from lawfactory_utils.urls import download
+from lawfactory_utils.urls import download, enable_requests_cache
 
 
 sys.path.append(str(Path(__file__).absolute().parents[1]))
@@ -208,6 +208,32 @@ def doslegs_urls(in_discussion):
 
     for url in urls_website | urls_opendata:
         print(url)
+
+
+@cli.command()
+@click.argument('output_dir')
+@click.option('--overwrite', is_flag=True)
+@click.option('--disable-cache', is_flag=True)
+def parse_many(output_dir, overwrite, disable_cache):
+    if not disable_cache:
+        enable_requests_cache()
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    for url in sys.stdin:
+        url = url.strip()
+
+        an_id = url.split('/')[-1].replace('.asp', '')
+
+        filepath = os.path.join(output_dir, an_id)
+        if not overwrite and os.path.exists(filepath):
+            continue
+
+        _log(' -- ', url)
+        parsed = parse_dossier_like_senapy(url)
+        json.dump(parsed, open(filepath, 'w'), ensure_ascii=False, indent=2, sort_keys=True)
+    _log('parsing finished')
 
 
 if __name__ == '__main__':
