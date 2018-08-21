@@ -300,7 +300,7 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
                     elif code.startswith("SN"):
                         step["institution"] = "senat"
 
-                    if "-DEPOT" in code:
+                    if "-DEPOT" in code or '-MOTION' in code:
                         step["step"] = "depot"
                     elif "-COM" in code:
                         step["step"] = "commission"
@@ -374,7 +374,10 @@ def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
 
                 else:
                     pass
-        data["beggining"] = data["steps"][0]["date"]
+        if not data['steps']:
+            _log("  - WARNING no steps found for", url)
+        else:
+            data["beginning"] = data["steps"][0]["date"]
 
         return data
     return []
