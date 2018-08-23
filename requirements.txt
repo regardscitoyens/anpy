@@ -1,15 +1,15 @@
-pathlib==1.0.1
-click==6.7
-requests==2.18.4
-beautifulsoup4==4.6.0
-xmltodict==0.11.0
-html5lib==1.0.1
+pathlib < 1.1, >= 1.0
+click < 6.8, >= 6.7
+requests < 2.19, >= 2.18
+beautifulsoup4 < 4.7, >= 4.6
+xmltodict < 0.12, >= 0.11
+html5lib < 1.1, >= 1.0
 html2text==2018.1.9
-mistune==0.8.3
-dateparser==0.7.0
-attrs==17.4.0
-future==0.16.0
-slugify==0.0.1
-lxml==4.1.1
+mistune < 0.9, >= 0.8
+dateparser < 0.8, >= 0.7
+attrs < 17.5, >= 17.4
+future < 0.17, >= 0.16
+slugify < 0.1, >= 0.0
+lxml < 4.2, >= 4.1
 
 lawfactory_utils
