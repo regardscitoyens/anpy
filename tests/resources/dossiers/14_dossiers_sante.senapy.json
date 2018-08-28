@@ -4,6 +4,7 @@
         "assemblee_legislature": 14,
         "assemblee_slug": "sante",
         "beginning": "2014-10-15",
+        "end": "2016-01-26",
         "long_title": "Questions sociales et santé : modernisation de notre système de santé",
         "steps": [
             {
@@ -117,6 +118,7 @@
                 "stage": "constitutionnalité"
             },
             {
+                "date": "2016-01-26",
                 "institution": "gouvernement",
                 "source_url": "https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000031912641&categorieLien=id",
                 "stage": "promulgation"

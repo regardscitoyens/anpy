@@ -18,6 +18,15 @@ def format_date(date):
     return parsed.strftime("%Y-%m-%d")
 
 
+def find_promulgation_date(line):
+    """
+    >>> find_promulgation_date("Loi  nº 2010-383 du 16 avril 2010 autorisant l'approbation de l'accord entre...")
+    '2010-04-16'
+    """
+    line = line.split(' du ')[1]
+    return format_date(re.search(r"(\d\d? \w\w\w+ \d\d\d\d)", line).group(1))
+
+
 def find_senat_url(data):
     if not data['steps']:
         return
@@ -324,20 +333,27 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
                     'step': 'commission',
                 }
 
+    metas = {}
+    for meta in soup.select('meta'):
+        if 'name' in meta.attrs:
+            metas[meta.attrs['name']] = meta.attrs['content']
+
     if not url_jo:
-        metas = {}
-        for meta in soup.select('meta'):
-            if 'name' in meta.attrs:
-                metas[meta.attrs['name']] = meta.attrs['content']
         url_jo = metas.get('LIEN_LOI_PROMULGUEE')
 
     if url_jo:
         data['url_jo'] = clean_url(url_jo)
-        data['steps'].append({
+        promulgation_step = {
             'institution': 'gouvernement',
             'stage': 'promulgation',
             'source_url': data['url_jo'],
-        })
+        }
+        date = None
+        if metas.get('LOI_PROMULGUEE'):
+            date = find_promulgation_date(metas.get('LOI_PROMULGUEE'))
+            data['end'] = date
+            promulgation_step['date'] = date
+        data['steps'].append(promulgation_step)
     # add predicted next step for unfinished projects
     elif predicted_next_step:
         data['steps'].append(predicted_next_step)
