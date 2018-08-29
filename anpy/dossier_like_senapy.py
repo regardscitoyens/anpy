@@ -348,11 +348,9 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
             'stage': 'promulgation',
             'source_url': data['url_jo'],
         }
-        date = None
         if metas.get('LOI_PROMULGUEE'):
-            date = find_promulgation_date(metas.get('LOI_PROMULGUEE'))
-            data['end'] = date
-            promulgation_step['date'] = date
+            data['end'] = find_promulgation_date(metas.get('LOI_PROMULGUEE'))
+            promulgation_step['date'] = data['end']
         data['steps'].append(promulgation_step)
     # add predicted next step for unfinished projects
     elif predicted_next_step:
