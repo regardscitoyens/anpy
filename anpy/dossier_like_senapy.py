@@ -74,7 +74,7 @@ def merge_previous_works_an(older_dos, dos):
     return dos
 
 
-def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, nth_dos_in_page=0, parse_previous_works=True, parse_next_works=True):
+def historic_doslegs_parse(html, url_an=None, logfile=sys.stderr, nth_dos_in_page=0, parse_previous_works=True, parse_next_works=True):
     """
     Parse an AN dosleg like http://www.assemblee-nationale.fr/13/dossiers/accord_Montenegro_mobilite_jeunes.asp
 
@@ -94,11 +94,6 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
 
     log_error = _log_error
     log_warning = _log_warning
-    if not verbose:
-        def log_error(*x): return None
-
-        def log_warning(*x): return None
-
     soup = BeautifulSoup(html, 'lxml')
 
     legislature, slug = parse_national_assembly_url(data['url_dossier_assemblee'])
@@ -367,7 +362,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
         resp = download_historic_dosleg(previous_works)
         prev_data = historic_doslegs_parse(
             resp.text, previous_works,
-            logfile=logfile, verbose=verbose,
+            logfile=logfile,
             nth_dos_in_page=nth_dos_in_page, parse_next_works=False)
         if prev_data:
             prev_data = prev_data[nth_dos_in_page] if len(prev_data) > 1 else prev_data[0]
@@ -383,7 +378,7 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
         if resp.status_code == 200:
             recent_data = historic_doslegs_parse(
                 resp.text, resp.url,
-                logfile=logfile, verbose=verbose,
+                logfile=logfile,
                 nth_dos_in_page=nth_dos_in_page, parse_previous_works=False)
             if recent_data:
                 log_warning('FOUND MORE RECENT WORKS', resp.url)
@@ -391,22 +386,22 @@ def historic_doslegs_parse(html, url_an=None, verbose=True, logfile=sys.stderr, 
                 data = merge_previous_works_an(data, recent_data)
 
     if another_dosleg_inside:
-        others = historic_doslegs_parse(another_dosleg_inside, url_an, logfile=logfile, verbose=verbose, nth_dos_in_page=nth_dos_in_page+1)
+        others = historic_doslegs_parse(another_dosleg_inside, url_an, logfile=logfile, nth_dos_in_page=nth_dos_in_page+1)
         if others:
             return [data] + others
     return [data]
 
 
-def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
+def parse(url, logfile=sys.stderr, cached_opendata_an={}):
     url = clean_url(url)
 
     if '/dyn/' in url:
-        parsed = opendata_parse(url, verbose=verbose, logfile=logfile, cached_opendata_an=cached_opendata_an)
+        parsed = opendata_parse(url, logfile=logfile, cached_opendata_an=cached_opendata_an)
         if parsed:
             return [parsed]
 
     resp = download_historic_dosleg(url)
-    return historic_doslegs_parse(resp.text, resp.url, verbose=verbose, logfile=logfile)
+    return historic_doslegs_parse(resp.text, resp.url, logfile=logfile)
 
 
 """

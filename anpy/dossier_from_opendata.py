@@ -213,17 +213,10 @@ def an_text_url(identifiant, code):
     return host + leg + "/" + datas[type]['repertoire'] + "/" + datas[type]['prefixe'] + num + datas[type]['suffixe'] + ".asp"
 
 
-def parse(url, verbose=True, logfile=sys.stderr, cached_opendata_an={}):
-    if not verbose:
-
-        def _log(*x):
-            return None
-
-    else:
-
-        def _log(*args):
-            nonlocal logfile
-            print(*args, file=logfile)
+def parse(url, logfile=sys.stderr, cached_opendata_an={}):
+    def _log(*args):
+        nonlocal logfile
+        print(*args, file=logfile)
 
     legislature, _ = parse_national_assembly_url(url)
     if legislature and legislature in cached_opendata_an:
