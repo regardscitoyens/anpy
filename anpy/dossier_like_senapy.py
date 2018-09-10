@@ -86,14 +86,12 @@ def historic_doslegs_parse(html, url_an=None, logfile=sys.stderr, nth_dos_in_pag
         'urgence': False,
     }
 
-    def _log_error(*error):
+    def log_error(*error):
         print('## ERROR ###', *error, file=logfile)
 
-    def _log_warning(*error):
+    def log_warning(*error):
         print('## WARNING ###', *error, file=logfile)
 
-    log_error = _log_error
-    log_warning = _log_warning
     soup = BeautifulSoup(html, 'lxml')
 
     legislature, slug = parse_national_assembly_url(data['url_dossier_assemblee'])
