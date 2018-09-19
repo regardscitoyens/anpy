@@ -370,13 +370,12 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                 else:
                     pass
 
-        if not data.get('url_jo') and (not data['steps'] or step.get('step') != data['steps'][-1]):
-            data['steps'].append(step)
-
-        if not data['steps']:
-            _log("  - WARNING no steps found for", url)
-        else:
+        if data['steps']:
+            if not data.get('url_jo') and data['steps'][-1].get('step') != step.get('step'):
+                data['steps'].append(step)
             data["beginning"] = data["steps"][0]["date"]
+        else:
+            _log("  - WARNING no steps found for", url)
 
         return data
     return []
