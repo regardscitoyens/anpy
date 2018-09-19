@@ -249,6 +249,7 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
         data["assemblee_id"] = "%s-%s" % (dossier["legislature"], data["assemblee_slug"])
 
         data["steps"] = []
+        step = None
         for etape in to_arr(dossier["actesLegislatifs"]["acteLegislatif"]):
             for path, sous_etape in yield_leafs(etape):
                 if sous_etape["@xsi:type"] in ("EtudeImpact_Type", "DepotAvisConseilEtat_Type"):
@@ -282,50 +283,52 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                     # TODO review
                     sous_etape["texteAssocie"] = to_arr(sous_etape["textesAssocies"]["texteAssocie"])[0]["refTexteAssocie"]
 
-                if "texteAdopte" in sous_etape or "texteAssocie" in sous_etape:
-                    code = sous_etape.get("codeActe")
+                code = sous_etape.get("codeActe")
 
-                    if "AVIS-RAPPORT" in code or code == 'CMP-DEPOT':
+                if "AVIS-RAPPORT" in code or code == 'CMP-DEPOT':
+                    continue
+
+                if code.startswith("AN"):
+                    step["institution"] = "assemblee"
+                elif code.startswith("SN"):
+                    step["institution"] = "senat"
+
+                if "-DEPOT" in code or '-MOTION' in code:
+                    step["step"] = "depot"
+                elif "-COM" in code:
+                    step["step"] = "commission"
+                elif "-DEBATS" in code:
+                    step["step"] = "hemicycle"
+
+                if "1-" in code:
+                    step["stage"] = "1ère lecture"
+                elif "2-" in code:
+                    step["stage"] = "2ème lecture"
+                elif "3-" in code:
+                    step["stage"] = "3ème lecture"  # TODO: else libelleCourt
+                elif "NLEC-" in code:
+                    step["stage"] = "nouv. lect."
+                elif "ANLDEF-" in code:
+                    step["stage"] = "l. définitive"
+                    if step["step"] == "commission":
                         continue
-
-                    if code.startswith("AN"):
-                        step["institution"] = "assemblee"
-                    elif code.startswith("SN"):
+                elif "CMP-" in code:
+                    step["stage"] = "CMP"
+                    if "-AN" in code:
+                        step["institution"] = "CMP"
+                    elif "-SN" in code:
                         step["institution"] = "senat"
-
-                    if "-DEPOT" in code or '-MOTION' in code:
-                        step["step"] = "depot"
-                    elif "-COM" in code:
-                        step["step"] = "commission"
-                    elif "-DEBATS-DEC" in code or "DEBATS-AN-DEC" in code or "DEBATS-SN-DEC" in code:
-                        step["step"] = "hemicycle"
-
-                    if "1-" in code:
-                        step["stage"] = "1ère lecture"
-                    elif "2-" in code:
-                        step["stage"] = "2ème lecture"
-                    elif "3-" in code:
-                        step["stage"] = "3ème lecture"  # TODO: else libelleCourt
-                    elif "NLEC-" in code:
-                        step["stage"] = "nouv. lect."
-                    elif "ANLDEF-" in code:
-                        step["stage"] = "l. définitive"
-                        if step["step"] == "commission":
+                        if "RAPPORT-SN" in code:
+                            # ignore the cmp_commission_other_url for now
                             continue
-                    elif "CMP-" in code:
-                        step["stage"] = "CMP"
-                        if "-AN" in code:
-                            step["institution"] = "CMP"
-                        elif "-SN" in code:
-                            step["institution"] = "senat"
-                            if "RAPPORT-SN" in code:
-                                # ignore the cmp_commission_other_url for now
-                                continue
-                        else:
-                            step["institution"] = "CMP"
-                    elif "ANLUNI-" in code:
-                        step["stage"] = "l. unique"
+                    else:
+                        step["institution"] = "CMP"
+                elif "ANLUNI-" in code:
+                    step["stage"] = "l. unique"
 
+                step["id_opendata"] = sous_etape["uid"]
+
+                if "texteAdopte" in sous_etape or "texteAssocie" in sous_etape:
                     # there is no multiple depot in the National Assembly
                     # simply the senate re-submitting the same text
                     if data['steps']:
@@ -336,7 +339,6 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
                     # step['xsi-type'] = sous_etape.get('@xsi:type')
                     # step['code'] = sous_etape.get('codeActe')
-                    step["id_opendata"] = sous_etape["uid"]
 
                     id_text = sous_etape.get("texteAdopte") or sous_etape.get("texteAssocie")
                     if id_text:
@@ -367,6 +369,10 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
                 else:
                     pass
+
+        if not data.get('url_jo') and (not data['steps'] or step.get('step') != data['steps'][-1]):
+            data['steps'].append(step)
+
         if not data['steps']:
             _log("  - WARNING no steps found for", url)
         else:
