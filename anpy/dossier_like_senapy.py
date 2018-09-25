@@ -395,10 +395,14 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
     if '/dyn/' in url:
         parsed = opendata_parse(url, logfile=logfile, cached_opendata_an=cached_opendata_an)
+        print('WARNING: NOT FOUND IN OPEN-DATA', file=logfile)
         if parsed:
             return [parsed]
 
     resp = download_historic_dosleg(url)
+    if resp.status_code != 200:
+        print('WARNING: NOT FOUND IN HISTORIC DOSLEGS', file=logfile)
+        return []
     return historic_doslegs_parse(resp.text, resp.url, logfile=logfile)
 
 
