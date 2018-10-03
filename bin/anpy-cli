@@ -5,6 +5,7 @@ import json
 import sys
 import os
 import bs4
+import datetime
 from urllib.parse import urljoin, urlparse
 
 from pathlib import Path
@@ -15,13 +16,13 @@ import slugify
 
 from anpy.dossier import Dossier
 from anpy.dossier_like_senapy import parse as parse_dossier_like_senapy
-from anpy.dossier_from_opendata import download_open_data_doslegs
+from anpy.dossier_from_opendata import download_open_data_doslegs, find_max_date
 from anpy.question import parse_question
 from anpy.amendement import Amendement, AmendementSearchService
 from anpy.scrutin import Scrutin
 from anpy.utils import json_dumps
 
-from lawfactory_utils.urls import download, enable_requests_cache
+from lawfactory_utils.urls import download, enable_requests_cache, clean_url
 
 
 sys.path.append(str(Path(__file__).absolute().parents[1]))
@@ -121,9 +122,12 @@ def show_scrutin(url):
 
 @cli.command()
 @click.option('--in-discussion', is_flag=True)
-def doslegs_urls(in_discussion):
+@click.option('--senate-urls', is_flag=True)
+def doslegs_urls(in_discussion, senate_urls):
     _log('## Finding doslegs urls in assemblee-nationale.fr...(since 13th legislature)')
     urls_website = set()
+
+    LEGISLATURES = [14, 15]
 
     INDEX_URLS = [
         'http://www.assemblee-nationale.fr/15/documents/index-dossier.asp',
@@ -153,8 +157,9 @@ def doslegs_urls(in_discussion):
     ]
 
     if in_discussion:
-        INDEX_URLS = ['http://www.assemblee-nationale.fr/15/liste/texte_ordre_du_jour.asp']
+        INDEX_URLS = []
         PAGINATED_INDEX_URLS = []
+        LEGISLATURES = [LEGISLATURES[-1]]
 
     for index_url in INDEX_URLS:
         _log('     * scanning', index_url, '...')
@@ -186,25 +191,35 @@ def doslegs_urls(in_discussion):
     _log('  => found', len(urls_website), 'doslegs')
     _log()
 
+    _log('## Finding doslegs urls in Open Data...')
     urls_opendata = set()
-    if not in_discussion:
-        _log('## Finding doslegs urls in Open Data...')
+    for legislature in LEGISLATURES:
+        DATA = download_open_data_doslegs(legislature)
+        for dossier in DATA['export']['dossiersLegislatifs']['dossier']:
+            dossier = dossier["dossierParlementaire"]
+            titreChemin = dossier['titreDossier']['titreChemin']
+            if not titreChemin:
+                _log('  - INVALID titreChemin attribute -', titreChemin)
+                continue
 
-        legislatures = [14, 15]
-        for legislature in legislatures:
-            DATA = download_open_data_doslegs(legislature)
-            for dossier in DATA['export']['dossiersLegislatifs']['dossier']:
-                titreChemin = dossier['dossierParlementaire']['titreDossier']['titreChemin']
-                if not titreChemin:
-                    _log('  - INVALID titreChemin attribute -', titreChemin)
+            if in_discussion:
+                maxdate = find_max_date(dossier)
+                last_week = datetime.datetime.now() - datetime.timedelta(weeks=2)
+                last_week = last_week.strftime("%Y-%m-%d %H:%M")
+                if maxdate < last_week:
                     continue
 
-                url = 'http://www.assemblee-nationale.fr/{}/dossiers/{}.asp'.format(
-                        dossier['dossierParlementaire']['legislature'], titreChemin)
+            url = 'http://www.assemblee-nationale.fr/{}/dossiers/{}.asp'.format(
+                    dossier['legislature'], titreChemin)
 
-                urls_opendata.add(url)
+            if senate_urls:
+                url_senat = dossier["titreDossier"]["senatChemin"]
+                if url_senat:
+                    url = clean_url(url_senat)
 
-            _log('  => found', len(urls_opendata), 'doslegs')
+            urls_opendata.add(url)
+
+        _log('  => found', len(urls_opendata), 'doslegs (', legislature, 'leg.)')
 
     for url in urls_website | urls_opendata:
         print(url)

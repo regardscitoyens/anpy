@@ -23,6 +23,16 @@ def yield_leafs(etape, path=None):
         yield path, etape
 
 
+def find_max_date(dossier):
+    maxdate = None
+    for etape in to_arr(dossier["actesLegislatifs"]["acteLegislatif"]):
+        for path, sous_etape in yield_leafs(etape):
+            date = sous_etape.get("dateActe")
+            if date and (not maxdate or date > maxdate):
+                maxdate = date
+    return maxdate.split("T")[0] if maxdate else None
+
+
 def to_arr(obj):
     if type(obj) is list:
         return obj
