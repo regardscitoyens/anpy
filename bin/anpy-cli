@@ -205,8 +205,8 @@ def doslegs_urls(in_discussion, senate_urls):
             if in_discussion:
                 maxdate = find_max_date(dossier)
                 last_week = datetime.datetime.now() - datetime.timedelta(weeks=2)
-                last_week = last_week.strftime("%Y-%m-%d %H:%M")
-                if maxdate < last_week:
+                last_week = last_week.strftime("%Y-%m-%d")
+                if not maxdate or maxdate < last_week:
                     continue
 
             url = 'http://www.assemblee-nationale.fr/{}/dossiers/{}.asp'.format(
