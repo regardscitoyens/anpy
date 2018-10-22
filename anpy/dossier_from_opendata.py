@@ -337,7 +337,7 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                 elif code.startswith("SN"):
                     step["institution"] = "senat"
 
-                if "-DEPOT" in code or '-MOTION' in code:
+                if "-DEPOT" in code:
                     step["step"] = "depot"
                 elif "-COM" in code:
                     step["step"] = "commission"
