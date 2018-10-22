@@ -415,7 +415,8 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                     pass
 
         if data['steps']:
-            if not data.get('url_jo') and data['steps'][-1].get('step') != step.get('step'):
+            # add predicted step
+            if not data.get('url_jo') and data['steps'][-1].get('step') != step.get('step') and step.get('step'):
                 data['steps'].append(step)
             data["beginning"] = data["steps"][0]["date"]
         else:
