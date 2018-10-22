@@ -23,16 +23,46 @@ def yield_leafs(etape, path=None):
         yield path, etape
 
 
-def find_max_date(dossier):
-    maxdate = None
-    for etape in to_arr(dossier["actesLegislatifs"]["acteLegislatif"]):
-        for path, sous_etape in yield_leafs(etape):
-            code = sous_etape.get("codeActe")
-            if "-COM" in code or "-DEBATS" in code:
-                date = sous_etape.get("dateActe")
-                if date and (not maxdate or date > maxdate):
-                    maxdate = date
-    return maxdate.split("T")[0] if maxdate else None
+def find_texts_discussed_after(min_date, senate_urls=False):
+    OPEN_DATA_REUNIONS_URL = "http://data.assemblee-nationale.fr/static/openData/repository/15/vp/reunions/Agenda_XV.json.zip"
+    reunions = download_open_data_file("Agenda_XV.json", OPEN_DATA_REUNIONS_URL)
+
+    doslegs = set()
+    for reunion in to_arr(reunions['reunions']['reunion']):
+
+        date = reunion['timeStampDebut'].split('T')[0]
+        if date < min_date:
+            continue
+
+        if not reunion.get('ODJ') or not reunion['ODJ'].get('pointsODJ'):
+            continue
+
+        for pointODJ in to_arr(reunion['ODJ']['pointsODJ']['pointODJ']):
+            if not pointODJ['dossiersLegislatifsRefs']:
+                continue
+            for dosleg in to_arr(pointODJ['dossiersLegislatifsRefs']['dossierRef']):
+                doslegs.add(dosleg)
+
+    dossiers_json = download_open_data_doslegs(15)
+    docs = {doc['dossierParlementaire']["uid"]: doc['dossierParlementaire'] for doc in dossiers_json["export"]["dossiersLegislatifs"]["dossier"]}
+
+    doslegs_urls = set()
+    for dosleg_ref in doslegs:
+        if dosleg_ref not in docs:
+            # TODO: dossierAbsorbantRef
+            print(dosleg_ref, 'not found', file=sys.stderr)
+            continue
+        dossier = docs[dosleg_ref]
+
+        titreChemin = dossier["titreDossier"]["titreChemin"]
+        url_pattern = "http://www.assemblee-nationale.fr/dyn/{}/dossiers/{}"
+        url = url_pattern.format(dossier["legislature"], titreChemin)
+        url_senat = dossier["titreDossier"]["senatChemin"]
+        if url_senat and senate_urls:
+            url = url_senat
+        doslegs_urls.add(url)
+
+    return doslegs_urls
 
 
 def to_arr(obj):
@@ -51,6 +81,12 @@ def test_status(url):
     return resp
 
 
+def download_open_data_file(file, file_url):
+    doslegs_resp = download(file_url)
+    doslegs_zip = zipfile.ZipFile(io.BytesIO(doslegs_resp.content))
+    return json.loads(doslegs_zip.open(file).read().decode("utf-8"))
+
+
 def download_open_data_doslegs(legislature):
     files = {
         15: (
@@ -63,11 +99,7 @@ def download_open_data_doslegs(legislature):
         ),
     }
     file, file_url = files[legislature]
-    doslegs_resp = download(file_url)
-    doslegs_zip = zipfile.ZipFile(io.BytesIO(doslegs_resp.content))
-    DATA = json.loads(doslegs_zip.open(file).read().decode("utf-8"))
-
-    return DATA
+    return download_open_data_file(file, file_url)
 
 
 def an_text_url(identifiant, code):

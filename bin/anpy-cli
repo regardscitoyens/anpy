@@ -16,7 +16,7 @@ import slugify
 
 from anpy.dossier import Dossier
 from anpy.dossier_like_senapy import parse as parse_dossier_like_senapy
-from anpy.dossier_from_opendata import download_open_data_doslegs, find_max_date
+from anpy.dossier_from_opendata import download_open_data_doslegs, find_texts_discussed_after
 from anpy.question import parse_question
 from anpy.amendement import Amendement, AmendementSearchService
 from anpy.scrutin import Scrutin
@@ -124,7 +124,18 @@ def show_scrutin(url):
 @click.option('--in-discussion', is_flag=True)
 @click.option('--senate-urls', is_flag=True)
 def doslegs_urls(in_discussion, senate_urls):
-    _log('## Finding doslegs urls in assemblee-nationale.fr...(since 13th legislature)')
+    if in_discussion:
+        last_week = datetime.datetime.now() - datetime.timedelta(weeks=2)
+        last_week = last_week.strftime("%Y-%m-%d")
+        _log('## Finding doslegs urls in reunions after %s (last week)' % last_week)
+
+        urls = find_texts_discussed_after(last_week, senate_urls=senate_urls)
+        _log('  => found', len(urls), 'doslegs')
+
+        for url in sorted(urls):
+            print(url)
+        return
+
     urls_website = set()
 
     LEGISLATURES = [14, 15]
@@ -156,10 +167,7 @@ def doslegs_urls(in_discussion, senate_urls):
         'http://www2.assemblee-nationale.fr/documents/liste/(ajax)/1/(offset)/%d/(limit)/%d/(legis)/14/(type)/depots/'
     ]
 
-    if in_discussion:
-        INDEX_URLS = []
-        PAGINATED_INDEX_URLS = []
-        LEGISLATURES = [LEGISLATURES[-1]]
+    _log('## Finding doslegs urls in assemblee-nationale.fr...(since 13th legislature)')
 
     for index_url in INDEX_URLS:
         _log('     * scanning', index_url, '...')
@@ -201,13 +209,6 @@ def doslegs_urls(in_discussion, senate_urls):
             if not titreChemin:
                 _log('  - INVALID titreChemin attribute -', titreChemin)
                 continue
-
-            if in_discussion:
-                maxdate = find_max_date(dossier)
-                last_week = datetime.datetime.now() - datetime.timedelta(weeks=2)
-                last_week = last_week.strftime("%Y-%m-%d")
-                if not maxdate or maxdate < last_week:
-                    continue
 
             url = 'http://www.assemblee-nationale.fr/{}/dossiers/{}.asp'.format(
                     dossier['legislature'], titreChemin)
