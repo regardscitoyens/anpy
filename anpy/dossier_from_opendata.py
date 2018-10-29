@@ -50,7 +50,7 @@ def find_texts_discussed_after(min_date, senate_urls=False, include_resolutions=
     for dosleg_ref in doslegs:
         if dosleg_ref not in docs:
             # TODO: dossierAbsorbantRef
-            print(dosleg_ref, 'not found', file=sys.stderr)
+            print('[anpy]', dosleg_ref, ' dosleg in ODJ but not found in Open Data', file=sys.stderr)
             continue
         dossier = docs[dosleg_ref]
 
