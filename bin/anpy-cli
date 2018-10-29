@@ -123,13 +123,14 @@ def show_scrutin(url):
 @cli.command()
 @click.option('--in-discussion', is_flag=True)
 @click.option('--senate-urls', is_flag=True)
-def doslegs_urls(in_discussion, senate_urls):
+@click.option('--include-resolutions', is_flag=True)
+def doslegs_urls(in_discussion, senate_urls, include_resolutions):
     if in_discussion:
         last_week = datetime.datetime.now() - datetime.timedelta(weeks=2)
         last_week = last_week.strftime("%Y-%m-%d")
         _log('## Finding doslegs urls in reunions after %s (last week)' % last_week)
 
-        urls = find_texts_discussed_after(last_week, senate_urls=senate_urls)
+        urls = find_texts_discussed_after(last_week, senate_urls=senate_urls, include_resolutions=include_resolutions)
         _log('  => found', len(urls), 'doslegs')
 
         for url in sorted(urls):
@@ -212,6 +213,9 @@ def doslegs_urls(in_discussion, senate_urls):
 
             url = 'http://www.assemblee-nationale.fr/{}/dossiers/{}.asp'.format(
                     dossier['legislature'], titreChemin)
+
+            if not include_resolutions and dossier["procedureParlementaire"]["libelle"] == "Résolution":
+                continue
 
             if senate_urls:
                 url_senat = dossier["titreDossier"]["senatChemin"]

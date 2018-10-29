@@ -23,7 +23,7 @@ def yield_leafs(etape, path=None):
         yield path, etape
 
 
-def find_texts_discussed_after(min_date, senate_urls=False):
+def find_texts_discussed_after(min_date, senate_urls=False, include_resolutions=False):
     OPEN_DATA_REUNIONS_URL = "http://data.assemblee-nationale.fr/static/openData/repository/15/vp/reunions/Agenda_XV.json.zip"
     reunions = download_open_data_file("Agenda_XV.json", OPEN_DATA_REUNIONS_URL)
 
@@ -53,6 +53,9 @@ def find_texts_discussed_after(min_date, senate_urls=False):
             print(dosleg_ref, 'not found', file=sys.stderr)
             continue
         dossier = docs[dosleg_ref]
+
+        if not include_resolutions and dossier["procedureParlementaire"]["libelle"] == "Résolution":
+            continue
 
         titreChemin = dossier["titreDossier"]["titreChemin"]
         url_pattern = "http://www.assemblee-nationale.fr/dyn/{}/dossiers/{}"
@@ -283,14 +286,17 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
         data = {}
         data["urgence"] = False
-        url_senat = dossier["titreDossier"]["senatChemin"]
-        if url_senat:
-            data["url_dossier_senat"] = clean_url(url_senat)
         data["long_title"] = dossier["titreDossier"]["titre"]
         data["url_dossier_assemblee"] = clean_url(url)
         data["assemblee_legislature"] = int(dossier["legislature"])
         data["assemblee_slug"] = dossier["titreDossier"]["titreChemin"]
         data["assemblee_id"] = "%s-%s" % (dossier["legislature"], data["assemblee_slug"])
+
+        url_senat = dossier["titreDossier"]["senatChemin"]
+        if not url_senat:
+            url_senat = find_url_senat(data["url_dossier_assemblee"])
+        if url_senat:
+            data["url_dossier_senat"] = clean_url(url_senat)
 
         data["steps"] = []
         step = None
