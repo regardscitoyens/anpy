@@ -286,17 +286,14 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
         data = {}
         data["urgence"] = False
+        url_senat = dossier["titreDossier"]["senatChemin"]
+        if url_senat:
+            data["url_dossier_senat"] = clean_url(url_senat)
         data["long_title"] = dossier["titreDossier"]["titre"]
         data["url_dossier_assemblee"] = clean_url(url)
         data["assemblee_legislature"] = int(dossier["legislature"])
         data["assemblee_slug"] = dossier["titreDossier"]["titreChemin"]
         data["assemblee_id"] = "%s-%s" % (dossier["legislature"], data["assemblee_slug"])
-
-        url_senat = dossier["titreDossier"]["senatChemin"]
-        if not url_senat:
-            url_senat = find_url_senat(data["url_dossier_assemblee"])
-        if url_senat:
-            data["url_dossier_senat"] = clean_url(url_senat)
 
         data["steps"] = []
         step = None
