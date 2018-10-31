@@ -398,7 +398,10 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                     id_text = sous_etape.get("texteAdopte") or sous_etape.get("texteAssocie")
                     if id_text:
                         # if we detect a "texte de la commission" in an old procedure, it means it's probably not the old procedure
-                        if data.get('use_old_procedure') and step.get('step') == 'commission' and step.get('stage') != 'CMP' and not id_text.startswith('AVISS'):
+                        if (data.get('use_old_procedure')
+                                and step.get('step') == 'commission'
+                                and step.get('stage') != 'CMP'
+                                and not id_text.startswith('AVISS')):
                             del data['use_old_procedure']
 
                         if "proposal_type" not in data:
