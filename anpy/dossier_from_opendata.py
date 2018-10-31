@@ -295,6 +295,14 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
         data["assemblee_slug"] = dossier["titreDossier"]["titreChemin"]
         data["assemblee_id"] = "%s-%s" % (dossier["legislature"], data["assemblee_slug"])
 
+        if dossier["procedureParlementaire"]["libelle"] in (
+            "Projet de loi de finances de l'année",
+            "Projet de loi de financement de la sécurité sociale",
+            "Projet de loi de finances rectificative",
+            "Projet ou proposition de loi constitutionnelle",
+        ):
+            data['use_old_procedure'] = True
+
         data["steps"] = []
         step = None
         for etape in to_arr(dossier["actesLegislatifs"]["acteLegislatif"]):
@@ -389,6 +397,10 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
                     id_text = sous_etape.get("texteAdopte") or sous_etape.get("texteAssocie")
                     if id_text:
+                        # if we detect a "texte de la commission" in an old procedure, it means it's probably not the old procedure
+                        if data.get('use_old_procedure') and step.get('step') == 'commission' and step.get('stage') != 'CMP' and not id_text.startswith('AVISS'):
+                            del data['use_old_procedure']
+
                         if "proposal_type" not in data:
                             if id_text.startswith("PRJL"):
                                 data["proposal_type"] = "PJL"
