@@ -23,6 +23,7 @@ def yield_leafs(etape, path=None):
         yield path, etape
 
 
+# TODO : make this generic for the latest legislature, for instance by finding the url of the zip in http://data.assemblee-nationale.fr/reunions/reunions
 def find_texts_discussed_after(min_date, senate_urls=False, include_resolutions=False):
     OPEN_DATA_REUNIONS_URL = "http://data.assemblee-nationale.fr/static/openData/repository/15/vp/reunions/Agenda_XV.json.zip"
     reunions = download_open_data_file("Agenda_XV.json", OPEN_DATA_REUNIONS_URL)
