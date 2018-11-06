@@ -84,10 +84,11 @@ def test_status(url):
     return resp
 
 
-def download_open_data_file(file, file_url):
-    doslegs_resp = download(file_url)
-    doslegs_zip = zipfile.ZipFile(io.BytesIO(doslegs_resp.content))
-    return json.loads(doslegs_zip.open(file).read().decode("utf-8"))
+def download_open_data_file(filename, file_url):
+    raw_data = download(file_url)
+    data_zip = zipfile.ZipFile(io.BytesIO(raw_data.content))
+    with data_zip.open(filename) as d:
+        return json.loads(d.read().decode('utf-8'))
 
 
 def download_open_data_doslegs(legislature):
@@ -101,8 +102,8 @@ def download_open_data_doslegs(legislature):
             "http://data.assemblee-nationale.fr/static/openData/repository/14/loi/dossiers_legislatifs/Dossiers_Legislatifs_XIV.json.zip",
         ),
     }
-    file, file_url = files[legislature]
-    return download_open_data_file(file, file_url)
+    filename, file_url = files[legislature]
+    return download_open_data_file(filename, file_url)
 
 
 def an_text_url(identifiant, code):
