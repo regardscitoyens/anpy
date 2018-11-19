@@ -1,7 +1,5 @@
 pathlib < 1.1, >= 1.0
 click < 6.8, >= 6.7
-requests < 2.21, >= 2.20
-beautifulsoup4 < 4.7, >= 4.6
 xmltodict < 0.12, >= 0.11
 html5lib < 1.1, >= 1.0
 html2text==2018.1.9
@@ -10,6 +8,5 @@ dateparser < 0.8, >= 0.7
 attrs < 17.5, >= 17.4
 future < 0.17, >= 0.16
 slugify < 0.1, >= 0.0
-lxml < 4.2, >= 4.1
 
 lawfactory_utils
