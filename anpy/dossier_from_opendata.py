@@ -63,7 +63,7 @@ def find_texts_discussed_after(min_date, senate_urls=False, include_resolutions=
         url = url_pattern.format(dossier["legislature"], titreChemin)
         url_senat = dossier["titreDossier"]["senatChemin"]
         if url_senat and senate_urls:
-            url = url_senat
+            url = clean_url(url_senat)
         doslegs_urls.add(url)
 
     return doslegs_urls
