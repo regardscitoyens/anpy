@@ -206,6 +206,10 @@ def doslegs_urls(in_discussion, senate_urls, include_resolutions):
         DATA = download_open_data_doslegs(legislature)
         for dossier in DATA['export']['dossiersLegislatifs']['dossier']:
             dossier = dossier["dossierParlementaire"]
+
+            if dossier["@xsi:type"] != "DossierLegislatif_Type":
+                continue
+
             titreChemin = dossier['titreDossier']['titreChemin']
             if not titreChemin:
                 _log('  - INVALID titreChemin attribute -', titreChemin)

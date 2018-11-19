@@ -55,6 +55,9 @@ def find_texts_discussed_after(min_date, senate_urls=False, include_resolutions=
             continue
         dossier = docs[dosleg_ref]
 
+        if dossier["@xsi:type"] != "DossierLegislatif_Type":
+            continue
+
         if not include_resolutions and dossier["procedureParlementaire"]["libelle"] == "Résolution":
             continue
 
@@ -259,6 +262,11 @@ def an_text_url(identifiant, code):
     else:
         type = code
     host = "http://www.assemblee-nationale.fr/"
+
+    if type not in datas:
+        # ex: ALCNANR5L15B0002 (allocution du président)
+        raise Exception('Unknown document type for %s' % identifiant)
+
     return host + leg + "/" + datas[type]['repertoire'] + "/" + datas[type]['prefixe'] + num + datas[type]['suffixe'] + ".asp"
 
 
@@ -277,6 +285,9 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
     for dossier in dossiers_json["export"]["dossiersLegislatifs"]["dossier"]:
         dossier = dossier["dossierParlementaire"]
+
+        if dossier["@xsi:type"] != "DossierLegislatif_Type":
+            continue
 
         titreChemin = dossier["titreDossier"]["titreChemin"]
 
