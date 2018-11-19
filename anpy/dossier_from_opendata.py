@@ -13,6 +13,11 @@ import re
 from lawfactory_utils.urls import download, enable_requests_cache, clean_url, parse_national_assembly_url
 
 
+def same_stage_step_instit(a, b):
+    return a.get('stage') == b.get('stage') and a.get('step') == b.get('step') \
+        and a.get('institution') == b.get('institution')
+
+
 def yield_leafs(etape, path=None):
     if path is None:
         path = []
@@ -318,6 +323,7 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
         data["steps"] = []
         step = None
+        start_step = None
         for etape in to_arr(dossier["actesLegislatifs"]["acteLegislatif"]):
             for path, sous_etape in yield_leafs(etape):
                 if sous_etape["@xsi:type"] in ("EtudeImpact_Type", "DepotAvisConseilEtat_Type"):
@@ -396,6 +402,10 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
                 step["id_opendata"] = sous_etape["uid"]
 
+                # keep first step for a step-type (ex: first hemiycle)
+                if start_step is None or not same_stage_step_instit(start_step, step):
+                    start_step = step
+
                 if "texteAdopte" in sous_etape or "texteAssocie" in sous_etape:
                     # there is no multiple depot in the National Assembly
                     # simply the senate re-submitting the same text
@@ -440,8 +450,10 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
         if data['steps']:
             # add predicted step
-            if not data.get('url_jo') and data['steps'][-1].get('step') != step.get('step') and step.get('step'):
-                data['steps'].append(step)
+            if not data.get('url_jo'):
+                if data['steps'][-1].get('step') != start_step.get('step') and start_step.get('step'):
+                    # TODO: we could also add all the dates into a steps['dates'] = [..]
+                    data['steps'].append(start_step)
             data["beginning"] = data["steps"][0]["date"]
         else:
             _log("  - WARNING no steps found for", url)
