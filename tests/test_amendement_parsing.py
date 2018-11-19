@@ -44,6 +44,7 @@ def test_json_parsing():
         'sort': 'Adopt\xe9',
         'legislature': '14',
         'mission_visee': None,
+        'sous_reserve_de_traitement': None,
     }
 
     parsed_result = parse_amendements_summary('', json_response)

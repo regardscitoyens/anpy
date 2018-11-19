@@ -191,6 +191,7 @@ class AmendementSummary(object):
     sort = attr.ib(default=None)
     legislature = attr.ib(default=None)
     mission_visee = attr.ib(default=None)
+    sous_reserve_de_traitement = attr.ib(default=None)
 
 
 @attr.s
