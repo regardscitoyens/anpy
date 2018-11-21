@@ -450,7 +450,7 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
         if data['steps']:
             # add predicted step
             if not data.get('url_jo'):
-                if data['steps'][-1].get('step') != in_discussion_step.get('step') and in_discussion_step.get('step'):
+                if in_discussion_step and data['steps'][-1].get('step') != in_discussion_step.get('step') and in_discussion_step.get('step'):
                     # TODO: we could also add all the dates into a steps['dates'] = [..]
                     data['steps'].append(in_discussion_step)
             data["beginning"] = data["steps"][0]["date"]
