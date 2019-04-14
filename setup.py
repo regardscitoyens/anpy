@@ -25,6 +25,7 @@ setup(
     version=version,
     description='Python client for assemblee-nationale.fr website',
     long_description=LONG_DESC,
+    long_description_content_type='text/markdown',
     license="MIT",
 
     url='https://github.com/regardscitoyens/anpy',
