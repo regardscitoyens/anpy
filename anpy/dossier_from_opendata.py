@@ -96,14 +96,34 @@ def test_status(url):
 def download_open_data_file(filename, file_url):
     raw_data = download(file_url)
     data_zip = zipfile.ZipFile(io.BytesIO(raw_data.content))
-    with data_zip.open(filename) as d:
-        return json.loads(d.read().decode('utf-8'))
+    if filename:
+        with data_zip.open(filename) as d:
+            return json.loads(d.read().decode('utf-8'))
+    data = {
+        "export": {
+            "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "dossiersLegislatifs": {
+                "dossier": []
+            },
+            "textesLegislatifs": {
+                "document": []
+            }
+        }
+    }
+    for filename in data_zip.namelist():
+        with data_zip.open(filename) as d:
+            filedata = json.loads(d.read().decode('utf-8'))
+            if "dossierParlementaire" in filename:
+                data["export"]["dossiersLegislatifs"]["dossier"].append(filedata)
+            else:
+                data["export"]["textesLegislatifs"]["document"].append(filedata["document"])
+    return data
 
 
 def download_open_data_doslegs(legislature):
     files = {
         15: (
-            "Dossiers_Legislatifs_XV.json",
+            None,
             "http://data.assemblee-nationale.fr/static/openData/repository/15/loi/dossiers_legislatifs/Dossiers_Legislatifs_XV.json.zip",
         ),
         14: (
