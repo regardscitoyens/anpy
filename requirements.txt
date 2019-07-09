@@ -7,6 +7,5 @@ mistune < 0.9, >= 0.8
 dateparser < 0.8, >= 0.7
 attrs < 17.5, >= 17.4
 future < 0.17, >= 0.16
-slugify < 0.1, >= 0.0
 
 lawfactory_utils
