@@ -6,13 +6,12 @@ import sys
 import os
 import bs4
 import datetime
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin
 
 from pathlib import Path
 
 import attr
 import click
-import slugify
 
 from anpy.dossier import Dossier
 from anpy.dossier_like_senapy import parse as parse_dossier_like_senapy
@@ -37,12 +36,6 @@ def is_valid_dosleg_resp(resp):
     else:
         print('[INVALID STATUS CODE]', resp.status_code, resp.url)
     return False
-
-
-def dossier_id(url):
-    scheme, netloc, path, params, query, fragment = urlparse(url)
-    return slugify.slugify(path.replace('dossiers/', '') \
-        .replace('.asp', ''))
 
 
 def _log(*args):
