@@ -357,6 +357,7 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
                 if sous_etape["@xsi:type"] == "ProcedureAccelere_Type":
                     data["urgence"] = True
+                    continue
                 elif sous_etape["@xsi:type"] == "Promulgation_Type":
                     url = clean_url(sous_etape.get("urlLegifrance") or sous_etape["infoJO"]["urlLegifrance"])
                     data["url_jo"] = url
@@ -381,6 +382,8 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
 
                 if "AVIS-RAPPORT" in code or code == 'CMP-DEPOT':
                     continue
+                if '-DPTLETTRECT' in code:
+                    continue
 
                 if code.startswith("AN"):
                     step["institution"] = "assemblee"
@@ -393,6 +396,8 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                     step["step"] = "commission"
                 elif "-DEBATS" in code:
                     step["step"] = "hemicycle"
+                else:
+                    _log("  - WARNIGN Unknown step type", code)
 
                 if "1-" in code:
                     step["stage"] = "1ère lecture"
