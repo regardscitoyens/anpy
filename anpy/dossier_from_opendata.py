@@ -398,6 +398,7 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                     step["step"] = "hemicycle"
                 else:
                     _log("  - WARNIGN Unknown step type", code)
+                    continue
 
                 if "1-" in code:
                     step["stage"] = "1ère lecture"
