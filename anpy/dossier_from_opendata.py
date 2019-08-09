@@ -397,7 +397,7 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                 elif "-DEBATS" in code:
                     step["step"] = "hemicycle"
                 else:
-                    _log("  - WARNIGN Unknown step type", code)
+                    _log("  - WARNING Unknown step type", code)
                     continue
 
                 if "1-" in code:
