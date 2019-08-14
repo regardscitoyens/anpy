@@ -5,7 +5,7 @@ html5lib < 1.1, >= 1.0
 html2text==2018.1.9
 mistune < 0.9, >= 0.8
 dateparser < 0.8, >= 0.7
-attrs < 17.5, >= 17.4
+attrs < 19.2, >= 19.1
 future < 0.17, >= 0.16
 
 lawfactory_utils
