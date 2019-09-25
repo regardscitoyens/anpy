@@ -31,7 +31,7 @@ def yield_leafs(etape, path=None):
 # TODO : make this generic for the latest legislature, for instance by finding the url of the zip in http://data.assemblee-nationale.fr/reunions/reunions
 def find_texts_discussed_after(min_date, senate_urls=False, include_resolutions=False):
     OPEN_DATA_REUNIONS_URL = "http://data.assemblee-nationale.fr/static/openData/repository/15/vp/reunions/Agenda_XV.json.zip"
-    reunions = download_open_data_file("Agenda_XV.json", OPEN_DATA_REUNIONS_URL)
+    reunions = convert_reunions_open_data_file(download_open_data_file(None, OPEN_DATA_REUNIONS_URL))
 
     doslegs = set()
     for reunion in to_arr(reunions['reunions']['reunion']):
@@ -99,6 +99,10 @@ def download_open_data_file(filename, file_url):
     if filename:
         with data_zip.open(filename) as d:
             return json.loads(d.read().decode('utf-8'))
+    return data_zip
+
+
+def convert_dossiers_open_data_file(data_zip):
     data = {
         "export": {
             "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
@@ -120,6 +124,19 @@ def download_open_data_file(filename, file_url):
     return data
 
 
+def convert_reunions_open_data_file(data_zip):
+    data = {
+        "reunions": {
+            "reunion": []
+        }
+    }
+    for filename in data_zip.namelist():
+        with data_zip.open(filename) as d:
+            filedata = json.loads(d.read().decode('utf-8'))
+            data["reunions"]["reunion"].append(filedata["reunion"])
+    return data
+
+
 def download_open_data_doslegs(legislature):
     files = {
         15: (
@@ -132,7 +149,7 @@ def download_open_data_doslegs(legislature):
         ),
     }
     filename, file_url = files[legislature]
-    return download_open_data_file(filename, file_url)
+    return convert_dossiers_open_data_file(download_open_data_file(filename, file_url))
 
 
 def an_text_url(identifiant, code):
