@@ -200,7 +200,7 @@ def doslegs_urls(in_discussion, senate_urls, include_resolutions):
         for dossier in DATA['export']['dossiersLegislatifs']['dossier']:
             dossier = dossier["dossierParlementaire"]
 
-            if dossier["@xsi:type"] != "DossierLegislatif_Type":
+            if dossier.get("@xsi:type") != "DossierLegislatif_Type":
                 continue
 
             titreChemin = dossier['titreDossier']['titreChemin']
