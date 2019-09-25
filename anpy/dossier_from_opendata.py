@@ -149,7 +149,10 @@ def download_open_data_doslegs(legislature):
         ),
     }
     filename, file_url = files[legislature]
-    return convert_dossiers_open_data_file(download_open_data_file(filename, file_url))
+    data = download_open_data_file(filename, file_url)
+    if filename is None:
+        data = convert_dossiers_open_data_file(data)
+    return data
 
 
 def an_text_url(identifiant, code):
