@@ -291,8 +291,8 @@ def an_text_url(identifiant, code):
             'suffixe': '',
         },
         'RINF': {
-            'repertoire': 'rapports',
-            'prefixe': 'r',
+            'repertoire': 'rap-inf',
+            'prefixe': 'i',
             'suffixe': '',
         }
     }
