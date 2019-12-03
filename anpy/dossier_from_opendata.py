@@ -304,6 +304,8 @@ def an_text_url(identifiant, code):
         type = 'TCOM'
     elif typeTa == 'BTA':
         type = 'TADO'
+    elif typeTa == 'TAP':
+        type = 'TADO'
     else:
         type = code
     host = "http://www.assemblee-nationale.fr/"
