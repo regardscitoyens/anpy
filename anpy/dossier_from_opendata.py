@@ -155,6 +155,10 @@ def download_open_data_doslegs(legislature):
     return data
 
 
+def an_text_url_opendata(uid):
+    return "http://www.assemblee-nationale.fr/dyn/opendata/%s.html" % uid
+
+
 def an_text_url(identifiant, code):
     """
     Port of the PHP function used by the National Assembly:
@@ -487,7 +491,10 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                                 doc_code = doc['classification']['type']['code']
                                 if doc_code == 'ACIN':
                                     continue
-                            url = an_text_url(id_text, doc_code)
+                            if legislature >= 15:
+                                url = an_text_url_opendata(id_text)
+                            else:
+                                url = an_text_url(id_text, doc_code)
                             if url:
                                 step['source_url'] = url
 
