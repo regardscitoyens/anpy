@@ -24,7 +24,10 @@ from anpy.dossier import (
     DecisionStatus)
 from anpy.utils import json_dumps, json_loads
 
-from anpy.dossier_like_senapy import historic_doslegs_parse as parse_like_senapy
+from anpy.dossier_like_senapy import historic_doslegs_parse as historic_parse_like_senapy
+
+from anpy.dossier_like_senapy import parse as parse_dossier_like_senapy
+
 
 
 def test_html_clean():
@@ -320,9 +323,16 @@ def test_dossiers():
             codecs.open('tests/resources/dossiers/%s.json' % filename, encoding='utf-8').read())
         assert dossier_data == expected_data
 
-        dossier_data = parse_like_senapy(html, url)
+        dossier_data = historic_parse_like_senapy(html, url)
         expected_data = json_loads(
             codecs.open('tests/resources/dossiers/%s.senapy.json' % filename, encoding='utf-8').read())
         assert dossier_data == expected_data
 
+def test_opendata_dossiers():
+    url = 'http://www.assemblee-nationale.fr/dyn/15/dossiers/Violences_faites_aux_femmes'
+    filename = '15_dossiers_Violences_faites_aux_femmes'
+    dossier_data = parse_dossier_like_senapy(url)
+    expected_data = json_loads(
+        codecs.open('tests/resources/dossiers/%s.senapy.json' % filename, encoding='utf-8').read())
+    assert dossier_data == expected_data
 
