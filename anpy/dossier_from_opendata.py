@@ -440,8 +440,8 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                         continue
                 elif "CMP-" in code:
                     step["stage"] = "CMP"
-                    if "-AN" in code:
-                        step["institution"] = "CMP"
+                    if "-DEBATS-AN" in code:
+                        step["institution"] = "assemblee"
                     elif "-SN" in code:
                         step["institution"] = "senat"
                         if "RAPPORT-SN" in code:
