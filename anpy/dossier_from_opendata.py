@@ -13,6 +13,9 @@ import re
 from lawfactory_utils.urls import download, enable_requests_cache, clean_url, parse_national_assembly_url
 
 
+OPENDATA_ID_REGEX = r'(.{4})([ANS]*)(R[0-9])([LS]*)([0-9]*)([BTACP]*)(.*)'
+
+
 def same_stage_step_instit(a, b):
     return a.get('stage') == b.get('stage') and a.get('step') == b.get('step') \
         and a.get('institution') == b.get('institution')
@@ -300,7 +303,7 @@ def an_text_url(identifiant, code):
             'suffixe': '',
         }
     }
-    match = re.match(r'(.{4})([ANS]*)(R[0-9])([LS]*)([0-9]*)([BTACP]*)(.*)', identifiant)
+    match = re.match(OPENDATA_ID_REGEX, identifiant)
     leg = match.group(5)
     typeTa = match.group(6)
     num = match.group(7)
@@ -326,194 +329,203 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
         nonlocal logfile
         print(*args, file=logfile)
 
-    legislature, _ = parse_national_assembly_url(url)
-    if legislature and legislature in cached_opendata_an:
-        dossiers_json = cached_opendata_an[legislature]
-    else:
-        dossiers_json = download_open_data_doslegs(legislature)
+    legislature_parsed, _ = parse_national_assembly_url(url)
 
-    docs = {doc["uid"]: doc for doc in dossiers_json["export"]["textesLegislatifs"]["document"]}
-
-    for dossier in dossiers_json["export"]["dossiersLegislatifs"]["dossier"]:
-        dossier = dossier["dossierParlementaire"]
-
-        if dossier["@xsi:type"] != "DossierLegislatif_Type":
-            continue
-
-        titreChemin = dossier["titreDossier"]["titreChemin"]
-
-        # find the right dosleg even if it's an old url
-        url_common_part = "{}/dossiers/{}".format(dossier["legislature"], titreChemin)
-        if not url.endswith(url_common_part):
-            continue
-        url = "http://www.assemblee-nationale.fr/dyn/{}".format(url_common_part)
-
-        data = {}
-        data["urgence"] = False
-        url_senat = dossier["titreDossier"]["senatChemin"]
-        if url_senat:
-            data["url_dossier_senat"] = clean_url(url_senat)
-        data["long_title"] = dossier["titreDossier"]["titre"]
-        data["url_dossier_assemblee"] = clean_url(url)
-        data["assemblee_legislature"] = int(dossier["legislature"])
-        data["assemblee_slug"] = dossier["titreDossier"]["titreChemin"]
-        data["assemblee_id"] = "%s-%s" % (dossier["legislature"], data["assemblee_slug"])
-
-        if dossier["procedureParlementaire"]["libelle"] in (
-            "Projet de loi de finances de l'année",
-            "Projet de loi de financement de la sécurité sociale",
-            "Projet de loi de finances rectificative",
-            "Projet ou proposition de loi constitutionnelle",
-        ):
-            data['use_old_procedure'] = True
-
-        data["steps"] = []
-        step = None
-        start_step = None
-        for etape in to_arr(dossier["actesLegislatifs"]["acteLegislatif"]):
-            for path, sous_etape in yield_leafs(etape):
-                if sous_etape["@xsi:type"] in ("EtudeImpact_Type", "DepotAvisConseilEtat_Type"):
-                    continue
-
-                step = {}
-
-                date = sous_etape.get("dateActe")
-                if date:
-                    step["date"] = date.split("T")[0]
-
-                if sous_etape["@xsi:type"] == "ProcedureAccelere_Type":
-                    data["urgence"] = True
-                    continue
-                elif sous_etape["@xsi:type"] == "Promulgation_Type":
-                    url = clean_url(sous_etape.get("urlLegifrance") or sous_etape["infoJO"]["urlLegifrance"])
-                    data["url_jo"] = url
-                    data["end"] = step["date"]
-
-                    step["institution"] = "gouvernement"
-                    step["stage"] = "promulgation"
-                    step["source_url"] = url
-                    data["steps"].append(step)
-                    continue
-                elif sous_etape["@xsi:type"] == "ConclusionEtapeCC_Type":
-                    step["institution"] = "conseil constitutionnel"
-                    step["stage"] = "constitutionnalité"
-                    step["source_url"] = clean_url(sous_etape["urlConclusion"])
-                    data["steps"].append(step)
-
-                if "textesAssocies" in sous_etape:
-                    # TODO review
-                    sous_etape["texteAssocie"] = to_arr(sous_etape["textesAssocies"]["texteAssocie"])[0]["refTexteAssocie"]
-
-                code = sous_etape.get("codeActe")
-
-                if "AVIS-RAPPORT" in code or code == 'CMP-DEPOT':
-                    continue
-                if '-DPTLETTRECT' in code:
-                    continue
-
-                if code.startswith("AN"):
-                    step["institution"] = "assemblee"
-                elif code.startswith("SN"):
-                    step["institution"] = "senat"
-
-                if "-DEPOT" in code:
-                    step["step"] = "depot"
-                elif "-COM" in code:
-                    step["step"] = "commission"
-                elif "-DEBATS" in code:
-                    step["step"] = "hemicycle"
-                else:
-                    _log("  - WARNING Unknown step type", code)
-                    continue
-
-                if "1-" in code:
-                    step["stage"] = "1ère lecture"
-                elif "2-" in code:
-                    step["stage"] = "2ème lecture"
-                elif "3-" in code:
-                    step["stage"] = "3ème lecture"  # TODO: else libelleCourt
-                elif "NLEC-" in code:
-                    step["stage"] = "nouv. lect."
-                elif "ANLDEF-" in code:
-                    step["stage"] = "l. définitive"
-                    if step["step"] == "commission":
-                        continue
-                elif "CMP-" in code:
-                    step["stage"] = "CMP"
-                    if "-DEBATS-AN" in code:
-                        step["institution"] = "assemblee"
-                    elif "-SN" in code:
-                        step["institution"] = "senat"
-                        if "RAPPORT-SN" in code:
-                            # ignore the cmp_commission_other_url for now
-                            continue
-                    else:
-                        step["institution"] = "CMP"
-                elif "ANLUNI-" in code:
-                    step["stage"] = "l. unique"
-
-                step["id_opendata"] = sous_etape["uid"]
-
-                # keep first step for a step-type (ex: first hemiycle)
-                if start_step is None or not same_stage_step_instit(start_step, step):
-                    start_step = step
-
-                if "texteAdopte" in sous_etape or "texteAssocie" in sous_etape:
-                    # there is no multiple depot in the National Assembly
-                    # simply the senate re-submitting the same text
-                    if data['steps']:
-                        last_step = data['steps'][-1]
-                        if last_step['institution'] == 'assemblee' and last_step.get('step') == step.get('step') == 'depot':
-                            # ignore the depot we already have (since the new one is the same)
-                            data['steps'] = data['steps'][:-1]
-
-                    # step['xsi-type'] = sous_etape.get('@xsi:type')
-                    # step['code'] = sous_etape.get('codeActe')
-
-                    id_text = sous_etape.get("texteAdopte") or sous_etape.get("texteAssocie")
-                    if id_text:
-                        if "proposal_type" not in data:
-                            if id_text.startswith("PRJL"):
-                                data["proposal_type"] = "PJL"
-                            elif id_text.startswith("PION"):
-                                data["proposal_type"] = "PPL"
-
-                        doc = {}
-                        if id_text in docs:
-                            doc = docs[id_text]
-                        else:
-                            _log("  - ERROR missing text", id_text)
-
-                        url = None
-                        if step.get("institution") == "assemblee" or "-AN" in code:
-                            doc_code = None
-                            if doc:
-                                doc_code = doc['classification']['type']['code']
-                                if doc_code == 'ACIN':
-                                    continue
-                            if legislature >= 15:
-                                url = an_text_url_opendata(id_text)
-                            else:
-                                url = an_text_url(id_text, doc_code)
-                            if url:
-                                step['source_url'] = url
-
-                    data["steps"].append(step)
-
-                else:
-                    pass
-
-        if data['steps']:
-            # add predicted step
-            if not data.get('url_jo'):
-                if data['steps'][-1].get('step') != start_step.get('step') and start_step.get('step'):
-                    # TODO: we could also add all the dates into a steps['dates'] = [..]
-                    data['steps'].append(start_step)
-            data["beginning"] = data["steps"][0]["date"]
+    # try to find the dosleg in current and past legislature
+    for legislature in (legislature_parsed, legislature_parsed - 1):
+        if legislature and legislature in cached_opendata_an:
+            dossiers_json = cached_opendata_an[legislature]
         else:
-            _log("  - WARNING no steps found for", url)
+            dossiers_json = download_open_data_doslegs(legislature)
 
-        return data
+        docs = {doc["uid"]: doc for doc in dossiers_json["export"]["textesLegislatifs"]["document"]}
+
+        for dossier in dossiers_json["export"]["dossiersLegislatifs"]["dossier"]:
+            dossier = dossier["dossierParlementaire"]
+
+            if dossier.get("@xsi:type") != "DossierLegislatif_Type":
+                continue
+
+            titreChemin = dossier["titreDossier"]["titreChemin"]
+
+            # find the right dosleg even if it's an old url
+            url_common_part = "{}/dossiers/{}".format(dossier["legislature"], titreChemin)
+            if not url.endswith(url_common_part):
+                # dosleg might be from previous legislature
+                url_common_part = "{}/dossiers/{}".format(int(dossier["legislature"]) + 1, titreChemin)
+                if not url.endswith(url_common_part):
+                    continue
+            url = "http://www.assemblee-nationale.fr/dyn/{}".format(url_common_part)
+
+            data = {}
+            data["urgence"] = False
+            url_senat = dossier["titreDossier"]["senatChemin"]
+            if url_senat:
+                data["url_dossier_senat"] = clean_url(url_senat)
+            data["long_title"] = dossier["titreDossier"]["titre"]
+            data["url_dossier_assemblee"] = clean_url(url)
+            data["assemblee_legislature"] = int(dossier["legislature"])
+            data["assemblee_slug"] = dossier["titreDossier"]["titreChemin"]
+            data["assemblee_id"] = "%s-%s" % (dossier["legislature"], data["assemblee_slug"])
+
+            if dossier["procedureParlementaire"]["libelle"] in (
+                "Projet de loi de finances de l'année",
+                "Projet de loi de financement de la sécurité sociale",
+                "Projet de loi de finances rectificative",
+                "Projet ou proposition de loi constitutionnelle",
+            ):
+                data['use_old_procedure'] = True
+
+            data["steps"] = []
+            step = None
+            start_step = None
+            for etape in to_arr(dossier["actesLegislatifs"]["acteLegislatif"]):
+                for path, sous_etape in yield_leafs(etape):
+                    if sous_etape["@xsi:type"] in ("EtudeImpact_Type", "DepotAvisConseilEtat_Type"):
+                        continue
+
+                    step = {}
+
+                    date = sous_etape.get("dateActe")
+                    if date:
+                        step["date"] = date.split("T")[0]
+
+                    if sous_etape["@xsi:type"] == "ProcedureAccelere_Type":
+                        data["urgence"] = True
+                        continue
+                    elif sous_etape["@xsi:type"] == "Promulgation_Type":
+                        url = clean_url(sous_etape.get("urlLegifrance") or sous_etape["infoJO"]["urlLegifrance"])
+                        data["url_jo"] = url
+                        data["end"] = step["date"]
+
+                        step["institution"] = "gouvernement"
+                        step["stage"] = "promulgation"
+                        step["source_url"] = url
+                        data["steps"].append(step)
+                        continue
+                    elif sous_etape["@xsi:type"] == "ConclusionEtapeCC_Type":
+                        step["institution"] = "conseil constitutionnel"
+                        step["stage"] = "constitutionnalité"
+                        step["source_url"] = clean_url(sous_etape["urlConclusion"])
+                        data["steps"].append(step)
+
+                    if "textesAssocies" in sous_etape:
+                        # TODO review
+                        sous_etape["texteAssocie"] = to_arr(sous_etape["textesAssocies"]["texteAssocie"])[0]["refTexteAssocie"]
+
+                    code = sous_etape.get("codeActe")
+
+                    if "AVIS-RAPPORT" in code or code == 'CMP-DEPOT':
+                        continue
+                    if '-DPTLETTRECT' in code:
+                        continue
+
+                    if code.startswith("AN"):
+                        step["institution"] = "assemblee"
+                    elif code.startswith("SN"):
+                        step["institution"] = "senat"
+
+                    if "-DEPOT" in code:
+                        step["step"] = "depot"
+                    elif "-COM" in code:
+                        step["step"] = "commission"
+                    elif "-DEBATS" in code:
+                        step["step"] = "hemicycle"
+                    else:
+                        _log("  - WARNING Unknown step type", code)
+                        continue
+
+                    if "1-" in code:
+                        step["stage"] = "1ère lecture"
+                    elif "2-" in code:
+                        step["stage"] = "2ème lecture"
+                    elif "3-" in code:
+                        step["stage"] = "3ème lecture"  # TODO: else libelleCourt
+                    elif "NLEC-" in code:
+                        step["stage"] = "nouv. lect."
+                    elif "ANLDEF-" in code:
+                        step["stage"] = "l. définitive"
+                        if step["step"] == "commission":
+                            continue
+                    elif "CMP-" in code:
+                        step["stage"] = "CMP"
+                        if "-DEBATS-AN" in code:
+                            step["institution"] = "assemblee"
+                        elif "-SN" in code:
+                            step["institution"] = "senat"
+                            if "RAPPORT-SN" in code:
+                                # ignore the cmp_commission_other_url for now
+                                continue
+                        else:
+                            step["institution"] = "CMP"
+                    elif "ANLUNI-" in code:
+                        step["stage"] = "l. unique"
+
+                    step["id_opendata"] = sous_etape["uid"]
+
+                    # keep first step for a step-type (ex: first hemiycle)
+                    if start_step is None or not same_stage_step_instit(start_step, step):
+                        start_step = step
+
+                    if "texteAdopte" in sous_etape or "texteAssocie" in sous_etape:
+                        # there is no multiple depot in the National Assembly
+                        # simply the senate re-submitting the same text
+                        if data['steps']:
+                            last_step = data['steps'][-1]
+                            if last_step['institution'] == 'assemblee' and last_step.get('step') == step.get('step') == 'depot':
+                                # ignore the depot we already have (since the new one is the same)
+                                data['steps'] = data['steps'][:-1]
+
+                        # step['xsi-type'] = sous_etape.get('@xsi:type')
+                        # step['code'] = sous_etape.get('codeActe')
+
+                        id_text = sous_etape.get("texteAdopte") or sous_etape.get("texteAssocie")
+                        if id_text:
+                            if "proposal_type" not in data:
+                                if id_text.startswith("PRJL"):
+                                    data["proposal_type"] = "PJL"
+                                elif id_text.startswith("PION"):
+                                    data["proposal_type"] = "PPL"
+
+                            doc = {}
+                            if id_text in docs:
+                                doc = docs[id_text]
+                            else:
+                                _log("  - ERROR missing text", id_text)
+
+                            url = None
+                            if step.get("institution") == "assemblee" or "-AN" in code:
+                                doc_code = None
+                                if doc:
+                                    doc_code = doc['classification']['type']['code']
+                                    if doc_code == 'ACIN':
+                                        continue
+
+                                match = re.match(OPENDATA_ID_REGEX, id_text)
+                                step_legislature = int(match.group(5))
+                                if step_legislature >= 15:
+                                    url = an_text_url_opendata(id_text)
+                                else:
+                                    url = an_text_url(id_text, doc_code)
+                                if url:
+                                    step['source_url'] = url
+
+                        data["steps"].append(step)
+
+                    else:
+                        pass
+
+            if data['steps']:
+                # add predicted step
+                if not data.get('url_jo'):
+                    if data['steps'][-1].get('step') != start_step.get('step') and start_step.get('step'):
+                        # TODO: we could also add all the dates into a steps['dates'] = [..]
+                        data['steps'].append(start_step)
+                data["beginning"] = data["steps"][0]["date"]
+            else:
+                _log("  - WARNING no steps found for", url)
+
+            return data
     return []
 
 
