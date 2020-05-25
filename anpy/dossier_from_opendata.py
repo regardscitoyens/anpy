@@ -355,7 +355,7 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                 url_common_part = "{}/dossiers/{}".format(int(dossier["legislature"]) + 1, titreChemin)
                 if not url.endswith(url_common_part):
                     # doslegs can also be accessed by uid
-                    if not url.endswith(dossier["uid"]):
+                    if not url.endswith(dossier["uid"]) and not url.endswith(dossier["uid"] + '.asp'):
                         continue
             url = "http://www.assemblee-nationale.fr/dyn/{}".format(url_common_part)
 
