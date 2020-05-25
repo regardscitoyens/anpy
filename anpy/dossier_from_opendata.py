@@ -354,7 +354,9 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                 # dosleg might be from previous legislature
                 url_common_part = "{}/dossiers/{}".format(int(dossier["legislature"]) + 1, titreChemin)
                 if not url.endswith(url_common_part):
-                    continue
+                    # doslegs can also be accessed by uid
+                    if not url.endswith(dossier["uid"]):
+                        continue
             url = "http://www.assemblee-nationale.fr/dyn/{}".format(url_common_part)
 
             data = {}
