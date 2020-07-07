@@ -512,11 +512,6 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
                                 if url:
                                     step['source_url'] = url
 
-                                    # hardfix and should be fixed by the AN one day
-                                    if data["assemblee_id"] == '15-retablissement_confiance_action_publique':
-                                        if step["stage"] == "l. définitive" and step["step"] == "depot":
-                                            step['source_url'] = 'http://www.assemblee-nationale.fr/dyn/opendata/PRJLANR5L15BTA0017.html'
-
                         data["steps"].append(step)
 
                     else:
