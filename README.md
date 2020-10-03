@@ -175,3 +175,13 @@ anpy-cli doslegs_urls
 ```bash
 anpy-cli show_scrutin http://www2.assemblee-nationale.fr/scrutins/detail/(legislature)/14/(num)/1212
 ```
+
+## Running the tests
+
+```bash
+pip install -U -r test_requirements.txt
+pip install -e .
+pycodestyle --exclude=tests,docs .
+flake8 --exclude=tests,docs .
+py.test --cov=anpy
+```

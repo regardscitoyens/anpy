@@ -1,5 +1,9 @@
 language: python
 
+env:
+    # LEGIFRANCE_PROXY
+    secure: bZzM5lesjVuJuPQ14zT90QJQizf+lmW6xU/HfQ2qfycZ1lwoZjwErqXsuv0MIsdgX4/syiw0uvpJ9/5lnnAboxPQcZiutGs4v7VtwVMUQvfyCLqHIdNm0EeTBexdKLEt+j7RUaMcETWasrthNTevfxAIZJYCzRB9bSZxEk02D78=
+
 python:
     - 3.5
 
