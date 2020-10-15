@@ -368,6 +368,9 @@ def parse(url, logfile=sys.stderr, cached_opendata_an={}):
             data["url_dossier_assemblee"] = clean_url(url)
             data["assemblee_legislature"] = int(dossier["legislature"])
             data["assemblee_slug"] = dossier["titreDossier"]["titreChemin"]
+            if data["assemblee_slug"] is None:
+                raise Exception('Found null titreChemin')
+
             data["assemblee_id"] = "%s-%s" % (dossier["legislature"], data["assemblee_slug"])
 
             if dossier["procedureParlementaire"]["libelle"] in (
