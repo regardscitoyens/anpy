@@ -19,6 +19,7 @@ from anpy.dossier_from_opendata import download_open_data_doslegs, find_texts_di
 from anpy.question import parse_question
 from anpy.amendement import Amendement, AmendementSearchService
 from anpy.scrutin import Scrutin
+from anpy.tableau_scrutins import parse_tableau_scrutins
 from anpy.utils import json_dumps
 
 from lawfactory_utils.urls import download, enable_requests_cache, clean_url
@@ -103,6 +104,11 @@ def show_dossier(url):
 def parse(url):
     print(json_dumps(parse_dossier_like_senapy(url), indent=4, sort_keys=True,
                      ensure_ascii=False))
+
+
+@cli.command()
+def scrutins():
+    parse_tableau_scrutins()
 
 
 @cli.command()

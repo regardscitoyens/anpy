@@ -176,6 +176,15 @@ anpy-cli doslegs_urls
 anpy-cli show_scrutin http://www2.assemblee-nationale.fr/scrutins/detail/(legislature)/14/(num)/1212
 ```
 
+#### Parse the scrutins table
+
+*Format is one JSON per line*
+
+```bash
+anpy-cli scrutins
+```
+
+
 ## Running the tests
 
 ```bash
