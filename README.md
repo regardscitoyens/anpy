@@ -185,6 +185,15 @@ anpy-cli scrutins
 ```
 
 
+#### Find all the videos (seance and commission)
+
+*Format is one JSON per line*
+
+```bash
+anpy-cli videos
+```
+
+
 ## Running the tests
 
 ```bash

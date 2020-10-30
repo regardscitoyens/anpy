@@ -14,7 +14,7 @@ def parse_tableau_scrutins():
     while True:
         url = URL_TEMPLATE.format(offset=offset)
         resp = requests.get(url)
-        soup = BeautifulSoup(resp.text)
+        soup = BeautifulSoup(resp.text, 'lxml')
         should_break = False
         for line in soup.select('#listeScrutins tbody tr'):
             cells = list(line.select("td"))

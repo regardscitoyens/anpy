@@ -20,6 +20,7 @@ from anpy.question import parse_question
 from anpy.amendement import Amendement, AmendementSearchService
 from anpy.scrutin import Scrutin
 from anpy.tableau_scrutins import parse_tableau_scrutins
+from anpy.videos import parse_videos_list
 from anpy.utils import json_dumps
 
 from lawfactory_utils.urls import download, enable_requests_cache, clean_url
@@ -109,6 +110,11 @@ def parse(url):
 @cli.command()
 def scrutins():
     parse_tableau_scrutins()
+
+
+@cli.command()
+def videos():
+    parse_videos_list()
 
 
 @cli.command()
