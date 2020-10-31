@@ -1,4 +1,4 @@
-import json
+import json, sys
 
 from urllib.parse import urljoin
 import requests
@@ -11,7 +11,9 @@ URL_TEMPLATE_COMMISSION = "http://videos.assemblee-nationale.fr/commissions.p{pa
 def _extract_from_template(url_template, type):
     page = 1
     urls = set()
+    prev_len_urls = 0
     while True:
+        print(type, "page", page, file=sys.stderr)
         url = url_template.format(page=page)
         resp = requests.get(url)
         soup = BeautifulSoup(resp.text, 'lxml')
@@ -26,9 +28,10 @@ def _extract_from_template(url_template, type):
                 should_break = True
                 break
             urls.add(url)
-        if should_break:
+        if should_break or len(urls) == prev_len_urls:
             break
         page += 1
+        prev_len_urls = len(urls)
 
 
 def parse_videos_list():
