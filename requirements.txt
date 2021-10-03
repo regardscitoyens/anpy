@@ -1,11 +1,11 @@
 pathlib < 1.1, >= 1.0
-click < 6.8, >= 6.7
-xmltodict < 0.12, >= 0.11
-html5lib < 1.1, >= 1.0
-html2text==2018.1.9
+click <= 7.1.2, >= 6.7
+xmltodict <= 0.12, >= 0.11
+html5lib <= 1.1, >= 1.0
+html2text <= 2020.1.16, >= 2018.1.9
 mistune < 0.9, >= 0.8
 dateparser < 0.8, >= 0.7
-attrs < 19.2, >= 19.1
+attrs <= 20.3.0, >= 19.1
 future < 0.17, >= 0.16
 
 lawfactory_utils
